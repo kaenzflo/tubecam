@@ -2,11 +2,11 @@
 
 ## TubeCam
 
-# The TubeCam project is developing a new detection method for small mammals, focusing on small mustelids and dormice
+The project TubeCam is developing a new detection method for small mammals, focusing on small mustelids and dormice. 
 
-This repository contains a Ruby on Rails based web application which is using the citizen science approach.
+This repository contains a Ruby on Rails based web application using a citizen science approach to manage the data.
 
-This README would normally document whatever steps are necessary to get the
+TODO: This README would normally document whatever steps are necessary to get the
 application up and running.
 
 Things you may want to cover:
