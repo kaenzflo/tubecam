@@ -1,3 +1,8 @@
 language: ruby
 rvm:
     - 2.2.6
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: "af9d2e25-d5bd-4da4-be05-d3037524db82"
