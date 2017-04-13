@@ -81,6 +81,17 @@ cat ~/.ssh/id_rsa_github_tubecam.pub
 git clone git@github.com:kaenzflo/tubecam.git
 ```
 
-## CONFIGURE TRAVIS
+## Configure Travis
+- Create '.travis.yml' in project root and add:
+```
+language: ruby
 
-TODO
+rvm:
+    - 2.2.6
+
+services:
+  - postgresql
+
+before_script:
+  - psql -c 'create database tubecam_test;' -U postgres
+```
