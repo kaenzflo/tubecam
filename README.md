@@ -1,31 +1,21 @@
 # README
 
-TubeCam Webapp development
+## TubeCam
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+The project TubeCam is developing a new detection method for small mammals, focusing on small mustelids and dormice. This repository contains a Ruby on Rails based web application using a citizen science approach to manage the data.
 
-Things you may want to cover:
+Requirements:
 
 * Ruby version: 2.2.6
-
 * System dependencies
-
 * Configuration
-
 * Database creation
-
 * Database initialization
-
 * How to run the test suite
-
 * Services (job queues, cache servers, search engines, etc.)
-
 * Deployment instructions
 
-* ...
-
-# DOCUMENTATION: Setup project from scratch
+# Documentation: Setup project from scratch
 
 ## Setup environment
 
