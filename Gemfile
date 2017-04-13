@@ -56,3 +56,7 @@ gem 'rack', '~> 2.0.1'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
+
+gem 'builder'
+
+gem 'bundler'
