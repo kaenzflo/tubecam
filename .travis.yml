@@ -8,10 +8,3 @@ services:
 
 before_script:
   - psql -c 'create database tubecam_test;' -U postgres
-
-secure: "cV95ZilZ4yPkAztvQMEfK4zECYjOoEH6wCeom2g/B+h23rDxGL/qVxVlkypInz8DHDwk0BfaHWw5Q5m6EY7AJd/zlqvSwbBWA8jxVUxsc6+5beV+CPMHTEWx5gfI1KEz7mC2lNg0HEybCiba9zIyWPY4snqrzTGL8onHdJO9yZqHWOIoL2u2iEVI+Q3zfTyAWIyL4fy86CVmKRRHX7rSXgb5KPpsdT2p8LovWjUgYss4pt7gkriW1Acy/EyWTBtTJnZLahqSczAzsWjf0pSBsqAh2Q7Uh3H+Qdg7naJ8pEt5Abzb3lKWJ9HCXG77WEuOlTIpLIF6XhreeJMOCC9kU+wkeL/2q8hgDYYuFWJcvtoU1T7k2k4Dzo9QFOdKdwZlVTS4xX08/GuK3L02vgKCBju/CLIdyViddK+Q65Qds7tsu9S6pZjLL04ABCkZxDiVZHEPWV8PMd7aurH9ftaFi5OUmZXyFUBr8lNcWpWhu3yJr3JykDg0Kb1pfzMM1KEyrWKBPk5Z/7td7yhbL62aVCM3PnOFO2NLwtDmlR70vHZhBqGHWplb8zrygCUK9iQamWHauTBwbkzz8JQpmouHJk5zbecz3d29oi2ulN5IsiMiDVIEGX1Rvtdzq1pv+9y7CHILDZ2lH/UGrLNhPZEigtPZvcLw/4VO6Po6EUEn3mk="
-
-# deploy:
-#  provider: heroku
-#  api_key:
-#    secure: "af9d2e25-d5bd-4da4-be05-d3037524db82"
