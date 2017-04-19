@@ -1,0 +1,59 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Path:</strong>
+  <%= @medium.path %>
+</p>
+
+<p>
+  <strong>Filename:</strong>
+  <%= @medium.filename %>
+</p>
+
+<p>
+  <strong>Mediatype:</strong>
+  <%= @medium.mediatype %>
+</p>
+
+<p>
+  <strong>Datetime:</strong>
+  <%= @medium.datetime %>
+</p>
+
+<p>
+  <strong>Longitude:</strong>
+  <%= @medium.longitude %>
+</p>
+
+<p>
+  <strong>Latitude:</strong>
+  <%= @medium.latitude %>
+</p>
+
+<p>
+  <strong>Sequence:</strong>
+  <%= @medium.sequence %>
+</p>
+
+<p>
+  <strong>Frame:</strong>
+  <%= @medium.frame %>
+</p>
+
+<p>
+  <strong>Tubecamstation:</strong>
+  <%= @medium.tubecamstation %>
+</p>
+
+<p>
+  <strong>Exifdata:</strong>
+  <%= @medium.exifdata %>
+</p>
+
+<p>
+  <strong>Deleted:</strong>
+  <%= @medium.deleted %>
+</p>
+
+<%= link_to 'Edit', edit_medium_path(@medium) %> |
+<%= link_to 'Back', media_path %>

@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  path: MyString
+  filename: MyString
+  mediatype: MyString
+  datetime: 2017-04-19 17:52:47
+  longitude: 
+  latitude: 
+  sequence: MyString
+  frame: 1
+  tubecamstation: one
+  exifdata: 
+  deleted: false
+
+two:
+  path: MyString
+  filename: MyString
+  mediatype: MyString
+  datetime: 2017-04-19 17:52:47
+  longitude: 
+  latitude: 
+  sequence: MyString
+  frame: 1
+  tubecamstation: two
+  exifdata: 
+  deleted: false

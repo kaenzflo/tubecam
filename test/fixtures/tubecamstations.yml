@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  serialnumber: MyString
+  status: false
+  user: one
+  description: MyText
+  active: false
+
+two:
+  serialnumber: MyString
+  status: false
+  user: two
+  description: MyText
+  active: false
