@@ -1,0 +1,2 @@
+module TubecamstationsHelper
+end

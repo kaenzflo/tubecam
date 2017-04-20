@@ -1,4 +1,5 @@
 language: ruby
+dist: trusty
 
 dist: trusty
 
@@ -8,6 +9,9 @@ rvm:
 services:
   - postgresql
   
+addons:
+  postgresql: '9.5'
+
 addons:
   postgresql: '9.5'
 
