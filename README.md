@@ -86,11 +86,16 @@ git clone git@github.com:kaenzflo/tubecam.git
 ```
 language: ruby
 
+dist: trusty
+
 rvm:
     - 2.2.6
 
 services:
   - postgresql
+  
+addons:
+  postgresql: '9.5'
 
 before_script:
   - psql -c 'create database tubecam_test;' -U postgres

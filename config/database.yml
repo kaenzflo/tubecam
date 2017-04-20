@@ -81,5 +81,5 @@ test:
 production:
   <<: *default
   database: tubecam_production
-  username: tubecam 
-  password: <%= ENV['TUBECAM_DATABASE_PASSWORD'] %>
+#  username: tubecam 
+#  password: <%= ENV['TUBECAM_DATABASE_PASSWORD'] %>
