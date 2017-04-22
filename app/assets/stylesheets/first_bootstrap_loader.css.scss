@@ -1,6 +1,6 @@
-// import the CSS framework
-@import "bootstrap-sprockets";
-@import "bootstrap";
+
+$navbar-inverse-bg: #1a2c2f;
+
 
 // make all images responsive by default
 img {
@@ -11,6 +11,8 @@ img {
 .navbar-brand {
   font-size: inherit;
 }
+
+
 
 // THESE ARE EXAMPLES YOU CAN MODIFY
 // create your own classes
@@ -80,3 +82,8 @@ section {
   @extend .btn-primary;
   @extend .btn-xs;
 }
+
+
+// import the CSS framework
+@import "bootstrap-sprockets";
+@import "bootstrap";
