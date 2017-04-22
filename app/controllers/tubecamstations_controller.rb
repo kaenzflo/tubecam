@@ -1,6 +1,8 @@
 class TubecamstationsController < ApplicationController
   before_action :set_tubecamstation, only: [:show, :edit, :update, :destroy]
 
+  load_and_authorize_resource
+
   # GET /tubecamstations
   # GET /tubecamstations.json
   def index

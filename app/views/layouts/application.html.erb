@@ -12,17 +12,8 @@
   </head>
 
   <body class="container">
-    <header class="navbar navbar-fixed-top navbar-inverse">
-      <div class="container">
-        <nav>
-          <h1>Navigation</h1>
-          <ul class="nav navbar-nav navbar-right">
-            <li><%= link_to "Home",  root_path %></li>
-            <li><%= link_to "About",   '#' %></li>
-            <li><%= link_to "Log in", '#' %></li>
-          </ul>
-        </nav>
-      </div>
+    <header>
+      <%= render 'layouts/navigation' %>
     </header>
     <div class="container">
       <%= yield %>

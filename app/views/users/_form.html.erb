@@ -12,8 +12,8 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :e_mail %>
-    <%= f.text_field :e_mail %>
+    <%= f.label :email %>
+    <%= f.text_field :email %>
   </div>
 
   <div class="field">
@@ -44,6 +44,16 @@
   <div class="field">
     <%= f.label :active %>
     <%= f.check_box :active %>
+  </div>
+
+  <div class="field">
+    <%= f.label :trapper_role %>
+    <%= f.check_box :trapper_role %>
+  </div>
+
+  <div class="field">
+    <%= f.label :admin_role %>
+    <%= f.check_box :admin_role %>
   </div>
 
   <div class="actions">
