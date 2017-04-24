@@ -1,7 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  e_mail: MyString
+  email: MyString
   username: MyString
   firstname: MyString
   lastname: MyString
@@ -10,10 +10,10 @@ one:
   active: false
 
 two:
-  e_mail: MyString
-  username: MyString
-  firstname: MyString
-  lastname: MyString
+  email: MyString2
+  username: MyString2
+  firstname: MyString2
+  lastname: MyString2
   role_id: 1
   trusted: false
-  active: false
+  active: true

@@ -8,7 +8,7 @@ one:
   active: false
 
 two:
-  serialnumber: MyString
+  serialnumber: MyString2
   status: false
   user: two
   description: MyText
