@@ -7,13 +7,22 @@ one:
   lastname: MyString
   role_id: 1
   trusted: false
-  active: false
+  active: true
 
 two:
   email: MyString2
   username: MyString2
   firstname: MyString2
   lastname: MyString2
+  role_id: 2
+  trusted: true
+  active: true
+
+janysev1:
+  email: janysev1@students.zhaw.ch
+  username: janysev1
+  firstname: Severin
+  lastname: Jany
   role_id: 1
-  trusted: false
+  trusted: true
   active: true

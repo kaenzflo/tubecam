@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class TubecamstationsControllerTest < ActionDispatch::IntegrationTest
+
+=begin
   setup do
     @tubecamstation = tubecamstations(:one)
   end
@@ -45,4 +47,6 @@ class TubecamstationsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to tubecamstations_url
   end
+
+=end
 end
