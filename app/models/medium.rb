@@ -1,3 +1,3 @@
 class Medium < ApplicationRecord
-  belongs_to :tubecamstation
+  belongs_to :tubecam_device
 end
