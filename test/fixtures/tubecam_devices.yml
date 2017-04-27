@@ -2,14 +2,12 @@
 
 one:
   serialnumber: MyString
-  status: false
   user: one
   description: MyText
   active: false
 
 two:
-  serialnumber: MyString2
-  status: false
+  serialnumber: MyString
   user: two
   description: MyText
   active: false

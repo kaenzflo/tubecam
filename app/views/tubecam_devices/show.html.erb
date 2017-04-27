@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Serialnumber:</strong>
+  <%= @tubecam_device.serialnumber %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @tubecam_device.user %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @tubecam_device.description %>
+</p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @tubecam_device.active %>
+</p>
+
+<%= link_to 'Edit', edit_tubecam_device_path(@tubecam_device) %> |
+<%= link_to 'Back', tubecam_devices_path %>

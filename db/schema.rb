@@ -24,15 +24,15 @@ ActiveRecord::Schema.define(version: 20170422144129) do
     t.float    "latitude"
     t.string   "sequence"
     t.integer  "frame"
-    t.integer  "tubecamstation_id"
+    t.integer  "tubecam_device_id"
     t.json     "exifdata"
     t.boolean  "deleted"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
-    t.index ["tubecamstation_id"], name: "index_media_on_tubecamstation_id", using: :btree
+    t.index ["tubecam_device_id"], name: "index_media_on_tubecam_device_id", using: :btree
   end
 
-  create_table "tubecamstations", force: :cascade do |t|
+  create_table "tubecam_devices", force: :cascade do |t|
     t.string   "serialnumber"
     t.boolean  "status"
     t.integer  "user_id"
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20170422144129) do
     t.boolean  "active"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.index ["user_id"], name: "index_tubecamstations_on_user_id", using: :btree
+    t.index ["user_id"], name: "index_tubecam_devices_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -70,6 +70,47 @@ ActiveRecord::Schema.define(version: 20170422144129) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
-  add_foreign_key "media", "tubecamstations"
-  add_foreign_key "tubecamstations", "users"
+  create_table "media_annotations", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "medium_id"
+    t.integer  "annotations_lookup_table_id"
+    t.integer  "verified"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "annotations_lookup_table", force: :cascade do |t|
+    t.integer  "annotation_id"
+    t.string   "name"
+    t.string   "family"
+    t.string   "species"
+    t.integer  "body_length"
+    t.integer  "tail_length"
+    t.integer  "hindfoot_length"
+    t.boolean  "tail_hairy"
+    t.boolean  "tail_naked"
+    t.boolean  "face_painting"
+    t.boolean  "spines"
+    t.boolean  "bodyshape_compact"
+    t.boolean  "bodyshape_streched"
+    t.boolean  "ears_visible"
+    t.boolean  "ears_invisible"
+    t.boolean  "snout_trunklike"
+    t.boolean  "snout_blunt"
+    t.boolean  "snout_pointy"
+    t.boolean  "active"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+
+  add_foreign_key "media", "tubecam_devices"
+  add_foreign_key "tubecam_devices", "users"
+
+  add_foreign_key "media_annotations", "users"
+  add_foreign_key "media_annotations", "media"
+  add_foreign_key "media_annotations", "annotations_lookup_table"
+
+  add_index :media_annotations, [:user_id, :medium_id], unique: true
+
 end

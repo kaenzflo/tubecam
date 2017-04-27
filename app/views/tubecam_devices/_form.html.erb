@@ -1,10 +1,10 @@
-<%= form_for(tubecamstation) do |f| %>
-  <% if tubecamstation.errors.any? %>
+<%= form_for(tubecam_device) do |f| %>
+  <% if tubecam_device.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(tubecamstation.errors.count, "error") %> prohibited this tubecamstation from being saved:</h2>
+      <h2><%= pluralize(tubecam_device.errors.count, "error") %> prohibited this tubecam_device from being saved:</h2>
 
       <ul>
-      <% tubecamstation.errors.full_messages.each do |message| %>
+      <% tubecam_device.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
@@ -14,11 +14,6 @@
   <div class="field">
     <%= f.label :serialnumber %>
     <%= f.text_field :serialnumber %>
-  </div>
-
-  <div class="field">
-    <%= f.label :status %>
-    <%= f.check_box :status %>
   </div>
 
   <div class="field">

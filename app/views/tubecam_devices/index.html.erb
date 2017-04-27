@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Tubecam Devices</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Serialnumber</th>
+      <th>User</th>
+      <th>Description</th>
+      <th>Active</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tubecam_devices.each do |tubecam_device| %>
+      <tr>
+        <td><%= tubecam_device.serialnumber %></td>
+        <td><%= tubecam_device.user %></td>
+        <td><%= tubecam_device.description %></td>
+        <td><%= tubecam_device.active %></td>
+        <td><%= link_to 'Show', tubecam_device %></td>
+        <td><%= link_to 'Edit', edit_tubecam_device_path(tubecam_device) %></td>
+        <td><%= link_to 'Destroy', tubecam_device, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Tubecam Device', new_tubecam_device_path %>

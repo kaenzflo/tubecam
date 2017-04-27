@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
+  resources :tubecam_devices
   devise_for :users
   resources :media
-  resources :tubecamstations
   resources :users
 
   get '/maps' => 'maps#index'

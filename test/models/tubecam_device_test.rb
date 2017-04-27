@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class TubecamstationTest < ActiveSupport::TestCase
+class TubecamDeviceTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
