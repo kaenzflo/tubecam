@@ -74,31 +74,33 @@ ActiveRecord::Schema.define(version: 20170422144129) do
     t.integer  "user_id"
     t.integer  "medium_id"
     t.integer  "annotations_lookup_table_id"
-    t.integer  "verified"
+    t.integer  "verified_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
 
-  create_table "annotations_lookup_table", force: :cascade do |t|
-    t.integer  "annotation_id"
+  create_table "annotations_lookup_tables", force: :cascade do |t|
+    t.string   "annotation_id"
     t.string   "name"
     t.string   "family"
+    t.string   "genus"
     t.string   "species"
-    t.integer  "body_length"
-    t.integer  "tail_length"
-    t.integer  "hindfoot_length"
+    t.boolean  "selectable"
+    t.integer  "body_length_min"
+    t.integer  "body_length_max"
+    t.integer  "tail_length_min"
+    t.integer  "tail_length_max"
+    t.integer  "hindfoot_length_min"
+    t.integer  "hindfoot_length_max"
     t.boolean  "tail_hairy"
     t.boolean  "tail_naked"
     t.boolean  "face_painting"
-    t.boolean  "spines"
     t.boolean  "bodyshape_compact"
     t.boolean  "bodyshape_streched"
     t.boolean  "ears_visible"
-    t.boolean  "ears_invisible"
-    t.boolean  "snout_trunklike"
+    t.boolean  "ears_hidden"
     t.boolean  "snout_blunt"
     t.boolean  "snout_pointy"
-    t.boolean  "active"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
@@ -109,7 +111,7 @@ ActiveRecord::Schema.define(version: 20170422144129) do
 
   add_foreign_key "media_annotations", "users"
   add_foreign_key "media_annotations", "media"
-  add_foreign_key "media_annotations", "annotations_lookup_table"
+  add_foreign_key "media_annotations", "annotations_lookup_tables"
 
   add_index :media_annotations, [:user_id, :medium_id], unique: true
 
