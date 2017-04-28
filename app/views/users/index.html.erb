@@ -23,8 +23,10 @@
         <td><%= user.username %></td>
         <td><%= user.firstname %></td>
         <td><%= user.lastname %></td>
-        <td><%= user.role_id %></td>
-        <td><%= user.trusted %></td>
+        <td><%= user.spotter_role %></td>
+        <td><%= user.verified_spotter_role %></td>
+        <td><%= user.trapper_role %></td>
+        <td><%= user.admin_role %></td>
         <td><%= user.active %></td>
         <td><%= link_to 'Show', user %></td>
         <% if can? :manage, User %>

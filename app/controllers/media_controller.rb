@@ -69,6 +69,6 @@ class MediaController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def medium_params
-      params.require(:medium).permit(:path, :filename, :mediatype, :datetime, :longitude, :latitude, :sequence, :frame, :tubecamstation_id, :exifdata, :deleted)
+      params.require(:medium).permit(:path, :filename, :mediatype, :datetime, :longitude, :latitude, :sequence, :frame, :tubecam_device_id, :exifdata, :deleted)
     end
 end

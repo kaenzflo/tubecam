@@ -5,8 +5,10 @@ one:
   username: MyString
   firstname: MyString
   lastname: MyString
-  role_id: 1
-  trusted: false
+  spotter_role: true
+  verified_spotter_role: false
+  trapper_role: false
+  admin_role: false
   active: true
 
 two:
@@ -14,15 +16,8 @@ two:
   username: MyString2
   firstname: MyString2
   lastname: MyString2
-  role_id: 2
-  trusted: true
-  active: true
-
-janysev1:
-  email: janysev1@students.zhaw.ch
-  username: janysev1
-  firstname: Severin
-  lastname: Jany
-  role_id: 1
-  trusted: true
+  spotter_role: true
+  verified_spotter_role: false
+  trapper_role: false
+  admin_role: false
   active: true
