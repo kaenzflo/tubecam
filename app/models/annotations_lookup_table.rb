@@ -1,0 +1,3 @@
+class AnnotationsLookupTable < ApplicationRecord
+end
+
