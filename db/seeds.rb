@@ -6,6 +6,59 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+
+users = [
+    ['user1','Peter','Spotter',true,false,false,false,true,'user1@example.com', ENV["DATABASE_SEED_USER_PWD"]],
+    ['user2','Peter','Verified',true,true,false,false,true,'user2@example.com',ENV["DATABASE_SEED_USER_PWD"]],
+    ['user3','Peter','Trapper',true,true,true,false,true,'user3@example.com',ENV["DATABASE_SEED_USER_PWD"]],
+    ['user4','Hans','Trapper',true,true,true,false,true,'user4@example.com',ENV["DATABASE_SEED_USER_PWD"]],
+    ['admin','Peter','Admin',true,true,true,true,true,'admin@example.com',ENV["DATABASE_SEED_USER_PWD"]]
+]
+
+users.each do |value|
+  User.create(username: value[0],
+              firstname: value[1],
+              lastname: value[2],
+              spotter_role: value[3],
+              verified_spotter_role: value[4],
+              trapper_role: value[5],
+              admin_role: value[6],
+              active: value[7],
+              email: value[8],
+              password: value[9])
+end
+
+tubecam_devices = [
+    ['SN:00028',3,'Peters TubeCam',true],
+    ['SN:00010',4,'Tubecam von Hans',true]
+]
+
+tubecam_devices.each do |value|
+  TubecamDevice.create(serialnumber: value[0],
+                       user_id: value[1],
+                       description: value[2],
+                       active: value[3])
+end
+
+media = [
+    ['2017/02/28','SN00028_2017_02_28_18_26_44_S0031I19.jpg','image',DateTime.strptime('2017:02:28 18:26:44', '%Y:%m:%d %H:%M:%S'),47.496503, 8.729533,31,19,1,nil,false],
+    ['2016/02/09','SN00010_2016_02_09_17_17_31_S0001I05.jpg','image',DateTime.strptime('2016:02:09 17:17:31', '%Y:%m:%d %H:%M:%S'),47.496611, 8.729497,1,5,2,nil,false]
+]
+
+media.each do |value|
+  Medium.create(path: value[0],
+                filename: value[1],
+                mediatype: value[2],
+                datetime: value[3],
+                longitude: value[4],
+                latitude: value[5],
+                sequence: value[6],
+                frame: value[7],
+                tubecam_device_id: value[8],
+                exifdata: value[9],
+                deleted: value[10])
+end
+
 annotations = [
     ['100',nil,'Bilche',nil,nil,false,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
     ['111','Gartenschläfer','Bilche','Eliomys','quercinus',false,100,170,90,125,220,320,true,false,true,true,false,true,false,true,true],
