@@ -8,12 +8,7 @@ class MapsController < ApplicationController
     @mapstyle = map_style_file;
 
 
-    @tubecams = TubecamDevice.where(:active => true)
-
-    tubecamsHash = {}
-    tubecamsHash[:type] = "FeatureCollection"
-    tubecamsHash[:features] = generate_tubecams_array()
-    @mapgeo = tubecamsHash.to_json
+    @mapgeo = generate_tubecams_json()
 
     render template: "maps/map"
   end
@@ -21,11 +16,16 @@ class MapsController < ApplicationController
 
   private
 
-  def generate_tubecams_array()
+  def generate_tubecams_json()
+    @tubecams = TubecamDevice.where(:active => true)
+
+    tubecamsHash = {}
+    tubecamsHash[:type] = "FeatureCollection"
+
     tubecamArray = []
     @tubecams.each do |tubecam|
       last_image = Medium.where(:tubecam_device_id => tubecam.id).order("id DESC").first;
-      description = generate_description(tubecam.serialnumber.to_s, "on", last_image.longitude, last_image.latitude, "beschreibung")
+      description = generate_description(tubecam.serialnumber.to_s,"on",last_image.longitude,last_image.latitude, tubecam,tubecam.description)
       if !last_image.nil?
         tubecamHash = {"type" => "Feature",
                        "geometry" => {
@@ -41,18 +41,19 @@ class MapsController < ApplicationController
       end
     end
 
-    tubecamArray
+    tubecamsHash[:features] = tubecamArray
+    tubecamsHash.to_json
   end
 
-  def generate_description serialnumber, status, longitude, latitude, description
+  def generate_description serialnumber, status, longitude, latitude, tubecam, description
     s = StringIO.new
     s << "Seriennummer: " + serialnumber
     s << "<br />"
     s << "Koordinaten: " + longitude.to_s + ", " + latitude.to_s
     s << "<br />"
-    s << "Links : "
+    s << "Links : <a href='" + tubecam_device_url(tubecam) + "'>Show</a>"
     s << "<br />"
-    s << "Beschreibung: " + description
+    s << "Beschreibung: <br />" + description
 
     s.string
   end
