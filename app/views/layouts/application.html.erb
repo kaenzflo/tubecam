@@ -15,9 +15,16 @@
     <header>
       <%= render 'layouts/navigation' %>
     </header>
-    <div class="container">
-      <%= yield %>
-    </div>
+    <% if current_page?(action: 'index', controller: 'maps') %>
+      <div class="container">
+        <%= yield %>
+      </div>
+    <% else %>
+      <div class="container">
+
+        <%= yield %>
+      </div>
+      <% end %>
 
 
     <!-- Flash messages -->

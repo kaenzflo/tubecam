@@ -1,4 +1,4 @@
-{
+[{
   "type": "FeatureCollection",
   "features": [
     {
@@ -18,4 +18,36 @@
       }
     }
   ]
-}
+},{
+  "tpye": "FeatureCollection",
+  "features":[
+    {
+      "type":"Feature",
+      "geometry":{
+        "type":"Point",
+        "coordinates":[
+          689426.0,
+          258181.0
+        ]
+      },
+      "properties":{
+        "description":"Seriennummer: SN:8098z0",
+        "style-class":0
+      }
+    },
+    {
+      "type":"Feature",
+      "geometry":{
+        "type":"Point",
+        "coordinates":[
+          689426.0,
+          258181.0
+        ]
+      },
+      "properties":{
+        "description":"Seriennummer: SN:99999_asdf",
+        "style-class":0
+      }
+    }
+  ]
+}]

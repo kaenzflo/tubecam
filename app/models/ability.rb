@@ -9,7 +9,7 @@ class Ability
       can :manage, :all
     end
     if user.trapper_role?
-      can :manage, Tubecamstation
+      can :manage, TubecamDevice
       can :read, :all
     end
 

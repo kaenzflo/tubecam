@@ -5,6 +5,7 @@
 <table>
   <thead>
     <tr>
+      <th>id</th>
       <th>Serialnumber</th>
       <th>User</th>
       <th>Description</th>
@@ -15,9 +16,12 @@
 
   <tbody>
     <% @tubecam_devices.each do |tubecam_device| %>
+      <% user = tubecam_device.user %>
       <tr>
+        <td><%= tubecam_device.id %></td>
         <td><%= tubecam_device.serialnumber %></td>
-        <td><%= tubecam_device.user %></td>
+        <td>
+          <%= user.username %> (<%= user.id %>)
         <td><%= tubecam_device.description %></td>
         <td><%= tubecam_device.active %></td>
         <td><%= link_to 'Show', tubecam_device %></td>
