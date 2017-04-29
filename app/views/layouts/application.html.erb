@@ -1,33 +1,35 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>TubeCam</title>
-    <%= csrf_meta_tags %>
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <!--[if lt IE 9]>
-      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/r29/html5.min.js">
-      </script>
-    <![endif]-->
-  </head>
+<head>
+  <title>Tubecam</title>
+  <%= csrf_meta_tags %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <!--[if lt IE 9]>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/r29/html5.min.js">
+  </script>
+  <![endif]-->
+</head>
 
-  <body class="container">
-    <header>
-      <%= render 'layouts/navigation' %>
-    </header>
-    <div class="container">
-      <%= yield %>
-    </div>
+<body class="container">
+<header>
+  <%= render 'layouts/navigation' %>
+</header>
+
+<div class="container">
+
+  <%= yield %>
+</div>
 
 
-    <!-- Flash messages -->
-    <% unless flash.empty? %>
-      <script type="text/javascript">
-          <% flash.each do |f| %>
-          <% type = f[0].to_s.gsub('alert', 'error').gsub('notice', 'info') %>
-          toastr['<%= type %>']('<%= f[1] %>');
-          <% end %>
-      </script>
-    <% end %>
-  </body>
+<!-- Flash messages -->
+<% unless flash.empty? %>
+    <script type="text/javascript">
+        <% flash.each do |f| %>
+        <% type = f[0].to_s.gsub('alert', 'error').gsub('notice', 'info') %>
+        toastr['<%= type %>']('<%= f[1] %>');
+        <% end %>
+    </script>
+<% end %>
+</body>
 </html>
