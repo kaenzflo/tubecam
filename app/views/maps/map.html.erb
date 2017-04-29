@@ -9,10 +9,10 @@
   <!-- Load map -->
   <%= javascript_include_tag 'loadmap', "data-turbolinks-track" => false %>
   <script type="text/javascript">
-      var mapgeojson = <%=raw @mapgeo %>;
+      var tubecamjson = <%=raw @tubecamjson %>;
 
       $( document ).ready(function() {
-          loadMap(mapgeojson, 35, 692266, 254661);
+          loadMap(tubecamjson, 35, 692266, 254661);
       });
 
 

@@ -1,16 +1,16 @@
+require_relative '../functions/coordinates'
 class MapsController < ApplicationController
   skip_before_action :authenticate_user!, :only => [:index]
 
   def index
-
+    # TODO: Has to be replaced
     path_to_file = File.join(Rails.root, 'app', 'assets', 'javascripts', 'maps', 'mapstyle.json')
     map_style_file = File.read(path_to_file)
     @mapstyle = map_style_file;
 
+    @tubecamjson = generate_tubecams_json()
 
-    @mapgeo = generate_tubecams_json()
-
-    render template: "maps/map"
+    render template: "./maps/map"
   end
 
 
@@ -25,12 +25,15 @@ class MapsController < ApplicationController
     tubecamArray = []
     @tubecams.each do |tubecam|
       last_image = Medium.where(:tubecam_device_id => tubecam.id).order("id DESC").first;
-      description = generate_description(tubecam.serialnumber.to_s,"on",last_image.longitude,last_image.latitude, tubecam,tubecam.description)
       if !last_image.nil?
+        longitude = Coordinates.wgsToCHy(last_image.longitude,last_image.latitude);
+        latitude = Coordinates.wgsToCHx(last_image.longitude,last_image.latitude);
+        description = generate_description(tubecam.serialnumber.to_s,"on", longitude, latitude, tubecam,tubecam.description)
+
         tubecamHash = {"type" => "Feature",
                        "geometry" => {
                            "type" => "Point",
-                           "coordinates" => [last_image.longitude, last_image.latitude]
+                           "coordinates" => [longitude, latitude]
                        },
                        "properties" => {
                            "description" => description.to_s,
