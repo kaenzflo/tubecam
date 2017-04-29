@@ -12,4 +12,3 @@ Rails.application.config.assets.version = '1.0'
 
 
 Rails.application.config.assets.precompile += %w( loadmap.js )
-#Rails.application.config.assets.precompile += %w( http://api3.geo.admin.ch/loader.js?lang=en )

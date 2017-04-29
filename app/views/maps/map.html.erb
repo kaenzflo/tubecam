@@ -1,25 +1,19 @@
+
 <div class="container-full-width">
 
   <div id="map" class="map"></div>
 
   <div style="display: block;">
-    <div id="popup" title="TubeCam Standort"></div>
+    <div id="popup" title="Detailinformationen"></div>
   </div>
 
-  <!-- Load map -->
-  <%= javascript_include_tag 'loadmap', "data-turbolinks-track" => false %>
+
+  <%= javascript_include_tag 'loadmap' %>
+
   <script type="text/javascript">
       var tubecamjson = <%=raw @tubecamjson %>;
-
-      $( document ).ready(function() {
-          loadMap(tubecamjson, 35, 692266, 254661);
-      });
-
-
+      loadMap(tubecamjson, 35, 692266, 254661);
   </script>
-
-
-  <script src="http://api3.geo.admin.ch/loader.js?lang=en" type="text/javascript"></script>
 
 
 </div>

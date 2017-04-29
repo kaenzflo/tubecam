@@ -10,7 +10,7 @@ class MapsController < ApplicationController
 
     @tubecamjson = generate_tubecams_json()
 
-    render template: "./maps/map"
+    render 'maps/map'
   end
 
 

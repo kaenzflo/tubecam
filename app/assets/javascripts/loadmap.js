@@ -1,4 +1,4 @@
-var loadMap = function(mapgeojson, zoomlevel, centerLongitude, centerLatitude) {
+function loadMap(mapgeojson, zoomlevel, centerLongitude, centerLatitude) {
     var layer = ga.layer.create('ch.swisstopo.pixelkarte-farbe');
     var map = new ga.Map({
         target: 'map',
@@ -29,6 +29,7 @@ var loadMap = function(mapgeojson, zoomlevel, centerLongitude, centerLatitude) {
     };
 
     // Load and apply GeoJSON file function
+    /*
     var setLayerSource = function () {
         $.ajax({
             type: 'GET',
@@ -41,6 +42,7 @@ var loadMap = function(mapgeojson, zoomlevel, centerLongitude, centerLatitude) {
             }
         });
     };
+    */
 
     // Load and apply styling file function
     var setLayerStyle = function () {
