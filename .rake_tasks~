@@ -24,6 +24,7 @@ db:structure:dump
 db:structure:load
 db:version
 dev:cache
+heroku:crawlftp
 initializers
 log:clear
 middleware
