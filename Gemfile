@@ -7,6 +7,9 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+# Use digest for hashing operations
+gem 'digest'
+
 # Use devise for registration and login
 gem 'devise'
 
