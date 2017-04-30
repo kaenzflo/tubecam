@@ -1,13 +1,23 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Path:</strong>
-  <%= @medium.path %>
+  <strong>Image:</strong>
+  <%= image_tag(@cloud_resource_url) %>
 </p>
 
 <p>
-  <strong>Filename:</strong>
-  <%= @medium.filename %>
+  <strong>Original Path:</strong>
+  <%= @medium.original_path %>
+</p>
+
+<p>
+  <strong>Original Filename:</strong>
+  <%= @medium.original_filename %>
+</p>
+
+<p>
+  <strong>Hashed Filename:</strong>
+  <%= @medium.filename_hash%>
 </p>
 
 <p>

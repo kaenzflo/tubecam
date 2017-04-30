@@ -5,8 +5,9 @@
 <table>
   <thead>
     <tr>
-      <th>Path</th>
-      <th>Filename</th>
+      <th>Original Path</th>
+      <th>Original Filename</th>
+      <th>Filename Hash</th>
       <th>Mediatype</th>
       <th>Datetime</th>
       <th>Longitude</th>
@@ -23,8 +24,9 @@
   <tbody>
     <% @media.each do |medium| %>
       <tr>
-        <td><%= medium.path %></td>
-        <td><%= medium.filename %></td>
+        <td><%= medium.original_path %></td>
+        <td><%= medium.original_filename %></td>
+        <td><%= medium.filename_hash%></td>
         <td><%= medium.mediatype %></td>
         <td><%= medium.datetime %></td>
         <td><%= medium.longitude %></td>

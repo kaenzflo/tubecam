@@ -10,6 +10,8 @@ class MediaController < ApplicationController
   # GET /media/1
   # GET /media/1.json
   def show
+    @medium = Medium.find(params[:id])
+    @cloud_resource_url = 'https://' + ENV['S3_HOST_NAME'] + '/' + ENV['S3_BUCKET_NAME'] + '/' + @medium.filename_hash
   end
 
   # GET /media/new
