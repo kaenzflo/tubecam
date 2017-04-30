@@ -7,6 +7,9 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+# Use mini-magick for image processing
+gem 'mini_magick'
+
 # Use digest for hashing algorithms
 gem 'digest'
 
