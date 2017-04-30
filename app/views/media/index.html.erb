@@ -5,6 +5,7 @@
 <table>
   <thead>
     <tr>
+      <th>Thumbnail</th>
       <th>Original Path</th>
       <th>Original Filename</th>
       <th>Filename Hash</th>
@@ -24,6 +25,7 @@
   <tbody>
     <% @media.each do |medium| %>
       <tr>
+        <td><%= image_tag(@cloud_resource_thumbnail_url + medium.filename_hash) %></td>
         <td><%= medium.original_path %></td>
         <td><%= medium.original_filename %></td>
         <td><%= medium.filename_hash%></td>
