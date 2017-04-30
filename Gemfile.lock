@@ -63,6 +63,7 @@ GEM
       railties (>= 4.1.0, < 5.1)
       responders
       warden (~> 1.2.3)
+    digest (0.0.1)
     erubis (2.7.0)
     execjs (2.7.0)
     ffi (1.9.18)
@@ -98,6 +99,7 @@ GEM
       mini_portile2 (~> 2.1.0)
     orm_adapter (0.5.0)
     pg (0.20.0)
+    proxies (0.2.1)
     puma (3.8.2)
     rack (2.0.1)
     rack-test (0.6.3)
@@ -135,6 +137,8 @@ GEM
       ffi (>= 0.5.0)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
+    s3 (0.3.25)
+      proxies (~> 0.2.0)
     sass (3.4.23)
     sass-rails (5.0.6)
       railties (>= 4.0.0, < 6)
@@ -188,6 +192,7 @@ DEPENDENCIES
   cancancan
   coffee-rails (~> 4.2)
   devise
+  digest
   jbuilder (~> 2.5)
   jquery-rails
   jquery-turbolinks
@@ -197,6 +202,7 @@ DEPENDENCIES
   rack (~> 2.0.1)
   rails (~> 5.0.2)
   rails-controller-testing
+  s3
   sass-rails (~> 5.0)
   spring
   spring-watcher-listen (~> 2.0.0)

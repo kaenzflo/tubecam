@@ -7,6 +7,12 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+# Use digest for hashing algorithms
+gem 'digest'
+
+# Use qoobaa/s3 for object storage access
+gem 's3'
+
 # Use devise for registration and login
 gem 'devise'
 
