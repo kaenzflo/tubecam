@@ -1,0 +1,45 @@
+<h1>Annotate</h1>
+<p>
+  <%= link_to 'Back', media_path %>
+</p>
+<p>
+<table>
+  <tr>
+    <td>
+      <%= image_tag(@cloud_resource_image_url + @medium.filename_hash, size: '612x459') %>
+    </td>
+    <td>
+      <%= form_for @medium_annotation, url: {action: 'create'} do |f| %>
+        <%= f.hidden_field :medium_id, :value => @medium.id %>
+        <%= f.label :medium_annotation, value: 'Annotation' %>
+        <select id='annotations_select' name='annotations[annotation_lookup_table_id]' size='25' required, >
+            <% @annotations_lookup_table.each do |annotation| %>
+              <% selected_string = ''
+                if @medium_annotation.annotations_lookup_table_id == annotation.id
+                  selected_string = ' selected="selected" '
+                end
+              %>
+              <option id='' <%= selected_string %> value='<%= annotation.id %>'>
+                <% if !annotation.family.nil? && !annotation.genus.nil?
+                     displayed_tag = annotation.name
+                   end
+                  if !annotation.genus.nil? && annotation.name.nil?
+                    displayed_tag = annotation.genus
+                  end
+                  if !annotation.family.nil? && annotation.name.nil?
+                    displayed_tag = annotation.family
+                  end
+                %>
+                <%= displayed_tag %></option>
+            <% end %>
+          </select><br/><br/>
+          <div class="actions">
+            <%= f.submit %>
+          </div>
+      <% end %>
+    </td>
+  </tr>
+</table>
+
+
+</p>
