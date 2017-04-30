@@ -95,7 +95,7 @@ ActiveRecord::Schema.define(version: 20170422144129) do
     t.datetime "updated_at",   null: false
   end
 
-  create_table "media_annotations", force: :cascade do |t|
+  create_table "medium_annotations", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "medium_id"
     t.integer  "annotations_lookup_table_id"
@@ -107,10 +107,10 @@ ActiveRecord::Schema.define(version: 20170422144129) do
   add_foreign_key "media", "tubecam_devices"
   add_foreign_key "tubecam_devices", "users"
 
-  add_foreign_key "media_annotations", "users"
-  add_foreign_key "media_annotations", "media"
-  add_foreign_key "media_annotations", "annotations_lookup_tables"
+  add_foreign_key "medium_annotations", "users"
+  add_foreign_key "medium_annotations", "media"
+  add_foreign_key "medium_annotations", "annotations_lookup_tables"
 
-  add_index :media_annotations, [:user_id, :medium_id], unique: true
+  add_index :medium_annotations, [:user_id, :medium_id], unique: true
 
 end
