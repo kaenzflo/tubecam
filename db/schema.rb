@@ -52,8 +52,9 @@ ActiveRecord::Schema.define(version: 20170422144129) do
   end
 
   create_table "media", force: :cascade do |t|
-    t.string   "path"
-    t.string   "filename"
+    t.string   "original_path"
+    t.string   "original_filename"
+    t.string   "filename_hash"
     t.string   "mediatype"
     t.datetime "datetime"
     t.float    "longitude"

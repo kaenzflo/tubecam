@@ -40,26 +40,28 @@ tubecam_devices.each do |value|
                        active: value[3])
 end
 
+# Hashing algorithm: SHA256 (input=original_filename)
 media = [
-    ['2017/02/28','SN00028_2017_02_28_18_26_44_S0031I19.jpg','image',DateTime.strptime('2017:02:28 18:26:44', '%Y:%m:%d %H:%M:%S'),47.496503, 8.729533,31,19,1,nil,false],
-    ['2016/02/09','SN00010_2016_02_09_17_17_31_S0001I05.jpg','image',DateTime.strptime('2016:02:09 17:17:31', '%Y:%m:%d %H:%M:%S'),47.496611, 8.729497,1,5,2,nil,false]
+    ['2017/02/28','SN00028_2017_02_28_18_26_44_S0031I19.jpg','f790923ff6cddb289da516b0bf97f31391f9ea69c08132d10aa2d2c38feae240.jpg','image',DateTime.strptime('2017:02:28 18:26:44', '%Y:%m:%d %H:%M:%S'),47.496503, 8.729533,31,19,1,nil,false],
+    ['2016/02/09','SN00010_2016_02_09_17_17_31_S0001I05.jpg','ed46a607709409b6b30210aa7b65e8678244258d54950d3cc43c1aabc020734d.jpg','image',DateTime.strptime('2016:02:09 17:17:31', '%Y:%m:%d %H:%M:%S'),47.496611, 8.729497,1,5,2,nil,false]
 ]
 
 media.each do |value|
-  Medium.create(path: value[0],
-                filename: value[1],
-                mediatype: value[2],
-                datetime: value[3],
-                longitude: value[4],
-                latitude: value[5],
-                sequence: value[6],
-                frame: value[7],
-                tubecam_device_id: value[8],
-                exifdata: value[9],
-                deleted: value[10])
+  Medium.create(original_path: value[0],
+                original_filename: value[1],
+                filename_hash: value[2],
+                mediatype: value[3],
+                datetime: value[4],
+                longitude: value[5],
+                latitude: value[6],
+                sequence: value[7],
+                frame: value[8],
+                tubecam_device_id: value[9],
+                exifdata: value[10],
+                deleted: value[11])
 end
 
-annotations = [
+annotations_lookup_table = [
     ['100',nil,'Bilche',nil,nil,false,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
     ['111','Gartenschläfer','Bilche','Eliomys','quercinus',false,100,170,90,125,220,320,true,false,true,true,false,true,false,true,true],
     ['121','Baumschläfer','Bilche','Dryomys','nitedula',false,80,130,80,95,190,240,true,false,true,true,false,true,false,true,true],
@@ -96,7 +98,7 @@ annotations = [
     ['522','Sumpfspitzmaus','Spitzmäuse','Neomys','anomalus',false,64,88,42,64,140,170,false,true,false,true,false,false,true,false,true],
     [nil,nil,nil,'Sorex',nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
     ['531','Waldspitzmaus','Spitzmäuse','Sorex','araneus',true,66,88,30,57,100,145,false,true,false,true,false,false,true,false,true],
-    ['532','Walliserspitzmaus','Spitzmäuse','Sorex','antinorii',true,54,82,40,60,'NA','NA',false,true,false,true,false,false,true,false,true],
+    ['532','Walliserspitzmaus','Spitzmäuse','Sorex','antinorii',true,54,82,40,60,0,0,false,true,false,true,false,false,true,false,true],
     ['533','Alpenspitzmaus','Spitzmäuse','Sorex','alpinus',true,62,87,60,76,140,160,false,true,false,true,false,false,true,false,true],
     ['534','Zwergspitzmaus','Spitzmäuse','Sorex','minutus',true,44,62,37,46,90,120,false,true,false,true,false,false,true,false,true],
     [nil,nil,'Igel',nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
@@ -112,7 +114,7 @@ annotations = [
     ['821','Baummarder','Marderartige','Martes','martes',false,400,480,200,260,780,980,true,false,false,false,true,true,false,true,true],
     ['822','Steinmarder','Marderartige','Martes','foina',false,400,560,200,320,740,830,true,false,false,false,true,true,false,true,true]]
 
-annotations.each do |value|
+annotations_lookup_table.each do |value|
   AnnotationsLookupTable.create(annotation_id: value[0],
                                 name: value[1],
                                 family: value[2],

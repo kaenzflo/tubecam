@@ -19,7 +19,7 @@ gem 's3'
 # Use devise for registration and login
 gem 'devise'
 
-# Use toastr for handle flahsmessages
+# Use toastr for handle flashmessages
 gem 'toastr-rails'
 
 # Use cancancan for specific roles
