@@ -9,7 +9,7 @@
       <th>Original Path</th>
       <th>Original Filename</th>
       <th>Filename Hash</th>
-      <th>Mediatype</th>
+      <th>Mediumtype</th>
       <th>Datetime</th>
       <th>Longitude</th>
       <th>Latitude</th>
@@ -25,7 +25,8 @@
   <tbody>
     <% @media.each do |medium| %>
       <tr>
-        <td><%= image_tag(@cloud_resource_thumbnail_url + medium.filename_hash) %></td>
+        <td><%= link_to image_tag(@cloud_resource_thumbnail_url +
+                              medium.filename_hash), medium %></td>
         <td><%= medium.original_path %></td>
         <td><%= medium.original_filename %></td>
         <td><%= medium.filename_hash%></td>
