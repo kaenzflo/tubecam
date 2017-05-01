@@ -30,7 +30,13 @@ end
 
 tubecam_devices = [
     ['SN:00028',3,'Peters TubeCam',true],
-    ['SN:00010',4,'Tubecam von Hans',true]
+    ['SN:00010',4,'Tubecam von Hans',true],
+    ['SN:00014',4,'Tubecam2 von Hans',true],
+    ['SN:00071',5,'Thurauen1 Flussbett',true],
+    ['SN:00072',5,'Thurauen2 Nord',true],
+    ['SN:00073',5,'Thurauen3 Weiher',true],
+    ['SN:00074',5,'Thurauen4 Süd',true],
+    ['SN:00075',5,'Thurauen5 Moor',true]
 ]
 
 tubecam_devices.each do |value|

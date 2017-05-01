@@ -4,7 +4,8 @@ class MediaController < ApplicationController
   # GET /media
   # GET /media.json
   def index
-    @media = Medium.all
+    @media = Medium.filter(params.slice(:tubecam_device_id, :sequence))
+    @media = @media.where(deleted: false)
     @cloud_resource_thumbnail_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/thumbnails/'
@@ -78,4 +79,6 @@ class MediaController < ApplicationController
     def medium_params
       params.require(:medium).permit(:path, :filename, :mediatype, :datetime, :longitude, :latitude, :sequence, :frame, :tubecam_device_id, :exifdata, :deleted)
     end
+
+
 end

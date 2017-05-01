@@ -1,0 +1,24 @@
+<%
+  puts "========"
+  puts TubecamDevice.where(active: true)
+  puts @media.inspect
+  puts "========"
+  puts params[:tubecam_device_id]
+  puts TubecamDevice.where(active: true)[1].id
+  puts "=========="
+%>
+
+<form action="<%= media_path %>" method="get">
+    <select id='tubecam_device_id' name='tubecam_device_id' size='1' required>
+      <% TubecamDevice.where(active: true).each do |t| %>
+          <% selected_string = ''
+             if params[:tubecam_device_id] == t.id.to_s
+               selected_string = ' selected="selected" '
+             end
+          t_owner = User.find_by(id: t.user_id)
+          %>
+          <option id='tubecam_device_id_id' <%= selected_string %> value=<%= t.id %>><%= t.serialnumber %> (<%= t_owner.firstname %> <%= t_owner.lastname %>)</option>
+      <% end %>
+    </select>
+    <%= submit_tag 'Suchen', name: nil %>
+</form>

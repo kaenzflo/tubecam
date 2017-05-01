@@ -2,6 +2,14 @@
 
 <h1>Media</h1>
 
+<%= render 'filter' %>
+
+<% if @media.empty? %>
+    <h3>Es konnten keine Bilder gefunden werden, die dem gesetzten Filter entsprechen.</h3>
+    <h5><a href=<%= media_path %> class="btn btn-info">Filter zurücksetzen?</a></h5>
+
+<% else %>
+
 <table>
   <thead>
     <tr>
@@ -25,8 +33,7 @@
   <tbody>
     <% @media.each do |medium| %>
       <tr>
-        <td><%= link_to image_tag(@cloud_resource_thumbnail_url +
-                              medium.filename_hash), medium %></td>
+        <td><%= link_to image_tag(@cloud_resource_thumbnail_url + medium.filename_hash), medium %></td>
         <td><%= medium.original_path %></td>
         <td><%= medium.original_filename %></td>
         <td><%= medium.filename_hash%></td>
@@ -50,3 +57,5 @@
 <br>
 
 <%= link_to 'New Medium', new_medium_path %>
+
+<% end %>
