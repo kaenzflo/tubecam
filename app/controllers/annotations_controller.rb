@@ -1,0 +1,34 @@
+class AnnotationsController < ApplicationController
+
+  def new
+    random = rand(0...Medium.all.size)
+    @medium = Medium.all[random]
+    @cloud_resource_image_url = 'https://' +
+        ENV['S3_HOST_NAME'] + '/' +
+        ENV['S3_BUCKET_NAME'] + '/'
+    @annotations_lookup_table = AnnotationsLookupTable.all
+    @medium_annotation = MediumAnnotation.new
+  end
+
+  def create
+    @medium_annotation = MediumAnnotation.new(annotations_params)
+    respond_to do |format|
+      if @medium_annotation.save && @medium_annotation.annotations_lookup_table_id != ''
+        format.html { redirect_to '/annotations/new', notice: 'Medium was successfully annotated' }
+        format.json { render :'annotations/new', status: :created, location: @medium_annotation }
+      else
+        format.html { redirect_to '/annotations/new', notice: 'Annotation failed :(' }
+        format.json { render json: @medium_annotation.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  private
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def annotations_params
+    params.require(:medium_annotation).permit(:image_id, :annotation_lookup_table_id)
+  end
+
+
+end
