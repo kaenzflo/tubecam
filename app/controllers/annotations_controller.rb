@@ -12,8 +12,12 @@ class AnnotationsController < ApplicationController
 
   def create
     @medium_annotation = MediumAnnotation.new(annotations_params)
+    puts '\MEDIUM_ANNOTATION: ' + @medium_annotation.inspect
+    puts '\CURRENT_USER: ' + current_user.inspect
     respond_to do |format|
-      if @medium_annotation.save && @medium_annotation.annotations_lookup_table_id != ''
+      if @medium_annotation.annotations_lookup_table_id != '' &&
+          @medium_annotation.user_id == current_user.id &&
+          @medium_annotation.save
         format.html { redirect_to '/annotations/new', notice: 'Medium was successfully annotated' }
         format.json { render :'annotations/new', status: :created, location: @medium_annotation }
       else
@@ -27,7 +31,7 @@ class AnnotationsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def annotations_params
-    params.require(:medium_annotation).permit(:image_id, :annotation_lookup_table_id)
+    params.require(:medium_annotation).permit(:user_id, :medium_id, :annotations_lookup_table_id)
   end
 
 
