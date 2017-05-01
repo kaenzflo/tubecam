@@ -8,6 +8,16 @@
   bottom: 0;
 }
 
+.popover {
+  width: 260px!important;;
+  max-width: 260px!important;
+}
+
 .ol-zoom.ol-unselectable.ol-control {
   top: 80px;
+}
+
+.popover-content p {
+  padding: 5px 5px;
+  margin: 0;
 }
