@@ -49,15 +49,25 @@ class MapsController < ApplicationController
   end
 
   def generate_description serialnumber, status, longitude, latitude, tubecam, description
+    description = truncate description
     s = StringIO.new
-    s << "Seriennummer: " + serialnumber
-    s << "<br />"
-    s << "Koordinaten: " + longitude.to_s + ", " + latitude.to_s
-    s << "<br />"
-    s << "Links : <a href='" + tubecam_device_url(tubecam) + "'>Show</a>"
-    s << "<br />"
-    s << "Beschreibung: <br />" + description
+    s << "<p>" + "Seriennummer: " + serialnumber + "</p>"
+    s << "<p>" + "Koordinaten: " + sprintf('%#.2f', longitude) + ", " + sprintf('%#.2f', latitude) +  "</p>"
+    s << "<p>" + "Beschreibung: <br />" + description + "</p>"
+    s << "<p>"
+    s << "<a href='" + tubecam_device_url(tubecam) + "'>Show</a> "
+    s << "<a href='" + edit_tubecam_device_url(tubecam) + "'>Edit</a> "
+    s << "<a href='" + "#" + "'>Galerie</a> "
+    s << "</p>"
 
     s.string
+  end
+
+  def truncate s, length = 30, ellipsis = '...'
+    if s.length > length
+      s.to_s[0..length].gsub(/[^\w]\w+\s*$/, ellipsis)
+    else
+      s
+    end
   end
 end

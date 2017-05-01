@@ -1,5 +1,7 @@
 class Coordinates
 
+  @roundValue = 2;
+
   # Convert WGS lat/long ( dec) to CH y
   def Coordinates.wgsToCHy(lat, lng)
 
@@ -18,7 +20,8 @@ class Coordinates
     y -=      0.36 * lng_aux * (lat_aux ** 2)
     y -=     44.54 * (lng_aux ** 3)
 
-    return y;
+    return y.round(@roundValue);
+
   end
 
   # Convert WGS lat/long ( dec) to CH x
@@ -39,7 +42,8 @@ class Coordinates
     x +=     76.63 * (lat_aux ** 2)
     x -=    194.56 * (lng_aux ** 2) * lat_aux
     x +=    119.79 * (lat_aux ** 3)
-    return x;
+
+    return x.round(@roundValue);
 
   end
 
