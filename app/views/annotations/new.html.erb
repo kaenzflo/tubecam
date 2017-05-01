@@ -1,18 +1,3 @@
-<%
-  grouped_options = [
-      ['North America',
-       [['United States','US'],'Canada']],
-      ['Europe',
-       ['Denmark','Germany','France']]
-  ]
-  grouped_options_for_select(grouped_options)
-
-  grouped_options = {
-      'North America' => [['United States','US'], 'Canada'],
-      'Europe' => ['Denmark','Germany','France']
-  } %>
-
-
 <h1>Annotate</h1>
 <p>
   <%= link_to 'Back', media_path %>
@@ -41,21 +26,23 @@
                  end
               %>
 
+              <% if !annotations_lookup_table_id.family.nil? && !annotations_lookup_table_id.genus.nil?
+                   displayed_tag = annotations_lookup_table_id.name + " (" + annotations_lookup_table_id.genus + " " + annotations_lookup_table_id.species + ")"
+                   class_tag = "annotations-level-2"
+                 end
+                if !annotations_lookup_table_id.genus.nil? && annotations_lookup_table_id.name.nil?
+                  displayed_tag = annotations_lookup_table_id.genus
+                  class_tag = "annotations-level-1"
+                end
+                if !annotations_lookup_table_id.family.nil? && annotations_lookup_table_id.name.nil?
+                  displayed_tag = annotations_lookup_table_id.family
+                  class_tag = "annotations-level-0"
+                end
+              %>
 
-              <option id='' <%= selected_string %> <%= disabled_string %> value='<%= annotations_lookup_table_id.id %>'>
-                <% if !annotations_lookup_table_id.family.nil? && !annotations_lookup_table_id.genus.nil?
-                     displayed_tag = annotations_lookup_table_id.name
-                   end
-                  if !annotations_lookup_table_id.genus.nil? && annotations_lookup_table_id.name.nil?
-                    displayed_tag = annotations_lookup_table_id.genus
-                  end
-                  if !annotations_lookup_table_id.family.nil? && annotations_lookup_table_id.name.nil?
-                    displayed_tag = annotations_lookup_table_id.family
-                  end
-                %>
+              <option id='' <%= selected_string %> <%= disabled_string %> class=<%= class_tag %> value='<%= annotations_lookup_table_id.id %>'>
                 <%= displayed_tag %></option>
             <% end %>
-          <%= grouped_options_for_select(grouped_options) %>
           </select><br/><br/>
           <div class="actions">
             <%= f.submit %>
