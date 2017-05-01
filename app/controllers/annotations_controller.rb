@@ -1,6 +1,7 @@
 class AnnotationsController < ApplicationController
 
   def new
+    @user = current_user
     random = rand(0...Medium.all.size)
     @medium = Medium.all[random]
     @cloud_resource_image_url = 'https://' +
@@ -12,8 +13,6 @@ class AnnotationsController < ApplicationController
 
   def create
     @medium_annotation = MediumAnnotation.new(annotations_params)
-    puts '\MEDIUM_ANNOTATION: ' + @medium_annotation.inspect
-    puts '\CURRENT_USER: ' + current_user.inspect
     respond_to do |format|
       if @medium_annotation.annotations_lookup_table_id != '' &&
           @medium_annotation.user_id == current_user.id &&

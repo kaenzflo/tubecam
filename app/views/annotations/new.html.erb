@@ -1,3 +1,18 @@
+<%
+  grouped_options = [
+      ['North America',
+       [['United States','US'],'Canada']],
+      ['Europe',
+       ['Denmark','Germany','France']]
+  ]
+  grouped_options_for_select(grouped_options)
+
+  grouped_options = {
+      'North America' => [['United States','US'], 'Canada'],
+      'Europe' => ['Denmark','Germany','France']
+  } %>
+
+
 <h1>Annotate</h1>
 <p>
   <%= link_to 'Back', media_path %>
@@ -13,14 +28,21 @@
         <%= f.hidden_field :user_id, value: @user.id %>
         <%= f.hidden_field :medium_id, value: @medium.id %>
         <%= f.label :medium_annotation, value: 'Annotation' %>
-        <select id='annotations_select' name='medium_annotation[annotations_lookup_table_id]' size='25' required, >
+        <select id='annotations_select' name='medium_annotation[annotations_lookup_table_id]' size='1' required, >
             <% @annotations_lookup_table.each do |annotations_lookup_table_id| %>
               <% selected_string = ''
                 if @medium_annotation.annotations_lookup_table_id == annotations_lookup_table_id.id
                   selected_string = ' selected="selected" '
                 end
               %>
-              <option id='' <%= selected_string %> value='<%= annotations_lookup_table_id.id %>'>
+              <% disabled_string = ''
+                 if !annotations_lookup_table_id.selectable?
+                   disabled_string = ' disabled="disabled" '
+                 end
+              %>
+
+
+              <option id='' <%= selected_string %> <%= disabled_string %> value='<%= annotations_lookup_table_id.id %>'>
                 <% if !annotations_lookup_table_id.family.nil? && !annotations_lookup_table_id.genus.nil?
                      displayed_tag = annotations_lookup_table_id.name
                    end
@@ -33,6 +55,7 @@
                 %>
                 <%= displayed_tag %></option>
             <% end %>
+          <%= grouped_options_for_select(grouped_options) %>
           </select><br/><br/>
           <div class="actions">
             <%= f.submit %>
@@ -43,4 +66,4 @@
 </table>
 
 
-</p>
+
