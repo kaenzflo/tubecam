@@ -4,7 +4,10 @@ class MediaController < ApplicationController
   # GET /media
   # GET /media.json
   def index
-    @media = Medium.all
+    @filter_params = params.slice(:tubecam_device_id, :sequence, :date_start, :date_end)
+    @filter_params = filter_params
+    @media = Medium.filter(@filter_params)
+    @media = @media.where(deleted: false)
     @cloud_resource_thumbnail_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/thumbnails/'
@@ -77,5 +80,32 @@ class MediaController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def medium_params
       params.require(:medium).permit(:path, :filename, :mediatype, :datetime, :longitude, :latitude, :sequence, :frame, :tubecam_device_id, :exifdata, :deleted)
+      # Additional for filtering gallery
+      params.require(:medium).permit(:date_start, :date_end)
     end
+
+  def filter_params
+    if !@filter_params[:date_start].nil?
+      @filter_params[:date_start] = string_to_date(@filter_params[:date_start], "1980:01:01 00:00:00")
+    end
+    if !@filter_params[:date_end].nil?
+      @filter_params[:date_end] = string_to_date(@filter_params[:date_end], "2030:01:01 00:00:00")
+    end
+
+    @filter_params
+  end
+
+  def string_to_date date_string, default_date
+    if !date_string.empty?
+      date_start_string = date_string.split(".")
+      date_start_string = date_start_string[2] + ":" + date_start_string[1] + ":" + date_start_string[0] + " 00:00:00"
+      date_start = DateTime.strptime(date_start_string, '%Y:%m:%d %H:%M:%S')
+      date_string = date_start
+    else
+      #date_string = DateTime.strptime(default_date, '%Y:%m:%d %H:%M:%S')
+    end
+    date_string
+  end
+
+
 end

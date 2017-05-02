@@ -13,10 +13,11 @@ img {
 }
 
 /* Custom container */
-
-.nav {
-  font-size: 18px;
+.input-group[class*="col-"] {
+  float: left !important;
+  margin-right: 5px;
 }
+
 
 
 // THESE ARE EXAMPLES YOU CAN MODIFY
@@ -90,5 +91,6 @@ section {
 
 
 // import the CSS framework
-@import "bootstrap-sprockets";
-@import "bootstrap";
+@import 'bootstrap-sprockets';
+@import 'bootstrap';
+@import 'bootstrap-datetimepicker';
