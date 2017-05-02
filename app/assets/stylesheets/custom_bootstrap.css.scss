@@ -18,6 +18,12 @@ img {
   max-width: 260px!important;
 }
 
+.input-group[class*="col-"] {
+  float: left !important;
+  margin-right: 5px;
+}
+
+
 
 
 // THESE ARE EXAMPLES YOU CAN MODIFY

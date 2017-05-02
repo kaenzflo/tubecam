@@ -1,53 +1,50 @@
 <%
-  puts params.inspect
-  def tubecam_owner tubecam
-    User.find_by(id: tubecam.user_id)
-  end
-
-  def generate_description t
+  def generate_description tubecam, tubecam_owner
     s = StringIO.new
-    s << t.serialnumber
+    s << tubecam.serialnumber
     s << " ("
-    s << @t_owner.firstname
+    s << tubecam_owner.firstname
     s << " "
-    s << @t_owner.lastname
+    s << tubecam_owner.lastname
     s << ") "
     s << "Fotos: "
+    s << tubecam.media.count
     s.string
   end
 %>
 
 <form action="<%= media_path %>" method="get">
-  <div class='input-group col-md-2'>
-    <select id='tubecam_device_id' name='tubecam_device_id' class="form-control" size='1' required>
-      <option>&nbsp;</option>
-      <% TubecamDevice.where(active: true).each do |t| %>
+  <div class='input-group col-sm-2'>
+    <select id='tubecam_device_id' name='tubecam_device_id' class="form-control" size='1'>
+      <option></option>
+      <% TubecamDevice.where(active: true).each do |tubecam| %>
           <% selected_string = ''
-             if params[:tubecam_device_id] == t.id.to_s
+             if params[:tubecam_device_id] == tubecam.id.to_s
                selected_string = ' selected="selected" '
              end
-          @t_owner = tubecam_owner t
+             tubecam_owner = User.find_by(id: tubecam.user_id)
           %>
-          <option id='tubecam_device_id_id' <%= selected_string %> value=<%= t.id %>><%= generate_description t %></option>
+          <option id='tubecam_device_id_id' <%= selected_string %> value=<%= tubecam.id %>><%= generate_description tubecam, tubecam_owner %></option>
       <% end %>
     </select>
   </div>
 
-  <div class='input-group date col-md-2' id='datetimepicker-start-icon'>
-    <input type='text' name='date_start' class="form-control" id='datetimepicker-start-input' />
+  <div class='input-group date col-sm-2' id='datetimepicker-start-icon'>
+    <input type='text' name='date_start' class="form-control" id='datetimepicker-start-input'/>
     <span class="input-group-addon">
       <span class="glyphicon glyphicon-calendar"></span>
     </span>
   </div>
 
-  <div class='input-group date col-md-2' id='datetimepicker-end-icon' >
-    <input type='text' name='date_end' class='form-control' id='datetimepicker-end-input' />
+  <div class='input-group date col-sm-2' id='datetimepicker-end-icon'>
+    <input type='text' name='date_end' class='form-control' id='datetimepicker-end-input'/>
     <span class='input-group-addon'>
-        <span class='glyphicon glyphicon-calendar'></span>
-      </span>
+      <span class='glyphicon glyphicon-calendar'></span>
+    </span>
   </div>
 
-    <%= submit_tag 'Suchen', name: nil %>
+  <%= submit_tag 'Suchen', name: nil, class: 'btn btn-success' %>
+  <a href='<%= media_path %>' class='btn btn-info'>Filter zurücksetzen</a>
 </form>
 
 <%= javascript_include_tag 'media/moment_locale_de-ch' %>
@@ -77,3 +74,5 @@
         });
     });
 </script>
+
+

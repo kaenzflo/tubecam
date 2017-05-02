@@ -102,7 +102,7 @@ class MediaController < ApplicationController
       date_start = DateTime.strptime(date_start_string, '%Y:%m:%d %H:%M:%S')
       date_string = date_start
     else
-      date_string = DateTime.strptime(default_date, '%Y:%m:%d %H:%M:%S')
+      #date_string = DateTime.strptime(default_date, '%Y:%m:%d %H:%M:%S')
     end
     date_string
   end
