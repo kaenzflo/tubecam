@@ -1,4 +1,5 @@
 <%
+  puts params.inspect
   def tubecam_owner tubecam
     User.find_by(id: tubecam.user_id)
   end
@@ -19,7 +20,7 @@
 <form action="<%= media_path %>" method="get">
   <div class='input-group col-md-2'>
     <select id='tubecam_device_id' name='tubecam_device_id' class="form-control" size='1' required>
-      <option id='tubecam_device_id_0' value=" "> </option>
+      <option>&nbsp;</option>
       <% TubecamDevice.where(active: true).each do |t| %>
           <% selected_string = ''
              if params[:tubecam_device_id] == t.id.to_s
@@ -39,7 +40,7 @@
     </span>
   </div>
 
-  <div class='input-group date col-md-2' id='datetimepicker-end-icon'>
+  <div class='input-group date col-md-2' id='datetimepicker-end-icon' >
     <input type='text' name='date_end' class='form-control' id='datetimepicker-end-input' />
     <span class='input-group-addon'>
         <span class='glyphicon glyphicon-calendar'></span>
@@ -49,22 +50,30 @@
     <%= submit_tag 'Suchen', name: nil %>
 </form>
 
-
-
-
+<%= javascript_include_tag 'media/moment_locale_de-ch' %>
 <script type="text/javascript">
+    var date_start = '<%= @filter_params[:date_start].to_s %>';
+    var date_end = '<%= @filter_params[:date_end].to_s %>';
     $(function () {
         $('#datetimepicker-start-input').datetimepicker({
-            format: 'DD.MM.YYYY'
+            format: 'DD.MM.YYYY',
+            locale: moment.locale('de-ch'),
+            defaultDate: date_start
         });
         $('#datetimepicker-start-icon').datetimepicker({
-            format: 'DD.MM.YYYY'
+            format: 'DD.MM.YYYY',
+            locale: moment.locale('de-ch'),
+            defaultDate: date_start
         });
         $('#datetimepicker-end-input').datetimepicker({
-            format: 'DD.MM.YYYY'
+            format: 'DD.MM.YYYY',
+            locale: moment.locale('de-ch'),
+            defaultDate: date_end
         });
         $('#datetimepicker-end-icon').datetimepicker({
-            format: 'DD.MM.YYYY'
+            format: 'DD.MM.YYYY',
+            locale: moment.locale('de-ch'),
+            defaultDate: date_end
         });
     });
 </script>

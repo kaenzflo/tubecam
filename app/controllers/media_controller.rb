@@ -5,8 +5,7 @@ class MediaController < ApplicationController
   # GET /media.json
   def index
     @filter_params = params.slice(:tubecam_device_id, :sequence, :date_start, :date_end)
-    filter_params
-    puts @filter_params.inspect
+    @filter_params = filter_params
     @media = Medium.filter(@filter_params)
     @media = @media.where(deleted: false)
     @cloud_resource_thumbnail_url = 'https://' +
@@ -86,22 +85,26 @@ class MediaController < ApplicationController
     end
 
   def filter_params
-    if !@filter_params[:date_start].empty?
-      date_start_string = @filter_params[:date_start].split(".")
-      date_start_string = date_start_string[2] + ":" + date_start_string[1] + ":" + date_start_string[0] + " 00:00:00"
-      date_start = DateTime.strptime(date_start_string, '%Y:%m:%d %H:%M:%S')
-      @filter_params[:date_start] = date_start
+    if !@filter_params[:date_start].nil?
+      @filter_params[:date_start] = string_to_date(@filter_params[:date_start], "1980:01:01 00:00:00")
+    end
+    if !@filter_params[:date_end].nil?
+      @filter_params[:date_end] = string_to_date(@filter_params[:date_end], "2030:01:01 00:00:00")
     end
 
-=begin
-    date_start = params[:date_start].inspect
-    puts date_start
-    date_start_split = date_start.split(" ")
-    puts date_start_split
-    date_start = date_start_split[2].to_s + "-" + date_start_split[1].to_s + "-" + date_start_split[0].to_s
-    puts date_start
-    puts DateTime.parse("2017-02-28" + " 00:00:00")
-=end
+    @filter_params
+  end
+
+  def string_to_date date_string, default_date
+    if !date_string.empty?
+      date_start_string = date_string.split(".")
+      date_start_string = date_start_string[2] + ":" + date_start_string[1] + ":" + date_start_string[0] + " 00:00:00"
+      date_start = DateTime.strptime(date_start_string, '%Y:%m:%d %H:%M:%S')
+      date_string = date_start
+    else
+      date_string = DateTime.strptime(default_date, '%Y:%m:%d %H:%M:%S')
+    end
+    date_string
   end
 
 

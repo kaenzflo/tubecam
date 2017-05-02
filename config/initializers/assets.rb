@@ -11,4 +11,6 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.precompile += %w( search.js )
 
 
+
 Rails.application.config.assets.precompile += %w( loadmap.js )
+Rails.application.config.assets.precompile += %w( media/moment_locale_de-ch.js )
