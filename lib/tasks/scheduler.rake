@@ -1,7 +1,7 @@
 require 'net/ftp'
 
 namespace :heroku do
-  desc "This task is called by the Heroku scheduler add-on"
+  desc 'Heroku scheduler add-on'
   task crawlftp: :environment do
     path = 'Tubecam_SN00010/2016/02/09/'
     filename = 'SN00010_2016_02_09_17_17_31_S0001I05.jpg'
@@ -12,40 +12,48 @@ namespace :heroku do
     ftp = Net::FTP.new(ENV['FTP_HOST_NAME'])
     begin
       ftp.login(ENV['FTP_USER_NAME'], ENV['FTP_PASSWORD'])
-      @image = ftp.getbinaryfile(resource_url, nil, 1024)
+      files = ftp.nlst('/*/*/*/*')
+      puts files[2].inspect
+      file_url = files[2].inspect
+      # files.each do |file_url|
+      #   if file_url =~ %r{(?=^/Tubecam_SN[\d]{5}.*I[\d]{2}\.[a-zA-Z]{3}$)}
+      #     puts file_url.inspect
+      #   end
+      # end
+      @image = ftp.getbinaryfile(file_url, nil, 1024)
     rescue => e
       ftp.close
-      logger.error e.message
+      Rails.logger.error e.message
     end
     ftp.close
 
     if @image.nil?
     else
-      begin
-        S3.host = ENV['S3_HOST_NAME']
-        s3service = S3::Service.new(access_key_id: ENV['S3_ACCESS_KEY'],
-                                    secret_access_key: ENV['S3_SECRET_KEY'],
-                                    use_ssl: true)
-
-        filename_hash = Digest::SHA256.hexdigest filename
-        upload_bucket = s3service.buckets.find('tubecam')
-        new_object = upload_bucket.objects.build(filename_hash + '.jpg')
-        new_object.content = @image
-        new_object.acl = :public_read
-        new_object.save
-
-        MiniMagick.logger.level = Logger::DEBUG
-        mm_image = MiniMagick::Image.read(@image)
-        mm_image.resize('100x100')
-        new_object = upload_bucket.objects.build('thumbnails/' +
-                                                     filename_hash +
-                                                     '.jpg')
-        new_object.content = mm_image.to_blob
-        new_object.acl = :public_read
-        new_object.save
-      rescue => e
-        logger.error e.message
-      end
+      # begin
+      #   S3.host = ENV['S3_HOST_NAME']
+      #   s3service = S3::Service.new(access_key_id: ENV['S3_ACCESS_KEY'],
+      #                               secret_access_key: ENV['S3_SECRET_KEY'],
+      #                               use_ssl: true)
+      #
+      #   filename_hash = Digest::SHA256.hexdigest filename
+      #   upload_bucket = s3service.buckets.find('tubecam')
+      #   new_object = upload_bucket.objects.build(filename_hash + '.jpg')
+      #   new_object.content = @image
+      #   new_object.acl = :public_read
+      #   new_object.save
+      #
+      #   MiniMagick.logger.level = Logger::DEBUG
+      #   mm_image = MiniMagick::Image.read(@image)
+      #   mm_image.resize('100x100')
+      #   new_object = upload_bucket.objects.build('thumbnails/' +
+      #                                                filename_hash +
+      #                                                '.jpg')
+      #   new_object.content = mm_image.to_blob
+      #   new_object.acl = :public_read
+      #   new_object.save
+      # rescue => e
+      #   logger.error e.message
+      # end
     end
 
   end
