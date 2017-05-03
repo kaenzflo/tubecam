@@ -1,5 +1,4 @@
 
-
 $navbar-inverse-bg: #1a2c2f;
 
 
@@ -14,6 +13,11 @@ img {
 }
 
 /* Custom container */
+.popover {
+  width: 260px!important;;
+  max-width: 260px!important;
+}
+
 .input-group[class*="col-"] {
   float: left !important;
   margin-right: 5px;
@@ -24,8 +28,9 @@ img {
 .form-group {
   padding-left: 0 !important;
   padding-right: 0 !important;
-  margin-right: 5px !important;
+  margin-right: 5px;
 }
+
 
 
 
@@ -97,7 +102,6 @@ section {
   @extend .btn-primary;
   @extend .btn-xs;
 }
-
 
 
 // import the CSS framework

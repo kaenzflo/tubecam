@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :tubecam_devices
-  devise_for :users
+  devise_for :users, :controllers => { registrations: 'registrations' }
   resources :media
   resources :users
 
