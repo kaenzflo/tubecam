@@ -8,10 +8,20 @@
   bottom: 0;
 }
 
+.popover {
+  width: 280px!important;;
+  max-width: 280px!important;
+}
+
 .ol-zoom.ol-unselectable.ol-control {
   top: 80px;
 }
 
 hr.hr-popover {
   margin: 5px -10px;
+}
+
+.popover-content p {
+  padding: 5px 5px;
+  margin: 0;
 }
