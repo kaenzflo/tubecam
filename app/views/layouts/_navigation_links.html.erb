@@ -1,4 +1,33 @@
-<li><%= link_to 'Karte', maps_path, turbolinks: false %></li>
+<li><%= link_to 'Standorte', maps_path %></li>
+
+
 <li><%= link_to 'Galerie', media_path %></li>
+
+
+<% if user_signed_in? %>
+    <li><%= link_to 'Annotieren', annotations_new_path %></li>
+<% end %>
+
+<% if user_signed_in? && current_user.trapper_role? %>
+    <li><%= link_to 'Trapper', tubecam_devices_path %></li>
+<% end %>
+
+<% if user_signed_in? && current_user.admin_role? %>
+    <li><%= link_to 'Spotter', users_path %></li>
+<% end %>
+
+
+
 <li><%= link_to 'Projekt', project_path %></li>
+
+
 <li><%= link_to 'Kontakt', contact_path %></li>
+
+<% if user_signed_in? %>
+    <li style='width:40px'>&nbsp;</li>
+    <li><%= link_to 'Profil', edit_user_registration_path %></li>
+    <li><%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %></li>
+<% else %>
+    <li><%= link_to 'Login', new_user_session_path %></li>
+<% end %>
+

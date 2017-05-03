@@ -1,8 +1,6 @@
 class TubecamDevicesController < ApplicationController
   before_action :set_tubecam_device, only: [:show, :edit, :update, :destroy]
 
-  skip_before_action :authenticate_user!
-
   # GET /tubecam_devices
   # GET /tubecam_devices.json
   def index

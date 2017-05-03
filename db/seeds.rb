@@ -11,7 +11,7 @@ users = [
     ['user1','Peter','Spotter',true,false,false,false,true,'user1@example.com', ENV['DATABASE_SEED_USER_PWD']],
     ['user2','Peter','Verified',true,true,false,false,true,'user2@example.com',ENV['DATABASE_SEED_USER_PWD']],
     ['user3','Peter','Trapper',true,true,true,false,true,'user3@example.com',ENV['DATABASE_SEED_USER_PWD']],
-    ['user4','Hans','Trapper',true,true,true,false,true,'user4@example.com',ENV['DATABASE_SEED_USER_PWD']],
+    ['user4','Hans','Trapper',true,false,true,false,true,'user4@example.com',ENV['DATABASE_SEED_USER_PWD']],
     ['admin','Peter','Admin',true,true,true,true,true,'admin@example.com',ENV['DATABASE_SEED_USER_PWD']]
 ]
 

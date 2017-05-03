@@ -7,10 +7,18 @@ class Ability
     user ||= User.new # guest user (not logged in)
     if user.admin_role?
       can :manage, :all
+      cannot :manage, TubecamDevice
     end
     if user.trapper_role?
-      can :manage, TubecamDevice
-      can :read, :all
+      can :read, TubecamDevice
+    end
+
+    if user.verified_spotter_role?
+
+    end
+
+    if user.spotter_role?
+
     end
 
   end

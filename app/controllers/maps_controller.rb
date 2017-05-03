@@ -1,5 +1,7 @@
 require_relative '../functions/coordinates'
+
 class MapsController < ApplicationController
+
   skip_before_action :authenticate_user!, :only => [:index]
 
   def index
@@ -10,7 +12,11 @@ class MapsController < ApplicationController
 
     @tubecamjson = generate_tubecams_json()
 
-    render 'maps/map'
+    if user_signed_in?
+      render 'maps/map'
+    else
+      render 'maps/mapdefault'
+    end
   end
 
 

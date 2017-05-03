@@ -1,45 +1,61 @@
-<p id="notice"><%= notice %></p>
+<h1>Spotters</h1>
 
-<h1>Users</h1>
-
-<table>
+<table class="table table-striped table-sm table-responsive table-hover">
   <thead>
     <tr>
-      <th>Email</th>
+      <th>#</th>
       <th>Username</th>
       <th>Firstname</th>
       <th>Lastname</th>
+      <th>Email</th>
       <th>Spotter</th>
       <th>Verified Spotter</th>
       <th>Trapper</th>
       <th>Admin</th>
       <th>Active</th>
-      <th colspan="3"></th>
+      <% if can? :manage, User %>
+        <th colspan="3"></th>
+      <% end %>
     </tr>
   </thead>
 
+  <tfoot>
+  <tr>
+    <th>#</th>
+    <th>Username</th>
+    <th>Firstname</th>
+    <th>Lastname</th>
+    <th>Email</th>
+    <th>Spotter</th>
+    <th>Verified Spotter</th>
+    <th>Trapper</th>
+    <th>Admin</th>
+    <th>Active</th>
+    <% if can? :manage, User %>
+        <th colspan="3"></th>
+    <% end %>
+  </tr>
+  </tfoot>
+
   <tbody>
     <% @users.each do |user| %>
-      <tr>
-        <td><%= user.email %></td>
+
+      <tr <%= !user.active ? ' class=text-gray' : '' %> >
+        <td><%= user.id %></td>
         <td><%= user.username %></td>
-        <td><%= user.firstname %></td>
         <td><%= user.lastname %></td>
+        <td><%= user.firstname %></td>
+        <td><%= user.email %></td>
         <td><%= user.spotter_role %></td>
         <td><%= user.verified_spotter_role %></td>
         <td><%= user.trapper_role %></td>
         <td><%= user.admin_role %></td>
         <td><%= user.active %></td>
-        <td><%= link_to 'Show', user %></td>
         <% if can? :manage, User %>
           <td><%= link_to 'Edit', edit_user_path(user) %></td>
-          <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Soll der Benutzer "' + user.firstname + ' ' + user.lastname + '" mit der Id "' + user.id.to_s + '" wirklich gelöscht werden?' } %></td>
         <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New User', new_user_path %>
