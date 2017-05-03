@@ -1,9 +1,8 @@
+TEST_PREFIX = 'TEST_'
+
 namespace :local_laptop do
   desc 'Heroku scheduler add-on'
   task imageproc: :environment do
-    path = '/home/florian/Schreibtisch/images/'
-    # resource_url = path + filename
-    # image = File.new(path + 'image000001.jpg')
     ftp = Net::FTP.new(ENV['FTP_HOST_NAME'])
     ftp.login(ENV['FTP_USER_NAME'], ENV['FTP_PASSWORD'])
     remote_files = ftp.nlst('/*/*/*/*')
