@@ -54,9 +54,12 @@ class MapsController < ApplicationController
     s << "<br />"
     s << "Koordinaten: " + longitude.to_s + ", " + latitude.to_s
     s << "<br />"
-    s << "Links : <a href='" + tubecam_device_url(tubecam) + "'>Show</a>"
-    s << "<br />"
     s << "Beschreibung: <br />" + description
+    s << "<br />"
+    s << "<hr class='hr-popover'>"
+    s << "<a href='" + tubecam_device_url(tubecam) + "'>Tubecamdetails</a>"
+    s << " | "
+    s << "<a href='" + media_path + "?tubecam_device_id=" + tubecam.id.to_s + "'>Fotos</a>"
 
     s.string
   end

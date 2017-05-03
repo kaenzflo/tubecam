@@ -1,4 +1,5 @@
 
+
 $navbar-inverse-bg: #1a2c2f;
 
 
@@ -21,6 +22,14 @@ img {
 .input-group[class*="col-"] {
   float: left !important;
   margin-right: 5px;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.form-group {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-right: 5px !important;
 }
 
 
@@ -94,6 +103,7 @@ section {
   @extend .btn-primary;
   @extend .btn-xs;
 }
+
 
 
 // import the CSS framework

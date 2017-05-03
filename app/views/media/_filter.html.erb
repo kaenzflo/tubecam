@@ -14,7 +14,7 @@
 %>
 
 <form action="<%= media_path %>" method="get">
-  <div class='input-group col-sm-2'>
+  <div class='form-group col-sm-4'>
     <select id='tubecam_device_id' name='tubecam_device_id' class="form-control" size='1'>
       <option></option>
       <% TubecamDevice.where(active: true).each do |tubecam| %>
@@ -29,14 +29,14 @@
     </select>
   </div>
 
-  <div class='input-group date col-sm-2' id='datetimepicker-start-icon'>
+  <div class='form-group input-group date col-sm-2' id='datetimepicker-start-icon'>
     <input type='text' name='date_start' class="form-control" id='datetimepicker-start-input'/>
     <span class="input-group-addon">
       <span class="glyphicon glyphicon-calendar"></span>
     </span>
   </div>
 
-  <div class='input-group date col-sm-2' id='datetimepicker-end-icon'>
+  <div class='form-group input-group date col-sm-2' id='datetimepicker-end-icon'>
     <input type='text' name='date_end' class='form-control' id='datetimepicker-end-input'/>
     <span class='input-group-addon'>
       <span class='glyphicon glyphicon-calendar'></span>
@@ -44,7 +44,7 @@
   </div>
 
   <%= submit_tag 'Suchen', name: nil, class: 'btn btn-success' %>
-  <a href='<%= media_path %>' class='btn btn-info'>Filter zurücksetzen</a>
+  <%= link_to 'Filter zurücksetzen', media_path, class: 'btn btn-info' %>
 </form>
 
 <%= javascript_include_tag 'media/moment_locale_de-ch' %>
