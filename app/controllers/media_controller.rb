@@ -86,23 +86,21 @@ class MediaController < ApplicationController
 
   def filter_params
     if !@filter_params[:date_start].nil?
-      @filter_params[:date_start] = string_to_date(@filter_params[:date_start], "1980:01:01 00:00:00")
+      @filter_params[:date_start] = string_to_date(@filter_params[:date_start], '00:00:00')
     end
     if !@filter_params[:date_end].nil?
-      @filter_params[:date_end] = string_to_date(@filter_params[:date_end], "2030:01:01 00:00:00")
+      @filter_params[:date_end] = string_to_date(@filter_params[:date_end], '22:59:59')
     end
 
     @filter_params
   end
 
-  def string_to_date date_string, default_date
+  def string_to_date date_string, time
     if !date_string.empty?
       date_start_string = date_string.split(".")
-      date_start_string = date_start_string[2] + ":" + date_start_string[1] + ":" + date_start_string[0] + " 00:00:00"
+      date_start_string = date_start_string[2] + ":" + date_start_string[1] + ":" + date_start_string[0] + " " + time
       date_start = DateTime.strptime(date_start_string, '%Y:%m:%d %H:%M:%S')
       date_string = date_start
-    else
-      #date_string = DateTime.strptime(default_date, '%Y:%m:%d %H:%M:%S')
     end
     date_string
   end
