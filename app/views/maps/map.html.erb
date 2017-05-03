@@ -11,7 +11,8 @@
 
   <script type="text/javascript">
       var tubecamjson = <%=raw @tubecamjson %>;
-      loadMap(tubecamjson, 4, 697266, 262661);
+      var tubecamstyle = <%=raw @tubecamstyle %>;
+      loadMap(tubecamjson, tubecamstyle, 4, 697266, 262661);
   </script>
 
 

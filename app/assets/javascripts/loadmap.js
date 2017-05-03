@@ -1,4 +1,4 @@
-function loadMap(mapgeojson, zoomlevel, centerLongitude, centerLatitude) {
+function loadMap(mapgeojson, mapgeostyle, zoomlevel, centerLongitude, centerLatitude) {
     var layer = ga.layer.create('ch.swisstopo.pixelkarte-farbe');
     var map = new ga.Map({
         target: 'map',
@@ -45,6 +45,7 @@ function loadMap(mapgeojson, zoomlevel, centerLongitude, centerLatitude) {
     */
 
     // Load and apply styling file function
+    /*
     var setLayerStyle = function () {
         $.ajax({
             type: 'GET',
@@ -57,12 +58,23 @@ function loadMap(mapgeojson, zoomlevel, centerLongitude, centerLatitude) {
             }
         });
     };
+    */
+
+    var setLayerStyle = function (mapgeostyle) {
+        console.log("I'm here....");
+        console.log(mapgeostyle);
+        var olStyleForVector = new ga.style.StylesFromLiterals(mapgeostyle);
+        vectorLayer.setStyle(function (feature) {
+            return [olStyleForVector.getFeatureStyle(feature)];
+        });
+    };
 
 
-    var applyGeojsonConfig = function (mapgeo) {
+
+    var applyGeojsonConfig = function (mapgeo, mapgeostyle) {
 
         // Load Styling file
-        setLayerStyle();
+        setLayerStyle(mapgeostyle);
 
         // Load Geojson file
         // setLayerSource();
@@ -78,14 +90,8 @@ function loadMap(mapgeojson, zoomlevel, centerLongitude, centerLatitude) {
         map.addLayer(vectorLayer);
 
     }
-    applyGeojsonConfig(mapgeojson);
+    applyGeojsonConfig(mapgeojson, mapgeostyle);
 
-    // Clear vector layer from map
-    var clearLayer = function () {
-        if (vectorLayer) {
-            map.removeLayer(vectorLayer);
-        }
-    };
 
     // Popup showing the position the user clicked
     var popup = new ol.Overlay({
