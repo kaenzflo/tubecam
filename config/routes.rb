@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :media
   resources :users
 
-  get '/maps' => 'maps#index'
+  get '/standorte' => 'maps#index', as: "maps"
   get '/projekt', to: 'pages#project', as: "project"
   get '/kontakt', to: 'pages#contact', as: "contact"
 

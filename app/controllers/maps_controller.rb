@@ -13,7 +13,7 @@ class MapsController < ApplicationController
     if user_signed_in?
       render 'maps/map'
     else
-      render 'maps/mapdefault'
+      render 'maps/mapdefault', notice: "Standort sind nur ungefähr. Für die exakten Standorte muss man angemeldet sein."
     end
   end
 
@@ -93,10 +93,8 @@ class MapsController < ApplicationController
   end
 
   def generate_description serialnumber, latest_image_text, time_period, longitude, latitude, tubecam, description, exact_position=true
-    description = truncate description
-    status = time_period < 100 ? '(aktiv)' : '(inaktiv)'
     s = StringIO.new
-    s << "<p>" + "Seriennummer:<b> " +serialnumber + "</b> " + status + "</p>"
+    s << "<p>" + "Seriennummer:<b> " +serialnumber + "</b></p>"
     s << latest_image_text
     if exact_position
       s << "<p>" + "Koordinaten: " + sprintf('%#.2f', longitude) + ", " + sprintf('%#.2f', latitude) +  "</p>"
