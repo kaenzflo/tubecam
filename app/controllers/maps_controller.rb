@@ -1,8 +1,8 @@
-require_relative '../functions/coordinates'
 
 class MapsController < ApplicationController
 
   skip_before_action :authenticate_user!, :only => [:index]
+
 
   def index
     @tubecamjson = generate_tubecams_json()
@@ -19,7 +19,7 @@ class MapsController < ApplicationController
 
   private
 
-  def generate_tubecams_json(exact_position=false)
+  def generate_tubecams_json(exact_position=true)
     @tubecams = TubecamDevice.where(:active => true)
 
     tubecamsHash = {}
@@ -58,6 +58,8 @@ class MapsController < ApplicationController
   end
 
   def generate_tubecams_style
+    total_images = Medium.all.count
+
     stylesHash = {}
     stylesHash[:type] = "unique"
     stylesHash[:property] = "style-class"
@@ -65,6 +67,9 @@ class MapsController < ApplicationController
     styleArray = []
     @tubecams.each do |tubecam|
       latest_image = Medium.where(:tubecam_device_id => tubecam.id).order("id DESC").first;
+      relative_point_factor = calculate_point_factor(tubecam.id, total_images)
+      puts "============="
+      puts relative_point_factor
       if !latest_image.nil?
         time_period = days_since_last_image(latest_image)
         point_color = set_point_color(time_period)
@@ -73,7 +78,7 @@ class MapsController < ApplicationController
                       "value" => tubecam.id,
                       "vectorOptions" => {
                           "type" => "circle",
-                          "radius" => 10,
+                          "radius" => 10 * relative_point_factor,
                           "fill" => {
                               "color" => point_color,
                               "opacity" => 0.5
@@ -120,7 +125,7 @@ class MapsController < ApplicationController
 
   def approximate_coordinates value
     #value = (value / 10000).round(1) * 10000 - 100 + Random.rand(200)
-    value = value - 20 + Random.rand(40)
+    value = value - 25 + Random.rand(50)
   end
 
   def days_since_last_image(latest_image)
@@ -128,14 +133,7 @@ class MapsController < ApplicationController
   end
 
   def set_point_color(time_period)
-    tubecam_active = time_period < 100 ? true : false
-    point_color = ''
-    if tubecam_active
-      point_color = '#FF3300'
-    else
-      point_color = '#FFAA00'
-    end
-    point_color
+    point_color = "#" + Gradient.randomColor(time_period)
   end
 
   def latest_image_text(latest_image, time_period)
@@ -143,5 +141,9 @@ class MapsController < ApplicationController
     text = "<p>Letzte Aufnahme: " + latest_image.datetime.to_date.strftime('%d.%m.%Y').to_s + " (" + time_period.to_s + day_text + ")</p>"
   end
 
+  def calculate_point_factor(tubecam_id, total_images)
+    count = Medium.where(tubecam_device_id: tubecam_id).count
+    relative = 1.0 * count / total_images + 1
+  end
 
 end
