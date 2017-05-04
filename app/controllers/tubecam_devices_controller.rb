@@ -4,7 +4,10 @@ class TubecamDevicesController < ApplicationController
   # GET /tubecam_devices
   # GET /tubecam_devices.json
   def index
-    @tubecam_devices = TubecamDevice.all
+    @tubecam_devices = TubecamDevice.all.order("id")
+    if user_signed_in? && !current_user.admin_role? && current_user.trapper_role?
+      @tubecam_devices = @tubecam_devices.where(user_id: current_user.id)
+    end
   end
 
   # GET /tubecam_devices/1
