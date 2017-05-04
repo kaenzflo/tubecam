@@ -62,38 +62,33 @@ namespace :local_laptop do
     new_remote_files = validated_remote_files - imported_files
     p new_remote_files.size
 
-    # p new_remote_files
-
     begin
-      p 'Entering download stage...'
       ftp = Net::FTP.new(ENV['FTP_HOST_NAME'])
       ftp.login(ENV['FTP_USER_NAME'], ENV['FTP_PASSWORD'])
       S3.host = ENV['S3_HOST_NAME']
-      # s3service = S3::Service.new(access_key_id: ENV['S3_ACCESS_KEY'],
-      #                             secret_access_key: ENV['S3_SECRET_KEY'],
-      #                             use_ssl: true)
-      #
-      # filename_hash = Digest::SHA256.hexdigest filename
-      # upload_bucket = s3service.buckets.find(ENV['S3_BUCKET_NAME'])
+      s3service = S3::Service.new(access_key_id: ENV['S3_ACCESS_KEY'],
+                                  secret_access_key: ENV['S3_SECRET_KEY'],
+                                  use_ssl: true)
+
+      upload_bucket = s3service.buckets.find(ENV['S3_BUCKET_NAME'])
+
       # new_remote_files.each do |file_url|
       file_url = new_remote_files[0]
       p 'Iterate...'
       new_medium = ftp.getbinaryfile(file_url, nil, 1024)
       original_filename = file_url[(TEST_PREFIX.length + 28)..-1]
       original_path = file_url[0..(27 + TEST_PREFIX.length)]
+
       p file_url
-      p original_filename
-      p original_path
       p new_medium.size
 
       new_medium_exif = MiniExiftool.new(StringIO.new(new_medium), numerical: true)
       json_data = new_medium_exif.to_json
       exif_json = ActiveSupport::JSON.decode(json_data)
-      # p new_medium_exif.to_json
       filename_hash = Digest::SHA256.hexdigest original_filename
       filename_hash += '.' + original_filename.gsub(/.*\./, '')
       mediatype = exif_json['MIMEType']
-      tubecam_sn = exif_json['SerialNumber'].tr(':', '')
+      tubecam_sn = exif_json['SerialNumber']
       datetime = exif_json['DateTimeOriginal']
       longitude = exif_json['GPSLongitude']
       latitude = exif_json['GPSLatitude']
@@ -102,8 +97,10 @@ namespace :local_laptop do
       tubecam_device = TubecamDevice.find_by(serialnumber: tubecam_sn)
       tubecam_device_id = tubecam_device.id
 
-      p filename_hash.inspect
-      p mediatype.inspect
+      p original_filename
+      p original_path
+      p filename_hash
+      p mediatype
       p tubecam_sn
       p datetime
       p longitude
@@ -113,34 +110,31 @@ namespace :local_laptop do
       p tubecam_device_id
 
 
-      # Medium.create(original_path, original_filename, filename_hash, 'image', )
+      Medium.create(original_path: original_path, original_filename: original_filename,
+                    filename_hash: filename_hash, mediatype: mediatype,
+                    datetime: datetime, longitude: longitude,
+                    latitude: latitude, sequence: sequence,
+                    frame: frame, tubecam_device_id: tubecam_device_id,
+                    exifdata: json_data, deleted: false)
 
-        # if new_medium.nil?
-        # else
-        #   begin
-        #     new_object = upload_bucket.objects.build(filename_hash + '.jpg')
-        #     new_object.content = new_medium
-        #     new_object.acl = :public_read
-        #     new_object.save
-        #
-        #     MiniMagick.logger.level = Logger::DEBUG
-        #     resized_new_medium = MiniMagick::Image.read(new_media)
-        #     resized_new_medium.resize('200x200')
-        #     new_object = upload_bucket.objects.build('thumbnails/' +
-        #                                                  filename_hash +
-        #                                                  '.jpg')
-        #     new_object.content = resized_new_medium.to_blob
-        #     new_object.acl = :public_read
-        #     new_object.save
-        #   rescue => e
-        #     Rails.logger.error e.message
-        #   end
-        # end
-        # end
+      new_object = upload_bucket.objects.build(filename_hash)
+      new_object.content = new_medium
+      new_object.acl = :public_read
+      new_object.save
+
+      MiniMagick.logger.level = Logger::DEBUG
+      resized_new_medium = MiniMagick::Image.read(new_medium)
+      resized_new_medium.resize('200x200')
+      p 'Generating thumbnail...'
+      new_object = upload_bucket.objects.build('thumbnails/' + filename_hash)
+      new_object.content = resized_new_medium.to_blob
+      new_object.acl = :public_read
+      new_object.save
     rescue => e
       ftp.close
       Rails.logger.error e.message
     end
+    # end
     ftp.close
 
   end
