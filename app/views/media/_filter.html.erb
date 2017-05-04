@@ -3,9 +3,7 @@
     s = StringIO.new
     s << tubecam.serialnumber
     s << " ("
-    s << tubecam_owner.firstname
-    s << " "
-    s << tubecam_owner.lastname
+    s << tubecam_owner.username
     s << ") "
     s << "Fotos: "
     s << tubecam.media.count
