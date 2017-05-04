@@ -29,8 +29,8 @@ class MapsController < ApplicationController
     @tubecams.each do |tubecam|
       latest_image = Medium.where(:tubecam_device_id => tubecam.id).order("id DESC").first;
       if !latest_image.nil?
-        longitude = Coordinates.wgsToCHy(latest_image.longitude,latest_image.latitude);
-        latitude = Coordinates.wgsToCHx(latest_image.longitude,latest_image.latitude);
+        longitude = Coordinates.wgs_to_ch_y(latest_image.longitude, latest_image.latitude);
+        latitude = Coordinates.wgs2_to_ch_x(latest_image.longitude, latest_image.latitude);
         time_period = days_since_last_image(latest_image)
         latest_image_text = latest_image_text(latest_image, time_period)
         if !exact_position
