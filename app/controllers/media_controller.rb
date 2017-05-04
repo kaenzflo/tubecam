@@ -1,13 +1,15 @@
 class MediaController < ApplicationController
   before_action :set_medium, only: [:show, :edit, :update, :destroy]
 
+
+
   # GET /media
   # GET /media.json
   def index
     @filter_params = params.slice(:tubecam_device_id, :sequence, :date_start, :date_end)
-    @filter_params = filter_params
+    @filter_params = filter_params()
     @media = Medium.filter(@filter_params)
-    @media = @media.where(deleted: false)
+    @media = @media.where(deleted: false).page(params[:page])
     @cloud_resource_thumbnail_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/thumbnails/'

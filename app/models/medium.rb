@@ -7,4 +7,6 @@ class Medium < ApplicationRecord
   scope :sequence, -> (sequence) { where sequence: sequence }
   scope :date_start, -> (date_start) { where("datetime > ?", date_start) } if !:date_start.empty?
   scope :date_end, -> (date_end) { where("datetime < ?", date_end) } if !:date_end.empty?
+
+  self.per_page = 1
 end

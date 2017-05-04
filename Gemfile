@@ -34,7 +34,8 @@ gem 'bootstrap-sass'
 # Prevent reload problem
 gem 'jquery-turbolinks'
 
-gem 'bootstrap_form'
+# Use Paignate to simplify gallery mode
+gem 'will_paginate', '~> 3.1.1'
 
 # User Datetimepicker
 gem 'momentjs-rails', '>= 2.9.0'
