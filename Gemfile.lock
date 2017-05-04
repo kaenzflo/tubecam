@@ -48,6 +48,7 @@ GEM
       sass (>= 3.3.4)
     bootstrap3-datetimepicker-rails (4.17.47)
       momentjs-rails (>= 2.8.1)
+    bootstrap_form (2.7.0)
     builder (3.2.3)
     byebug (9.0.6)
     cancancan (1.16.0)
@@ -189,6 +190,7 @@ PLATFORMS
 DEPENDENCIES
   bootstrap-sass
   bootstrap3-datetimepicker-rails (~> 4.17.37)
+  bootstrap_form
   builder
   bundler
   byebug

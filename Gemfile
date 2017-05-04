@@ -25,6 +25,8 @@ gem 'bootstrap-sass'
 # Prevent reload problem
 gem 'jquery-turbolinks'
 
+gem 'bootstrap_form'
+
 # User Datetimepicker
 gem 'momentjs-rails', '>= 2.9.0'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.17.37'

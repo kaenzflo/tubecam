@@ -31,7 +31,7 @@ class TubecamDevicesController < ApplicationController
 
     respond_to do |format|
       if @tubecam_device.save
-        format.html { redirect_to @tubecam_device, notice: 'Tubecam device was successfully created.' }
+        format.html { redirect_to action: "index", notice: 'Tubecam device was successfully created.' }
         format.json { render :show, status: :created, location: @tubecam_device }
       else
         format.html { render :new }
@@ -45,7 +45,7 @@ class TubecamDevicesController < ApplicationController
   def update
     respond_to do |format|
       if @tubecam_device.update(tubecam_device_params)
-        format.html { redirect_to @tubecam_device, notice: 'Tubecam device was successfully updated.' }
+        format.html { redirect_to action: "index", notice: 'Tubecam device was successfully updated.' }
         format.json { render :show, status: :ok, location: @tubecam_device }
       else
         format.html { render :edit }
