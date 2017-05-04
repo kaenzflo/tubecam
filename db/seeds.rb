@@ -31,12 +31,19 @@ end
 tubecam_devices = [
     ['SN:00028',3,'Peters TubeCam',true],
     ['SN:00010',4,'Tubecam von Hans',true],
-    ['SN:00014',4,'Tubecam2 von Hans',true],
-    ['SN:00071',5,'Thurauen1 Flussbett',true],
-    ['SN:00072',5,'Thurauen2 Nord',true],
-    ['SN:00073',5,'Thurauen3 Weiher',true],
-    ['SN:00074',5,'Thurauen4 Süd',true],
-    ['SN:00075',5,'Thurauen5 Moor',true]
+    ['SN:00001',4,'Tubecam2 von Hans',true],
+    ['SN:00002',5,'Thurauen1 Flussbett',true],
+    ['SN:00003',5,'Thurauen2 Nord',true],
+    ['SN:00004',5,'Thurauen3 Weiher',true],
+    ['SN:00005',5,'Thurauen4 Süd',true],
+    ['SN:00006',5,'Thurauen5 Süd-Ost',true],
+    ['SN:00007',5,'Thurauen6 Süd-West',true],
+    ['SN:00008',5,'Thurauen7 Süd-Süd-West',true],
+    ['SN:00009',5,'Thurauen8 Süd-Süd-Ost',true],
+    ['SN:00011',5,'Thurauen9 Moor Nord',true],
+    ['SN:00012',5,'Thurauen10 Moor Nord-West',true],
+    ['SN:00013',5,'Thurauen11 Moor Nord-Nord-West',true],
+    ['SN:00014',5,'Thurauen12 Moor',true]
 ]
 
 tubecam_devices.each do |value|
