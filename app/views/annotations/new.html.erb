@@ -1,8 +1,4 @@
-<h1>Annotate</h1>
-<p>
-  <%= link_to 'Back', media_path, class: 'btn btn-info' %>
-</p>
-<p>
+
 <table>
   <tr>
     <td>
@@ -12,9 +8,8 @@
       <%= form_for @medium_annotation, url: {action: 'create'} do |f| %>
         <%= f.hidden_field :user_id, value: @user.id %>
         <%= f.hidden_field :medium_id, value: @medium.id %>
-        <%= f.label :medium_annotation, value: 'Annotation' %>
-        <select id='annotations_select' class="selectpicker form-control" name='medium_annotation[annotations_lookup_table_id]' size='1'  required >
-            <option></option>
+
+        <select id='annotations_select' class="selectpicker form-control" name='medium_annotation[annotations_lookup_table_id]' size='20'  required >
             <% @annotations_lookup_table.each do |annotations_lookup_table_id| %>
               <% selected_string = ''
                 if @medium_annotation.annotations_lookup_table_id == annotations_lookup_table_id.id
@@ -30,16 +25,16 @@
               <% if !annotations_lookup_table_id.family.nil? && !annotations_lookup_table_id.genus.nil?
                    displayed_tag = annotations_lookup_table_id.name + " (" + annotations_lookup_table_id.genus + " " + annotations_lookup_table_id.species + ")"
                    class_tag = "annotations-level-2"
-                   space = '...|---'
+                   space = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.html_safe
                  end
                 if !annotations_lookup_table_id.genus.nil? && annotations_lookup_table_id.name.nil?
                   displayed_tag = annotations_lookup_table_id.genus
                   class_tag = "annotations-level-1"
-                  space = '|..'
+                  space = '&nbsp;&nbsp;&nbsp;'.html_safe
                 end
                 if !annotations_lookup_table_id.family.nil? && annotations_lookup_table_id.name.nil?
                   displayed_tag = annotations_lookup_table_id.family
-                  class_tag = "annotations-level-0"
+                  class_tag = "annotations-level-0".html_safe
                   space = ''
                 end
               %>
@@ -47,9 +42,9 @@
               <option <%= selected_string %> <%= disabled_string %> class=<%= class_tag %> value='<%= annotations_lookup_table_id.id %>'><%= space %>
                 <%= displayed_tag %></option>
             <% end %>
-          </select><br/><br/>
-          <div class="actions">
-            <%= f.submit %>
+          </select>
+          <div class="actions text-right">
+            <%= f.submit 'Speichern', class: 'btn btn-success' %>
           </div>
       <% end %>
     </td>

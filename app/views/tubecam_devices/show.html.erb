@@ -5,7 +5,7 @@
 
 <p>
   <strong>User ID:</strong>
-  <%= @tubecam_device.user_id %>
+  <%= User.find_by(id: @tubecam_device.user_id).username %>
 </p>
 
 <p>
@@ -13,10 +13,25 @@
   <%= @tubecam_device.description %>
 </p>
 
-<p>
-  <strong>Active:</strong>
-  <%= @tubecam_device.active %>
-</p>
 
-<%= link_to 'Edit', edit_tubecam_device_path(@tubecam_device) %> |
-<%= link_to 'Back', tubecam_devices_path %>
+<table>
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>Bild</th>
+    <th>Pfad</th>
+    <th></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @media.each do |medium| %>
+      <tr>
+        <td><%= medium.id %></td>
+        <td><%= link_to image_tag(@cloud_resource_thumbnail_url + medium.filename_hash), medium %></td>
+        <td><%= medium.original_filename %></td>
+        <td><%= link_to 'Edit', edit_medium_path(medium) %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

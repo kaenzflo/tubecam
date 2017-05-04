@@ -87,6 +87,8 @@ function loadMap(mapgeojson, mapgeostyle, zoomlevel, centerLongitude, centerLati
 
 
         // Add Geojson layer
+        layer.setOpacity(0.8);
+        vectorLayer.setOpacity(0.8);
         map.addLayer(vectorLayer);
 
     }

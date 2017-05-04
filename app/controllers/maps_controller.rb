@@ -68,8 +68,6 @@ class MapsController < ApplicationController
     @tubecams.each do |tubecam|
       latest_image = Medium.where(:tubecam_device_id => tubecam.id).order("id DESC").first;
       relative_point_factor = calculate_point_factor(tubecam.id, total_images)
-      puts "============="
-      puts relative_point_factor
       if !latest_image.nil?
         time_period = days_since_last_image(latest_image)
         point_color = set_point_color(time_period)

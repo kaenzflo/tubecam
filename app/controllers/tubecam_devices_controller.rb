@@ -1,6 +1,9 @@
 class TubecamDevicesController < ApplicationController
   before_action :set_tubecam_device, only: [:show, :edit, :update, :destroy]
 
+  load_and_authorize_resource
+  skip_authorize_resource :only => :show
+
   # GET /tubecam_devices
   # GET /tubecam_devices.json
   def index
@@ -8,11 +11,16 @@ class TubecamDevicesController < ApplicationController
     if user_signed_in? && !current_user.admin_role? && current_user.trapper_role?
       @tubecam_devices = @tubecam_devices.where(user_id: current_user.id)
     end
+
   end
 
   # GET /tubecam_devices/1
   # GET /tubecam_devices/1.json
   def show
+    @media = Medium.where(tubecam_device_id: @tubecam_device.id)
+    @cloud_resource_thumbnail_url = 'https://' +
+        ENV['S3_HOST_NAME'] + '/' +
+        ENV['S3_BUCKET_NAME'] + '/thumbnails/'
   end
 
   # GET /tubecam_devices/new

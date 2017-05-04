@@ -3,7 +3,7 @@
 <%= render 'filter' %>
 
 <% if @media.empty? %>
-    <h3>Es konnten keine Bilder gefunden werden, die dem gesetzten Filter entsprechen.</h3>
+    <h3>Keine Medien gefunden.</h3>
 <% else %>
 
   <table>
@@ -49,9 +49,5 @@
       <% end %>
     </tbody>
   </table>
-
-  <br>
-
-  <%= link_to 'New Medium', new_medium_path %>
 
 <% end %>
