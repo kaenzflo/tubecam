@@ -54,9 +54,8 @@ tubecam_devices.each do |value|
 end
 
 media = [
-    ['2017/02/28','SN00028_2017_02_28_18_26_44_S0031I19.jpg','f790923ff6cddb289da516b0bf97f31391f9ea69c08132d10aa2d2c38feae240.jpg','image',DateTime.strptime('2017:02:28 18:26:44', '%Y:%m:%d %H:%M:%S'),47.496503, 8.729533,31,19,1,nil,false],
-    ['2016/02/09','SN00010_2016_02_09_17_17_31_S0001I05.jpg','ed46a607709409b6b30210aa7b65e8678244258d54950d3cc43c1aabc020734d.jpg','image',DateTime.strptime('2016:02:09 17:17:31', '%Y:%m:%d %H:%M:%S'),47.496611, 8.729497,1,5,2,nil,false]
-
+    ['/Tubecam_SN00028/2017/02/28/','SN00028_2017_02_28_18_26_44_S0031I19.jpg','f790923ff6cddb289da516b0bf97f31391f9ea69c08132d10aa2d2c38feae240.jpg','image',DateTime.strptime('2017:02:28 18:26:44', '%Y:%m:%d %H:%M:%S'),47.496503, 8.729533,31,19,1,nil,false],
+    ['/Tubecam_SN00010/2016/02/09/','SN00010_2016_02_09_17_17_31_S0001I05.jpg','ed46a607709409b6b30210aa7b65e8678244258d54950d3cc43c1aabc020734d.jpg','image',DateTime.strptime('2016:02:09 17:17:31', '%Y:%m:%d %H:%M:%S'),47.496611, 8.729497,1,5,2,nil,false]
 ]
 
 media.each do |value|
