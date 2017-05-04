@@ -7,8 +7,17 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-# Use digest for hashing operations
+# Use digest for hash algorithms
 gem 'digest'
+
+# Use mini_exiftool for Exif manipulation
+gem 'mini_exiftool'
+
+# Use mini-magick for image processing
+gem 'mini_magick'
+
+# Use qoobaa/s3 for object storage access
+gem 's3'
 
 # Use devise for registration and login
 gem 'devise'
