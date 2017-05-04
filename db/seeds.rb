@@ -29,21 +29,21 @@ users.each do |value|
 end
 
 tubecam_devices = [
-    ['SN:00028',3,'Peters TubeCam',true],
-    ['SN:00010',4,'Tubecam von Hans',true],
-    ['SN:00001',4,'Tubecam2 von Hans',true],
-    ['SN:00002',5,'Thurauen1 Flussbett',true],
-    ['SN:00003',5,'Thurauen2 Nord',true],
-    ['SN:00004',5,'Thurauen3 Weiher',true],
-    ['SN:00005',5,'Thurauen4 Süd',true],
-    ['SN:00006',5,'Thurauen5 Süd-Ost',true],
-    ['SN:00007',5,'Thurauen6 Süd-West',true],
-    ['SN:00008',5,'Thurauen7 Süd-Süd-West',true],
-    ['SN:00009',5,'Thurauen8 Süd-Süd-Ost',true],
-    ['SN:00011',5,'Thurauen9 Moor Nord',true],
-    ['SN:00012',5,'Thurauen10 Moor Nord-West',true],
-    ['SN:00013',5,'Thurauen11 Moor Nord-Nord-West',true],
-    ['SN:00014',5,'Thurauen12 Moor',true]
+    ['SN:00028',3,'ZHAW Winterthur',true],
+    ['SN:00010',4,'Bürgestock-Tubecam',true],
+    ['SN:00001',4,'ZHAW-Test-TubeCam \"Burgruine\"',true],
+    ['SN:00002',5,'ZHAW-Test-TubeCam \"Rötibode\"',true],
+    ['SN:00003',5,'TubeCam auf dem Vorderen Hörndli',true],
+    ['SN:00004',5,'Neftenbach Waldrand',true],
+    ['SN:00005',5,'Eschenberg bei Winterthur',true],
+    ['SN:00006',5,'TubeCam Fehraltorf/Russikon',true],
+    ['SN:00007',5,'Auf dem Züriberg beim UZH-Standort Milchbuck',true],
+    ['SN:00008',5,'TubeCam-Standort: Waldrand Neuechilerwald',true],
+    ['SN:00009',5,'Magglingematte',true],
+    ['SN:00011',5,'Im Tobel oberhalb Zuzwil SG',true],
+    ['SN:00012',5,'Naturschutzgebiet',true],
+    ['SN:00013',5,'TubeCam Chrebsbach im Sihltal',true],
+    ['SN:00014',5,'Meine TubeCam steht im Eigental',true]
 ]
 
 tubecam_devices.each do |value|
@@ -54,8 +54,8 @@ tubecam_devices.each do |value|
 end
 
 media = [
-    ['/Tubecam_SN00028/2017/02/28/','SN00028_2017_02_28_18_26_44_S0031I19.jpg','f790923ff6cddb289da516b0bf97f31391f9ea69c08132d10aa2d2c38feae240.jpg','image',DateTime.strptime('2017:02:28 18:26:44', '%Y:%m:%d %H:%M:%S'),47.496503, 8.729533,31,19,1,nil,false],
-    ['/Tubecam_SN00010/2016/02/09/','SN00010_2016_02_09_17_17_31_S0001I05.jpg','ed46a607709409b6b30210aa7b65e8678244258d54950d3cc43c1aabc020734d.jpg','image',DateTime.strptime('2016:02:09 17:17:31', '%Y:%m:%d %H:%M:%S'),47.496611, 8.729497,1,5,2,nil,false]
+    ['/Tubecam_SN00028/2017/02/28/','SN00028_2017_02_28_18_26_44_S0031I19.jpg','f790923ff6cddb289da516b0bf97f31391f9ea69c08132d10aa2d2c38feae240.jpg','image',DateTime.strptime('2017:02:28 18:26:44', '%Y:%m:%d %H:%M:%S'),8.729533, 47.496503,31,19,1,nil,false],
+    ['/Tubecam_SN00010/2016/02/09/','SN00010_2016_02_09_17_17_31_S0001I05.jpg','ed46a607709409b6b30210aa7b65e8678244258d54950d3cc43c1aabc020734d.jpg','image',DateTime.strptime('2016:02:09 17:17:31', '%Y:%m:%d %H:%M:%S'),8.729497, 47.496611,1,5,2,nil,false]
 ]
 
 media.each do |value|
