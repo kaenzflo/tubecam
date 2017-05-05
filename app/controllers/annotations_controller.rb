@@ -8,7 +8,7 @@ class AnnotationsController < ApplicationController
     @cloud_resource_image_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/'
-    @annotations_lookup_table = AnnotationsLookupTable.all
+    @annotations_lookup_table = AnnotationsLookupTable.all.order('annotation_id')
     @medium_annotation = MediumAnnotation.new
   end
 

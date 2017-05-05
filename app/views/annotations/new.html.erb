@@ -37,6 +37,11 @@
                   class_tag = "annotations-level-0".html_safe
                   space = ''
                 end
+                 if lookup.family.nil? && lookup.genus.nil? && lookup.species.nil?
+                   displayed_tag = lookup.name
+                   class_tag = "annotations-level-0".html_safe
+                   space = ''
+                 end
               %>
 
               <option <%= selected_string %> <%= disabled_string %> class=<%= class_tag %> value='<%= lookup.id %>'><%= space %>

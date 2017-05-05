@@ -10,9 +10,10 @@
 
  <div class="gallery">
    <% @media.each do |medium| %>
+       <% medium = Coordinates.wgs_to_ch(medium) %>
     <div class="item">
       <%= link_to image_tag(@cloud_resource_thumbnail_url + medium.filename_hash), medium %>
-      <p class="item-date">Datum</p>
+      <p class="item-date"><%= medium.datetime.strftime("%d.%m.%Y %H:%M:%S") %></p>
       <!--<p class="item-delete"><a href="#">X</a></p>-->
       <div class="item-actions">
         <ul>
