@@ -29,11 +29,19 @@
         <td><%= medium.id %></td>
         <td><%= link_to image_tag(@cloud_resource_thumbnail_url + medium.filename_hash), medium %></td>
         <td><%= medium.original_filename %></td>
-        <td><%= link_to 'Show', medium_path(medium) %></td>
-        <td><%= link_to 'Löschen', :controller => 'media', :action => 'delete', :id => medium.id %></td>
+        <td><%= link_to 'Details', medium_path(medium) %></td>
+        <% if current_user.admin_role? %>
+            <% if !medium.deleted %>
+                <td><%= link_to 'Deaktivieren', :controller => 'media', :action => 'delete', :id => medium.id %></td>
+            <% else %>
+                <td><%= link_to 'Aktivieren', :controller => 'media', :action => 'activate', :id => medium.id %></td>
+            <% end %>
+        <% end %>
       </tr>
   <% end %>
   </tbody>
 </table>
 
 <%= will_paginate @media %>
+
+

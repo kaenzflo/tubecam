@@ -74,12 +74,22 @@ class MediaController < ApplicationController
 
   def delete
     @medium = set_medium
-    puts @medium.inspect
     tubecam_device_id = @medium.tubecam_device_id
     if (current_user.admin_role? || current_user.trapper_role?) && @medium.update( :deleted => true )
       redirect_to tubecam_device_url(tubecam_device_id), notice: 'Das Medium wurde erfolgreich entfernt.'
     else
       redirect_to tubecam_device_url(tubecam_device_id), alert: 'Das Medium kann nicht entfernt werden.'
+    end
+  end
+
+  # Set medium active
+  def activate
+    @medium = set_medium
+    tubecam_device_id = @medium.tubecam_device_id
+    if (current_user.admin_role? || current_user.trapper_role?) && @medium.update( :deleted => false )
+      redirect_to tubecam_device_url(tubecam_device_id), notice: 'Das Medium wurde erfolgreich reaktiviert.'
+    else
+      redirect_to tubecam_device_url(tubecam_device_id), alert: 'Das Medium kann nicht reaktivert werden.'
     end
   end
 

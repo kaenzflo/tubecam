@@ -61,8 +61,6 @@ function loadMap(mapgeojson, mapgeostyle, zoomlevel, centerLongitude, centerLati
     */
 
     var setLayerStyle = function (mapgeostyle) {
-        console.log("I'm here....");
-        console.log(mapgeostyle);
         var olStyleForVector = new ga.style.StylesFromLiterals(mapgeostyle);
         vectorLayer.setStyle(function (feature) {
             return [olStyleForVector.getFeatureStyle(feature)];

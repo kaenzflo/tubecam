@@ -79,8 +79,6 @@ class TubecamDevicesController < ApplicationController
   # Set tubecam inactive
   def delete
     @tubecam_device = set_tubecam_device
-    p "===========0"
-    puts @tubecam_device
     if current_user.admin_role? && @tubecam_device.update( :active => false )
       redirect_to tubecam_devices_path, notice: 'Die Tubecam wurde erfolgreich entfernt.'
     else

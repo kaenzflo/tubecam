@@ -68,7 +68,7 @@ class MapsController < ApplicationController
     styleArray = []
     @tubecams.each do |tubecam|
       latest_image = Medium.where(:tubecam_device_id => tubecam.id).order("id DESC").first;
-      relative_point_factor = calculate_point_factor(tubecam.id, total_images)
+      relative_point_factor = calculate_point_factor(tubecam.id, total_images, 10)
       if !latest_image.nil?
         time_period = days_since_last_image(latest_image)
         point_color = set_point_color(time_period)
@@ -99,6 +99,7 @@ class MapsController < ApplicationController
   def generate_description serialnumber, latest_image_text, time_period, longitude, latitude, tubecam, description, exact_position=true
     s = StringIO.new
     s << "<p>" + "Seriennummer:<b> " +serialnumber + "</b></p>"
+    s << "<p>" + "Anzahl Aufnahmen:<b> " + Medium.where(tubecam_device_id: tubecam.id).count.to_s + "</b></p>"
     s << latest_image_text
     if exact_position
       s << "<p>" + "Koordinaten: " + sprintf('%#.2f', longitude) + ", " + sprintf('%#.2f', latitude) +  "</p>"
@@ -140,9 +141,9 @@ class MapsController < ApplicationController
     text = "<p>Letzte Aufnahme: " + latest_image.datetime.to_date.strftime('%d.%m.%Y').to_s + " (" + time_period.to_s + day_text + ")</p>"
   end
 
-  def calculate_point_factor(tubecam_id, total_images)
+  def calculate_point_factor(tubecam_id, total_images, scalefactor)
     count = Medium.where(tubecam_device_id: tubecam_id).count
-    relative = 1.0 * count / total_images + 1
+    relative = 1.0 * count / (total_images / scalefactor) + 1
   end
 
 end
