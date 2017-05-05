@@ -30,7 +30,7 @@
         <td><%= link_to image_tag(@cloud_resource_thumbnail_url + medium.filename_hash), medium %></td>
         <td><%= medium.original_filename %></td>
         <td><%= link_to 'Details', medium_path(medium) %></td>
-        <% if current_user.admin_role? %>
+        <% if user_signed_in? && current_user.admin_role? %>
             <% if !medium.deleted %>
                 <td><%= link_to 'Deaktivieren', :controller => 'media', :action => 'delete', :id => medium.id %></td>
             <% else %>

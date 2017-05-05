@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   resources :tubecam_devices
-  devise_for :users, :controllers => { registrations: 'registrations' }
   resources :media
   resources :users
+  devise_for :users, :controllers => { registrations: 'registrations' }
 
   get '/standorte' => 'maps#index', as: "maps"
   get '/projekt', to: 'pages#project', as: "project"

@@ -1,6 +1,10 @@
 class MediaController < ApplicationController
   before_action :set_medium, only: [:show, :edit, :update, :destroy]
 
+  load_and_authorize_resource
+  skip_before_filter :authenticate_user!
+  skip_authorize_resource :only => [:index, :show]
+
   # GET /media
   # GET /media.json
   def index
