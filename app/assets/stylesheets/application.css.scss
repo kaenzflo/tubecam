@@ -19,3 +19,23 @@
 .mainpage {
   margin-top: 50px;
 }
+
+.pagination a {
+  padding: 5px 10px;
+}
+
+.pagination a:hover {
+  background: rgba(90,192,222,0.3);
+  padding: 5px 10px;
+  border-radius: 7px;
+}
+
+.pagination .current {
+  font-weight: bold;
+  font-style: normal;
+  margin: 0 10px;
+  background: rgba(90,192,222,0.3);
+  padding: 5px 10px;
+  border-radius: 7px;
+}
+

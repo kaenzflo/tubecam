@@ -9,5 +9,5 @@ class Medium < ApplicationRecord
   scope :date_end, -> (date_end) { where("datetime < ?", date_end) } if !:date_end.empty?
 
   # Pagination: Amount of items per page
-  self.per_page = 10
+  self.per_page = 16
 end

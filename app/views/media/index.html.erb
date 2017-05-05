@@ -8,6 +8,29 @@
 
   <%= will_paginate @media %>
 
+ <div class="gallery">
+   <% @media.each do |medium| %>
+    <div class="item">
+      <%= link_to image_tag(@cloud_resource_thumbnail_url + medium.filename_hash), medium %>
+      <p class="item-date">Datum</p>
+      <p class="item-delete"><a href="#">X</a></p>
+      <div class="item-actions">
+        <ul>
+          <li><a href="#">Annotieren</a></li>
+          <li><a href="#">Tubecam</a></li>
+          <li><a href="#">Karte</a></li>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+ </div>
+
+  <%= will_paginate @media %>
+
+<% end %>
+
+<!--
+
   <table>
     <thead>
       <tr>
@@ -52,6 +75,4 @@
     </tbody>
   </table>
 
-  <%= will_paginate @media %>
-
-<% end %>
+-->
