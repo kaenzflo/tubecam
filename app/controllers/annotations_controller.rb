@@ -2,8 +2,9 @@ class AnnotationsController < ApplicationController
 
   def new
     @user = current_user
-    random = rand(0...Medium.all.size)
-    @medium = Medium.all[random]
+    media = Medium.where.not(id: MediumAnnotation.where(user_id: @user.id).select('medium_id'))
+    random = rand(0...media.size)
+    @medium = media[random]
     @cloud_resource_image_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/'
