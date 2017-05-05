@@ -16,10 +16,9 @@
       <!--<p class="item-delete"><a href="#">X</a></p>-->
       <div class="item-actions">
         <ul>
-          <li><a href="#">Annotieren</a></li>
+          <li><%= link_to 'Annotieren', annotations_new_path, :id => medium.id %></li>
           <li><%= link_to 'Tubecam', tubecam_device_path(medium.tubecam_device_id) %></li>
           <li><%= link_to 'Karte', maps_path(:longitude => medium.longitude, :latitude => medium.latitude) %></li>
-          <td><%= link_to 'Aktivieren', :controller => 'media', :action => 'activate', :id => medium.id %></td>
         </ul>
       </div>
     </div>
