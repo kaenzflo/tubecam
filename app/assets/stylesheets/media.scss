@@ -3,10 +3,11 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 
+// Gallery
+
 select#tubecam_device_id {
   height: 34px;
 }
-
 
 .gallery {
   flex-wrap: wrap;
@@ -90,4 +91,32 @@ p.item-delete {
 
 .gallery .item li a {
   color: white;
+}
+
+
+// Medium Detail Show
+.medium-detail {
+  flex-wrap: wrap;
+  display: flex;
+}
+
+.medium-detail .image-detail {
+  margin: 20px;
+  flex-grow: 1;
+}
+
+.medium-detail .image-detail img {
+  max-width: 400px;
+}
+
+
+.medium-detail .image-description {
+  margin: 20px;
+  flex-grow: 1;
+}
+
+
+.medium-detail .image-links {
+  margin: 20px;
+  flex-grow: 3;
 }

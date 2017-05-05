@@ -1,67 +1,80 @@
-<p>
-  <strong>Image:</strong>
-  <%= image_tag(@cloud_resource_image_url + @medium.filename_hash) %>
-</p>
+<h1></h1>
+<div class="medium-detail">
+  <div class="image-detail">
+    <%= image_tag(@cloud_resource_image_url + @medium.filename_hash) %>
+  </div>
+  <div class="image-description">
+    <p>
+      <strong>Medientyp:</strong>
+      <%= @medium.mediatype %>
+    </p>
 
-<p>
-  <strong>Original Path:</strong>
-  <%= @medium.original_path %>
-</p>
+    <p>
+      <strong>Datum:</strong>
+      <%= @medium.datetime %>
+    </p>
 
-<p>
-  <strong>Original Filename:</strong>
-  <%= @medium.original_filename %>
-</p>
+    <p>
+      <strong>Längengrad:</strong>
+      <%= @medium.longitude %>
+    </p>
 
-<p>
-  <strong>Hashed Filename:</strong>
-  <%= @medium.filename_hash%>
-</p>
+    <p>
+      <strong>Breitengrad:</strong>
+      <%= @medium.latitude %>
+    </p>
 
-<p>
-  <strong>Mediatype:</strong>
-  <%= @medium.mediatype %>
-</p>
+    <p>
+      <strong>Sequenz:</strong>
+      <%= @medium.sequence %>
+    </p>
 
-<p>
-  <strong>Datetime:</strong>
-  <%= @medium.datetime %>
-</p>
+    <p>
+      <strong>Frame:</strong>
+      <%= @medium.frame %>
+    </p>
+  </div>
+  <div class="image-links">
+      <%= link_to 'Tubecam ' + @tubecam_device.serialnumber, tubecam_device_path(@medium.tubecam_device_id), class: 'btn btn-primary' %>
+      <%= link_to 'Standort auf Karte anzeigen', maps_path(:longitude => @medium.longitude, :latitude => @medium.latitude), class: 'btn btn-primary' %>
+      <%= link_to 'Annotieren', annotations_new_path, :id => @medium.id, class: 'btn btn-primary' %>
+  </div>
+</div>
 
-<p>
-  <strong>Longitude:</strong>
-  <%= @medium.longitude %>
-</p>
+<table class="table table-striped table-sm table-responsive table-hover">
+  <thead>
+  <tr>
+    <th>Lookup-Index</th>
+    <th>Family</th>
+    <th>Art</th>
+    <th>Tier</th>
+    <th>Datum</th>
+    <th colspan="3"></th>
+  </tr>
+  </thead>
 
-<p>
-  <strong>Latitude:</strong>
-  <%= @medium.latitude %>
-</p>
+  <tbody>
+  <% @annotations.each do |annotation| %>
+      <tr>
+        <td><%= annotation.annotations_lookup_table_id %></td>
+        <td><%= @annotations_lookup_table[annotation.annotations_lookup_table_id].family %></td>
+        <td><%= @annotations_lookup_table[annotation.annotations_lookup_table_id].genus %></td>
+        <td><%= @annotations_lookup_table[annotation.annotations_lookup_table_id].species %></td>
+        <td><%= annotation.created_at %></td>
+        <% if current_user.id == annotation.user_id %>
+          <td><%= link_to 'Löschen', @medium, method: :delete, data: { confirm: 'Soll die Annotation wirklich unwiederruflich gelöscht werden?' } %></td>
+        <% end %>
+        <% if current_user.verified_spotter_role? %>
+            <% if !annotation.verified_id.nil? %>
+                <td><%= link_to 'Verfizieren' %></td>
+            <% else %>
+                <td><%= link_to 'De-verfizieren' %></td>
+            <% end %>
+        <% end %>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
 
-<p>
-  <strong>Sequence:</strong>
-  <%= @medium.sequence %>
-</p>
 
-<p>
-  <strong>Frame:</strong>
-  <%= @medium.frame %>
-</p>
 
-<p>
-  <strong>Tubecam Device ID:</strong>
-  <%= @medium.tubecam_device_id %>
-</p>
-
-<p>
-  <strong>Exifdata:</strong>
-  <%= @medium.exifdata %>
-</p>
-
-<p>
-  <strong>Deleted:</strong>
-  <%= @medium.deleted %>
-</p>
-
-<%= link_to 'Edit', edit_medium_path(@medium) %> |
-<%= link_to 'Back', media_path %>

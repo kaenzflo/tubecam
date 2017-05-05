@@ -27,15 +27,15 @@
         <td><%= tubecam_device.description %></td>
         <td><%= tubecam_device.active %></td>
         <td><%= link_to 'Anzeigen', tubecam_device_path(tubecam_device) %></td>
-         <% if current_user.admin_role? %>
-            <% if tubecam_device.active? %>
-              <td><%= link_to 'Edit', edit_tubecam_device_path(tubecam_device) %></td>
-              <td><%= link_to 'Löschen', :controller => 'tubecam_devices', :action => 'delete', :id => tubecam_device.id %></td>
-            <% else %>
-              <td></td>
-              <td><%= link_to 'Aktivieren', :controller => 'tubecam_devices', :action => 'activate', :id => tubecam_device.id %></td>
-            <% end %>
+       <% if current_user.admin_role? %>
+          <% if tubecam_device.active? %>
+            <td><%= link_to 'Edit', edit_tubecam_device_path(tubecam_device) %></td>
+            <td><%= link_to 'Löschen', :controller => 'tubecam_devices', :action => 'delete', :id => tubecam_device.id %></td>
+          <% else %>
+            <td></td>
+            <td><%= link_to 'Aktivieren', :controller => 'tubecam_devices', :action => 'activate', :id => tubecam_device.id %></td>
           <% end %>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

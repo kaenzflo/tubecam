@@ -10,36 +10,36 @@
         <%= f.hidden_field :medium_id, value: @medium.id %>
 
         <select id='annotations_select' class="selectpicker form-control" name='medium_annotation[annotations_lookup_table_id]' size='20'  required >
-            <% @annotations_lookup_table.each do |annotations_lookup_table_id| %>
+            <% @annotations_lookup_table.each do |lookup| %>
               <% selected_string = ''
-                if @medium_annotation.annotations_lookup_table_id == annotations_lookup_table_id.id
+                if @medium_annotation.annotations_lookup_table_id == lookup.id
                   selected_string = ' selected="selected" '
                 end
               %>
               <% disabled_string = ''
-                 if !annotations_lookup_table_id.selectable?
+                 if !lookup.selectable?
                    disabled_string = ' disabled="disabled" '
                  end
               %>
 
-              <% if !annotations_lookup_table_id.family.nil? && !annotations_lookup_table_id.genus.nil?
-                   displayed_tag = annotations_lookup_table_id.name + " (" + annotations_lookup_table_id.genus + " " + annotations_lookup_table_id.species + ")"
+              <% if !lookup.family.nil? && !lookup.genus.nil?
+                   displayed_tag = lookup.name + " (" + lookup.genus + " " + lookup.species + ")"
                    class_tag = "annotations-level-2"
                    space = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.html_safe
                  end
-                if !annotations_lookup_table_id.genus.nil? && annotations_lookup_table_id.name.nil?
-                  displayed_tag = annotations_lookup_table_id.genus
+                if !lookup.genus.nil? && lookup.name.nil?
+                  displayed_tag = lookup.genus
                   class_tag = "annotations-level-1"
                   space = '&nbsp;&nbsp;&nbsp;'.html_safe
                 end
-                if !annotations_lookup_table_id.family.nil? && annotations_lookup_table_id.name.nil?
-                  displayed_tag = annotations_lookup_table_id.family
+                if !lookup.family.nil? && lookup.name.nil?
+                  displayed_tag = lookup.family
                   class_tag = "annotations-level-0".html_safe
                   space = ''
                 end
               %>
 
-              <option <%= selected_string %> <%= disabled_string %> class=<%= class_tag %> value='<%= annotations_lookup_table_id.id %>'><%= space %>
+              <option <%= selected_string %> <%= disabled_string %> class=<%= class_tag %> value='<%= lookup.id %>'><%= space %>
                 <%= displayed_tag %></option>
             <% end %>
           </select>

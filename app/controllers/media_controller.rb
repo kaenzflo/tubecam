@@ -1,8 +1,6 @@
 class MediaController < ApplicationController
   before_action :set_medium, only: [:show, :edit, :update, :destroy]
 
-
-
   # GET /media
   # GET /media.json
   def index
@@ -17,10 +15,14 @@ class MediaController < ApplicationController
   # GET /media/1
   # GET /media/1.json
   def show
-    @medium = Medium.find(params[:id])
+    medium = Medium.find(params[:id])
+    @medium = Coordinates.wgs_to_ch(medium)
     @cloud_resource_image_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/'
+    @tubecam_device = TubecamDevice.find(medium.tubecam_device_id)
+    @annotations = MediumAnnotation.where(medium_id: medium.id)
+    @annotations_lookup_table = AnnotationsLookupTable.all
   end
 
   # GET /media/new
