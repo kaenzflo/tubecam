@@ -9,7 +9,8 @@ class Ability
       can :manage, :all
     end
     if user.trapper_role?
-
+      can :manage, TubecamDevice
+      cannot :destroy, TubecamDevice
     end
 
     if user.verified_spotter_role?

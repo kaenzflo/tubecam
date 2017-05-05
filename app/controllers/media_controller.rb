@@ -6,7 +6,6 @@ class MediaController < ApplicationController
   # GET /media
   # GET /media.json
   def index
-    @filter_params = params.slice(:tubecam_device_id, :sequence, :date_start, :date_end)
     @filter_params = filter_params()
     @media = Medium.filter(@filter_params)
     @media = @media.where(deleted: false).page(params[:page])
@@ -73,6 +72,17 @@ class MediaController < ApplicationController
     end
   end
 
+  def delete
+    @medium = set_medium
+    puts @medium.inspect
+    tubecam_device_id = @medium.tubecam_device_id
+    if (current_user.admin_role? || current_user.trapper_role?) && @medium.update( :deleted => true )
+      redirect_to tubecam_device_url(tubecam_device_id), notice: 'Das Medium wurde erfolgreich entfernt.'
+    else
+      redirect_to tubecam_device_url(tubecam_device_id), alert: 'Das Medium kann nicht entfernt werden.'
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_medium
@@ -87,14 +97,16 @@ class MediaController < ApplicationController
     end
 
   def filter_params
-    if !@filter_params[:date_start].nil?
-      @filter_params[:date_start] = string_to_date(@filter_params[:date_start], '00:00:00')
+    filter_params = params.slice(:tubecam_device_id, :sequence, :date_start, :date_end)
+
+    if !filter_params[:date_start].nil?
+      filter_params[:date_start] = string_to_date(filter_params[:date_start], '00:00:00')
     end
-    if !@filter_params[:date_end].nil?
-      @filter_params[:date_end] = string_to_date(@filter_params[:date_end], '22:59:59')
+    if !filter_params[:date_end].nil?
+      filter_params[:date_end] = string_to_date(filter_params[:date_end], '22:59:59')
     end
 
-    @filter_params
+    filter_params
   end
 
   def string_to_date date_string, time

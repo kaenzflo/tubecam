@@ -2,6 +2,7 @@ class TubecamDevicesController < ApplicationController
   before_action :set_tubecam_device, only: [:show, :edit, :update, :destroy]
 
   load_and_authorize_resource
+  skip_before_filter :authenticate_user!
   skip_authorize_resource :only => :show
 
   # GET /tubecam_devices
@@ -17,7 +18,10 @@ class TubecamDevicesController < ApplicationController
   # GET /tubecam_devices/1
   # GET /tubecam_devices/1.json
   def show
-    @media = Medium.where(tubecam_device_id: @tubecam_device.id)
+    @media = Medium.where(tubecam_device_id: @tubecam_device.id).page(params[:page])
+    if user_signed_in? && !current_user.admin_role?
+      @media = @media.where(deleted: false)
+    end
     @cloud_resource_thumbnail_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/thumbnails/'
@@ -69,6 +73,28 @@ class TubecamDevicesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to tubecam_devices_url, notice: 'Tubecam device was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  # Set tubecam inactive
+  def delete
+    @tubecam_device = set_tubecam_device
+    p "===========0"
+    puts @tubecam_device
+    if current_user.admin_role? && @tubecam_device.update( :active => false )
+      redirect_to tubecam_devices_path, notice: 'Die Tubecam wurde erfolgreich entfernt.'
+    else
+      redirect_to tubecam_devices_path, alert: 'Die Tubecam kann nicht entfernt werden.'
+    end
+  end
+
+  # Set tubecam active
+  def activate
+    @tubecam_device = set_tubecam_device
+    if current_user.admin_role? && @tubecam_device.update( :active => true )
+      redirect_to tubecam_devices_path, notice: 'Die Tubecam wurde erfolgreich reaktiviert.'
+    else
+      redirect_to tubecam_devices_path, alert: 'Die Tubecam kann nicht reaktiviert werden.'
     end
   end
 

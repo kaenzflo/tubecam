@@ -6,6 +6,8 @@
     <h3>Keine Medien gefunden.</h3>
 <% else %>
 
+  <%= will_paginate @media %>
+
   <table>
     <thead>
       <tr>
@@ -50,5 +52,6 @@
     </tbody>
   </table>
 
-    <%= will_paginate @media %>
+  <%= will_paginate @media %>
+
 <% end %>
