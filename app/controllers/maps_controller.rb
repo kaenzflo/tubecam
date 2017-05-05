@@ -6,15 +6,15 @@ class MapsController < ApplicationController
 
 
   def index
-    wgs_long = map_params[:longitude]
-    wgs_lat = map_params[:latitude]
-    if wgs_long.nil?
+    long = map_params[:longitude]
+    lat = map_params[:latitude]
+    if long.nil?
       @longitude = 683000.00
       @latitude = 237000.00
       @zoom = 250
     else
-      @longitude = Coordinates.wgs_to_ch_y(wgs_long.to_f, wgs_lat.to_f)
-      @latitude = Coordinates.wgs_to_ch_x(wgs_long.to_f, wgs_lat.to_f)
+      @longitude = long
+      @latitude = lat
       @zoom = 10
     end
 
@@ -33,7 +33,7 @@ class MapsController < ApplicationController
 
   private
 
-  # Never trust parameters from the scary internet, only allow the white list through.
+  # Permitte parameters
   def map_params
     params.permit(:longitude, :latitude)
   end
@@ -77,7 +77,7 @@ class MapsController < ApplicationController
   end
 
   def generate_tubecams_style
-    total_images = Medium.all.count
+    total_images = Medium.all.where(deleted: false).count
 
     stylesHash = {}
     stylesHash[:type] = "unique"

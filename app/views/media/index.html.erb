@@ -12,11 +12,13 @@
    <% @media.each do |medium| %>
     <div class="item">
       <%= link_to image_tag(@cloud_resource_thumbnail_url + medium.filename_hash), medium %>
-      <p class="item-date">Datum</p>
+      <p class="item-date"><%= medium.datetime.strftime("%d.%m.%Y %H:%M:%S") %></p>
       <!--<p class="item-delete"><a href="#">X</a></p>-->
       <div class="item-actions">
         <ul>
-          <li><%= link_to 'Annotieren', annotations_new_path, :id => medium.id %></li>
+          <% if user_signed_in? %>
+            <li><%= link_to 'Annotieren', annotations_new_path, :id => medium.id %></li>
+          <% end %>
           <li><%= link_to 'Tubecam', tubecam_device_path(medium.tubecam_device_id) %></li>
           <li><%= link_to 'Karte', maps_path(:longitude => medium.longitude, :latitude => medium.latitude) %></li>
         </ul>

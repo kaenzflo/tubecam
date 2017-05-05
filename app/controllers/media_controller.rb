@@ -1,12 +1,19 @@
 class MediaController < ApplicationController
   before_action :set_medium, only: [:show, :edit, :update, :destroy]
 
+  load_and_authorize_resource
+  skip_before_filter :authenticate_user!
+  skip_authorize_resource :only => [:index, :show]
+
   # GET /media
   # GET /media.json
   def index
     @filter_params = filter_params()
-    @media = Medium.filter(@filter_params)
-    @media = @media.where(deleted: false).page(params[:page])
+    media = Medium.filter(@filter_params)
+    @media = media.where(deleted: false).page(params[:page])
+    @media.each_with_index do |medium, index|
+      Coordinates.wgs_to_ch(medium)
+    end
     @cloud_resource_thumbnail_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/thumbnails/'
