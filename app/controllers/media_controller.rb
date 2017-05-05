@@ -9,8 +9,11 @@ class MediaController < ApplicationController
   # GET /media.json
   def index
     @filter_params = filter_params()
-    @media = Medium.filter(@filter_params)
-    @media = @media.where(deleted: false).page(params[:page])
+    media = Medium.filter(@filter_params)
+    @media = media.where(deleted: false).page(params[:page])
+    @media.each_with_index do |medium, index|
+      Coordinates.wgs_to_ch(medium)
+    end
     @cloud_resource_thumbnail_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/thumbnails/'

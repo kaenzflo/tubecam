@@ -43,8 +43,8 @@
       <tr <%= !user.active ? ' class=text-gray' : '' %> >
         <td><%= user.id %></td>
         <td><%= user.username %></td>
-        <td><%= user.lastname %></td>
         <td><%= user.firstname %></td>
+        <td><%= user.lastname %></td>
         <td><%= user.email %></td>
         <td><%= user.spotter_role %></td>
         <td><%= user.verified_spotter_role %></td>
@@ -52,8 +52,8 @@
         <td><%= user.admin_role %></td>
         <td><%= user.active %></td>
         <% if can? :manage, User %>
-          <td><%= link_to 'Edit', edit_user_path(user) %></td>
-          <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Soll der Benutzer "' + user.firstname + ' ' + user.lastname + '" mit der Id "' + user.id.to_s + '" wirklich gelöscht werden?' } %></td>
+          <td><%= link_to 'Bearbeiten', edit_user_path(user) %></td>
+          <td><%= link_to 'Löschen', user, method: :delete, data: { confirm: 'Soll der Benutzer "' + user.firstname.to_s + ' ' + user.lastname.to_s + '" mit der Id "' + user.id.to_s + '" wirklich gelöscht werden?' } %></td>
         <% end %>
       </tr>
     <% end %>

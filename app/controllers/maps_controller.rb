@@ -33,7 +33,7 @@ class MapsController < ApplicationController
 
   private
 
-  # Never trust parameters from the scary internet, only allow the white list through.
+  # Permitte parameters
   def map_params
     params.permit(:longitude, :latitude)
   end
@@ -77,7 +77,7 @@ class MapsController < ApplicationController
   end
 
   def generate_tubecams_style
-    total_images = Medium.all.count
+    total_images = Medium.all.where(deleted: false).count
 
     stylesHash = {}
     stylesHash[:type] = "unique"
