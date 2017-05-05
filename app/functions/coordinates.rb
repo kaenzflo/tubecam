@@ -27,7 +27,7 @@ class Coordinates
   end
 
   # Convert WGS lat/long ( dec) to CH x
-  def self.wgs2_to_ch_x(lng, lat)
+  def self.wgs_to_ch_x(lng, lat)
 
     # Convert decimal degrees to sexagesimal seconds
     lat = Coordinates.dec_to_sex(lat)

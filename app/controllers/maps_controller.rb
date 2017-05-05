@@ -1,3 +1,4 @@
+require_relative '../functions/coordinates'
 
 class MapsController < ApplicationController
 
@@ -5,6 +6,18 @@ class MapsController < ApplicationController
 
 
   def index
+    wgs_long = map_params[:longitude]
+    wgs_lat = map_params[:latitude]
+    if wgs_long.nil?
+      @longitude = 683000.00
+      @latitude = 237000.00
+      @zoom = 250
+    else
+      @longitude = Coordinates.wgs_to_ch_y(wgs_long.to_f, wgs_lat.to_f)
+      @latitude = Coordinates.wgs_to_ch_x(wgs_long.to_f, wgs_lat.to_f)
+      @zoom = 10
+    end
+
     @tubecamjson = generate_tubecams_json()
     @tubecamjson_approximated = generate_tubecams_json(exact_position=false)
 
@@ -13,12 +26,17 @@ class MapsController < ApplicationController
     if user_signed_in?
       render 'maps/map'
     else
-      flash[:warning] = "Standort sind nur ungefähr eingetragen. Um die exakten Standorte mit Koordinate anzeigen zu lassen, muss man angemeldet sein."
+      flash[:notice] = "Standort sind nur ungefähr eingetragen. Um die exakten Standorte mit Koordinate anzeigen zu lassen, muss man angemeldet sein."
       render 'maps/mapdefault'
     end
   end
 
   private
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def map_params
+    params.permit(:longitude, :latitude)
+  end
 
   def generate_tubecams_json(exact_position=true)
     @tubecams = TubecamDevice.where(:active => true)
@@ -31,7 +49,7 @@ class MapsController < ApplicationController
       latest_image = Medium.where(:tubecam_device_id => tubecam.id).order("id DESC").first;
       if !latest_image.nil?
         longitude = Coordinates.wgs_to_ch_y(latest_image.longitude, latest_image.latitude);
-        latitude = Coordinates.wgs2_to_ch_x(latest_image.longitude, latest_image.latitude);
+        latitude = Coordinates.wgs_to_ch_x(latest_image.longitude, latest_image.latitude);
         time_period = days_since_last_image(latest_image)
         latest_image_text = latest_image_text(latest_image, time_period)
         if !exact_position

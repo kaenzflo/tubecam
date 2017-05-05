@@ -12,7 +12,10 @@
   <script type="text/javascript">
       var tubecamjson = <%=raw @tubecamjson_approximated %>;
       var tubecamstyle = <%=raw @tubecamstyle %>;
-      loadMap(tubecamjson, tubecamstyle, 8, 697266, 262661);
+      var longitude = <%= @longitude %>;
+      var latitude = <%= @latitude %>;
+      var zoom = <%= @zoom %>;
+      loadMap(tubecamjson, tubecamstyle, zoom, longitude, latitude);
   </script>
 
 

@@ -3,5 +3,5 @@ class TubecamDevice < ApplicationRecord
   has_many :media, :dependent => :destroy
 
   # Pagination: Amount of items per page
-  self.per_page = 10
+  self.per_page = 15
 end
