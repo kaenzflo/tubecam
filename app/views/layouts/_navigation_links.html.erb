@@ -8,12 +8,12 @@
     <li><%= link_to 'Annotieren', annotations_new_path %></li>
 <% end %>
 
-<% if user_signed_in? && current_user.trapper_role? %>
+<% if user_signed_in? && current_user.trapper_role? && !current_user.admin_role?%>
     <li><%= link_to 'Trapper', tubecam_devices_path %></li>
 <% end %>
 
 <% if user_signed_in? && current_user.admin_role? %>
-    <li><%= link_to 'Spotter', users_path %></li>
+    <li><%= link_to 'Dashboard', users_path %></li>
 <% end %>
 
 
