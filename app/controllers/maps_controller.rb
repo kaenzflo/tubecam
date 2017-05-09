@@ -8,9 +8,9 @@ class MapsController < ApplicationController
   def index
     long = map_params[:longitude]
     lat = map_params[:latitude]
+
     if long.nil?
-      @longitude = 683000.00
-      @latitude = 237000.00
+      @longitude, @latitude = calculate_best_default_view_options
       @zoom = 250
     else
       @longitude = long
@@ -162,6 +162,21 @@ class MapsController < ApplicationController
   def calculate_point_factor(tubecam_id, total_images, scalefactor)
     count = Medium.where(tubecam_device_id: tubecam_id).count
     relative = 1.0 * count / (total_images / scalefactor) + 1
+  end
+
+  def calculate_best_default_view_options
+    long_max = Medium.maximum(:longitude)
+    long_min = Medium.minimum(:longitude)
+    long_cent = long_min + (long_max - long_min) / 2
+
+    lat_max = Medium.maximum(:latitude)
+    lat_min = Medium.minimum(:latitude)
+    lat_cent = lat_min + (lat_max - lat_min) / 2
+
+    long = Coordinates.wgs_to_ch_y(long_cent, lat_cent)
+    lat = Coordinates.wgs_to_ch_x(long_cent, lat_cent)
+
+    return long, lat
   end
 
 end

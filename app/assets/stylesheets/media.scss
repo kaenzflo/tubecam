@@ -60,21 +60,21 @@ p.item-delete {
   opacity: 1;
 }
 
-.gallery .item .item-actions {
+.item .item-actions {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   border-radius: 0 0 4px 4px;
   background: rgba(0,0,0,0.8);
-  opacity: 0.1;
+  opacity: 0.3;
 }
 
-.gallery .item:hover .item-actions {
+.item:hover .item-actions {
   opacity: 1;
 }
 
-.gallery .item ul {
+.item ul {
   position: relative;
   margin: 1px 5px;
   padding: 0;
@@ -83,13 +83,13 @@ p.item-delete {
   text-align: center;
 }
 
-.gallery .item ul li {
+.item ul li {
   display: inline;
   padding: 0 5px;
   font-size: 12px;
 }
 
-.gallery .item li a {
+.item li a {
   color: white;
 }
 

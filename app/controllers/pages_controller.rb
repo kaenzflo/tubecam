@@ -8,4 +8,8 @@ class PagesController < ApplicationController
   def contact
     render template: "pages/contact"
   end
+
+  def dashboard
+    render template: "pages/dashboard"
+  end
 end

@@ -1,20 +1,50 @@
-<h1>Willkommen auf der Tubecam Startseite</h1>
+<div class="row text-center">
+  <h1 class="center-block">Willkommen auf der Tubecam Startseite</h1>
+</div>
+
+<div class="row row-padding">
+  <div class="teaser">
+    <% @media.each do |medium| %>
+        <% medium = Coordinates.wgs_to_ch(medium) %>
+        <div class="item">
+          <%= link_to image_tag(@cloud_resource_thumbnail_url + medium.filename_hash), medium %>
+          <div class="item-actions">
+            <ul>
+              <% if user_signed_in? %>
+                  <li><%= link_to 'Annotieren', controller: 'annotations', action: 'specific', :id => medium.id %></li>
+              <% end %>
+              <li><%= link_to 'Tubecam', tubecam_device_path(medium.tubecam_device_id) %></li>
+              <li><%= link_to 'Karte', maps_path(:longitude => medium.longitude, :latitude => medium.latitude) %></li>
+            </ul>
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>
 
 
-<%= link_to 'User verwalten', users_path %> <br>
-<%= link_to 'Tubecam Devices verwalten', tubecam_devices_path %> <br>
-<%= link_to 'Media verwalten', media_path %> <br>
+<% if !user_signed_in? %>
 
-
-<h1>Login oder Registrieren</h1>
-<% if user_signed_in? %>
-
-    <%= link_to('Edit registration', edit_user_registration_path) %>
-    <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
-
-<% else %>
-
-    <%= link_to('Register', new_user_registration_path)  %>
-    <%= link_to('Login', new_user_session_path)  %>
+    <div class="row row-padding row-margin bg-warning text-center">
+        <h1>Citizen Science</h1>
+        <p>Werde Teil des Projektes und hilft mit den [...Hermelin...]bestand zu sichern.</p>
+        <%= link_to('Registrieren', new_user_registration_path, class: 'btn btn-warning') %>
+    </div>
 
 <% end %>
+
+<div class=" text-center col-sm-6">
+  <div class="row row-padding row-margin bg-success">
+        <h2>Galerie</h2>
+      <p>Werde Teil des Projektes und hilft mit den [...Hermelin...]bestand zu sichern.</p>
+      <%= link_to('Anschauen', media_path, class: 'btn btn-success') %>
+  </div>
+</div>
+
+<div class=" text-center col-sm-6">
+  <div class="row row-padding row-margin bg-info">
+    <h2>Karte</h2>
+    <p>Lass dir auf der Swisstopo die Standorte der Tubecams anzeigen.</p>
+    <%= link_to('Standorte anzeigen', maps_path, class: 'btn btn-primary') %>
+  </div>
+</div>
