@@ -1,13 +1,19 @@
 class MediaController < ApplicationController
   before_action :set_medium, only: [:show, :edit, :update, :destroy]
 
+  load_and_authorize_resource
+  skip_before_filter :authenticate_user!
+  skip_authorize_resource :only => [:index, :show]
+
   # GET /media
   # GET /media.json
   def index
-    @filter_params = params.slice(:tubecam_device_id, :sequence, :date_start, :date_end)
-    @filter_params = filter_params
-    @media = Medium.filter(@filter_params)
-    @media = @media.where(deleted: false)
+    @filter_params = filter_params()
+    media = Medium.filter(@filter_params)
+    @media = media.where(deleted: false).page(params[:page])
+    @media.each_with_index do |medium, index|
+      Coordinates.wgs_to_ch(medium)
+    end
     @cloud_resource_thumbnail_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/thumbnails/'
@@ -16,10 +22,14 @@ class MediaController < ApplicationController
   # GET /media/1
   # GET /media/1.json
   def show
-    @medium = Medium.find(params[:id])
+    medium = Medium.find(params[:id])
+    @medium = Coordinates.wgs_to_ch(medium)
     @cloud_resource_image_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/'
+    @tubecam_device = TubecamDevice.find(medium.tubecam_device_id)
+    @annotations = MediumAnnotation.where(medium_id: medium.id)
+    @annotations_lookup_table = AnnotationsLookupTable.all
   end
 
   # GET /media/new
@@ -71,6 +81,27 @@ class MediaController < ApplicationController
     end
   end
 
+  def delete
+    @medium = set_medium
+    tubecam_device_id = @medium.tubecam_device_id
+    if (current_user.admin_role? || current_user.trapper_role?) && @medium.update( :deleted => true )
+      redirect_to tubecam_device_url(tubecam_device_id), notice: 'Das Medium wurde erfolgreich entfernt.'
+    else
+      redirect_to tubecam_device_url(tubecam_device_id), alert: 'Das Medium kann nicht entfernt werden.'
+    end
+  end
+
+  # Set medium active
+  def activate
+    @medium = set_medium
+    tubecam_device_id = @medium.tubecam_device_id
+    if (current_user.admin_role? || current_user.trapper_role?) && @medium.update( :deleted => false )
+      redirect_to tubecam_device_url(tubecam_device_id), notice: 'Das Medium wurde erfolgreich reaktiviert.'
+    else
+      redirect_to tubecam_device_url(tubecam_device_id), alert: 'Das Medium kann nicht reaktivert werden.'
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_medium
@@ -85,14 +116,16 @@ class MediaController < ApplicationController
     end
 
   def filter_params
-    if !@filter_params[:date_start].nil?
-      @filter_params[:date_start] = string_to_date(@filter_params[:date_start], '00:00:00')
+    filter_params = params.slice(:tubecam_device_id, :sequence, :date_start, :date_end)
+
+    if !filter_params[:date_start].nil?
+      filter_params[:date_start] = string_to_date(filter_params[:date_start], '00:00:00')
     end
-    if !@filter_params[:date_end].nil?
-      @filter_params[:date_end] = string_to_date(@filter_params[:date_end], '22:59:59')
+    if !filter_params[:date_end].nil?
+      filter_params[:date_end] = string_to_date(filter_params[:date_end], '22:59:59')
     end
 
-    @filter_params
+    filter_params
   end
 
   def string_to_date date_string, time

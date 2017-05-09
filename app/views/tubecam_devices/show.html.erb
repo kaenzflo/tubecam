@@ -1,22 +1,52 @@
-<p>
-  <strong>Serialnumber:</strong>
-  <%= @tubecam_device.serialnumber %>
-</p>
+<h1><%= @tubecam_device.serialnumber %></h1>
 
-<p>
+<h4>
   <strong>User ID:</strong>
-  <%= @tubecam_device.user_id %>
-</p>
+  <%= User.find_by(id: @tubecam_device.user_id).username %>
+</h4>
 
 <p>
-  <strong>Description:</strong>
+  <strong>Beschreibung:</strong>
   <%= @tubecam_device.description %>
 </p>
 
-<p>
-  <strong>Active:</strong>
-  <%= @tubecam_device.active %>
-</p>
 
-<%= link_to 'Edit', edit_tubecam_device_path(@tubecam_device) %> |
-<%= link_to 'Back', tubecam_devices_path %>
+<% if @media.empty? %>
+  <h4>Es sind keine Medien dieser Tubecam vorhanden.</h4>
+<% else %>
+
+  <%= will_paginate @media %>
+
+  <table class="table table-striped table-sm table-responsive table-hover">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>Bild</th>
+      <th>Pfad</th>
+      <th></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @media.each do |medium| %>
+        <tr <%= medium.deleted? ? 'class=deleted' : '' %>>
+          <td><%= medium.id %></td>
+          <td><%= link_to image_tag(@cloud_resource_thumbnail_url + medium.filename_hash), medium %></td>
+          <td><%= medium.original_filename %></td>
+          <td><%= link_to 'Details', medium_path(medium) %></td>
+          <% if user_signed_in? && current_user.admin_role? %>
+              <% if !medium.deleted %>
+                  <td><%= link_to 'Deaktivieren', :controller => 'media', :action => 'delete', :id => medium.id %></td>
+              <% else %>
+                  <td><%= link_to 'Aktivieren', :controller => 'media', :action => 'activate', :id => medium.id %></td>
+              <% end %>
+          <% end %>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+  <%= will_paginate @media %>
+
+<% end %>
+

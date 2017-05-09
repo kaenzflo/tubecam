@@ -4,6 +4,13 @@ class Coordinates
 
   @round_value = 2
 
+  def self.wgs_to_ch(medium)
+    long = medium.longitude
+    lati = medium.latitude
+    medium.longitude = Coordinates.wgs_to_ch_y(long, lati)
+    medium.latitude = Coordinates.wgs_to_ch_x(long, lati)
+    medium
+  end
   # Convert WGS lat/long ( dec) to CH y
   def self.wgs_to_ch_y(lng, lat)
 
@@ -27,7 +34,7 @@ class Coordinates
   end
 
   # Convert WGS lat/long ( dec) to CH x
-  def self.wgs2_to_ch_x(lng, lat)
+  def self.wgs_to_ch_x(lng, lat)
 
     # Convert decimal degrees to sexagesimal seconds
     lat = Coordinates.dec_to_sex(lat)

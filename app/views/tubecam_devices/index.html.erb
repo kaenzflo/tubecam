@@ -1,15 +1,15 @@
-<h1>Tubecam Devices</h1>
+<h1>Tubecams</h1>
 
 <table class="table table-striped table-sm table-responsive table-hover">
   <thead>
     <tr>
       <th>#</th>
-      <th>Serialnumber</th>
-      <% if can? :manage, TubecamDevice %>
-        <th>User ID</th>
+      <th>Seriennummer</th>
+      <% if current_user.admin_role? %>
+        <th>Benutzer</th>
       <% end %>
-      <th>Description</th>
-      <th>Active</th>
+      <th>Beschreibung</th>
+      <th>Aktiv</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -18,17 +18,23 @@
     <% @tubecam_devices.each do |tubecam_device| %>
       <% user = tubecam_device.user %>
 
-      <tr <%= !tubecam_device.active ? ' class=text-gray' : '' %> >
+      <tr <%= !tubecam_device.active ? ' class=deleted' : '' %> >
         <td><%= tubecam_device.id %></td>
         <td><%= tubecam_device.serialnumber %></td>
-        <% if can? :manage, TubecamDevice %>
+        <% if current_user.admin_role? %>
           <td><%= user.username %> (<%= user.id %>)</td>
         <% end %>
         <td><%= tubecam_device.description %></td>
         <td><%= tubecam_device.active %></td>
-        <% if can? :manage, TubecamDevice %>
-          <td><%= link_to 'Edit', edit_tubecam_device_path(tubecam_device) %></td>
-          <td><%= link_to 'Destroy', tubecam_device, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Anzeigen', tubecam_device_path(tubecam_device) %></td>
+       <% if current_user.admin_role? %>
+          <% if tubecam_device.active? %>
+            <td><%= link_to 'Edit', edit_tubecam_device_path(tubecam_device) %></td>
+            <td><%= link_to 'Löschen', :controller => 'tubecam_devices', :action => 'delete', :id => tubecam_device.id %></td>
+          <% else %>
+            <td></td>
+            <td><%= link_to 'Aktivieren', :controller => 'tubecam_devices', :action => 'activate', :id => tubecam_device.id %></td>
+          <% end %>
         <% end %>
       </tr>
     <% end %>
@@ -37,4 +43,6 @@
 
 <br>
 
-<%= link_to 'New Tubecam Device', new_tubecam_device_path %>
+<% if user_signed_in? && current_user.admin_role? %>
+  <%= link_to 'New Tubecam Device', new_tubecam_device_path, class: 'btn btn-primary' %>
+<% end %>
