@@ -53,24 +53,33 @@ tubecam_devices.each do |value|
                        active: value[3])
 end
 
+sequences = [
+    [1,31],
+    [2,5]
+]
+
+sequences.each do |value|
+  Sequence.create(tubecam_device_id: value[0],
+                  sequence_no: value[1])
+end
+
 media = [
-    ['/Tubecam_SN00028/2017/02/28/','SN00028_2017_02_28_18_26_44_S0031I19.jpg','f790923ff6cddb289da516b0bf97f31391f9ea69c08132d10aa2d2c38feae240.jpg','image',DateTime.strptime('2017:02:28 18:26:44', '%Y:%m:%d %H:%M:%S'),8.729533, 47.496503,31,19,1,nil,false],
-    ['/Tubecam_SN00010/2016/02/09/','SN00010_2016_02_09_17_17_31_S0001I05.jpg','ed46a607709409b6b30210aa7b65e8678244258d54950d3cc43c1aabc020734d.jpg','image',DateTime.strptime('2016:02:09 17:17:31', '%Y:%m:%d %H:%M:%S'),8.729497, 47.496611,1,5,2,nil,false]
+    [1,'/Tubecam_SN00028/2017/02/28/','SN00028_2017_02_28_18_26_44_S0031I19.jpg','f790923ff6cddb289da516b0bf97f31391f9ea69c08132d10aa2d2c38feae240.jpg','image\jpeg',DateTime.strptime('2017:02:28 18:26:44', '%Y:%m:%d %H:%M:%S'),8.729533, 47.496503,19,nil,false],
+    [2,'/Tubecam_SN00010/2016/02/09/','SN00010_2016_02_09_17_17_31_S0001I05.jpg','ed46a607709409b6b30210aa7b65e8678244258d54950d3cc43c1aabc020734d.jpg','image\jpeg',DateTime.strptime('2016:02:09 17:17:31', '%Y:%m:%d %H:%M:%S'),8.729497, 47.496611,5,nil,false]
 ]
 
 media.each do |value|
-  Medium.create(original_path: value[0],
-                original_filename: value[1],
-                filename_hash: value[2],
-                mediatype: value[3],
-                datetime: value[4],
-                longitude: value[5],
-                latitude: value[6],
-                sequence: value[7],
+  Medium.create(sequence_id: value[0],
+                original_path: value[1],
+                original_filename: value[2],
+                filename_hash: value[3],
+                mediatype: value[4],
+                datetime: value[5],
+                longitude: value[6],
+                latitude: value[7],
                 frame: value[8],
-                tubecam_device_id: value[9],
-                exifdata: value[10],
-                deleted: value[11])
+                exifdata: value[9],
+                deleted: value[10])
 end
 
 annotations_lookup_table = [

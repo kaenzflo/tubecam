@@ -28,7 +28,7 @@ class MediaController < ApplicationController
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/'
     @tubecam_device = TubecamDevice.find(medium.tubecam_device_id)
-    @annotations = MediumAnnotation.where(medium_id: medium.id)
+    @annotations = Annotation.where(medium_id: medium.id)
     @annotations_lookup_table = AnnotationsLookupTable.all
   end
 

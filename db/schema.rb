@@ -42,16 +42,24 @@ ActiveRecord::Schema.define(version: 20170422144129) do
   end
 
   create_table 'tubecam_devices', force: :cascade do |t|
+    t.integer  'user_id',           null: false
     t.string   'serialnumber'
-    t.integer  'user_id'
     t.text     'description'
     t.boolean  'active'
-    t.datetime 'created_at',   null: false
-    t.datetime 'updated_at',   null: false
+    t.datetime 'created_at',        null: false
+    t.datetime 'updated_at',        null: false
     t.index ['user_id'], name: 'index_tubecam_devices_on_user_id', using: :btree
   end
 
+  create_table 'sequences', force: :cascade do |t|
+    t.integer  'tubecam_device_id',        null: false
+    t.integer  'sequence_no'
+    t.datetime 'created_at',        null: false
+    t.datetime 'updated_at',        null: false
+  end
+
   create_table 'media', force: :cascade do |t|
+    t.integer  'sequence_id',       null: false
     t.string   'original_path'
     t.string   'original_filename'
     t.string   'filename_hash'
@@ -59,14 +67,12 @@ ActiveRecord::Schema.define(version: 20170422144129) do
     t.datetime 'datetime'
     t.float    'longitude'
     t.float    'latitude'
-    t.integer  'sequence'
     t.integer  'frame'
-    t.integer  'tubecam_device_id'
     t.json     'exifdata'
     t.boolean  'deleted'
     t.datetime 'created_at',        null: false
     t.datetime 'updated_at',        null: false
-    t.index ['tubecam_device_id'], name: 'index_media_on_tubecam_device_id', using: :btree
+    t.index ['sequence_id'], name: 'index_media_on_sequence_id', using: :btree
   end
 
   create_table 'annotations_lookup_tables', force: :cascade do |t|
@@ -95,22 +101,23 @@ ActiveRecord::Schema.define(version: 20170422144129) do
     t.datetime 'updated_at',   null: false
   end
 
-  create_table 'medium_annotations', force: :cascade do |t|
+  create_table 'annotations', force: :cascade do |t|
     t.integer  'user_id'
-    t.integer  'medium_id'
+    t.integer  'sequence_id'
     t.integer  'annotations_lookup_table_id'
     t.integer  'verified_id'
     t.datetime 'created_at',   null: false
     t.datetime 'updated_at',   null: false
   end
 
-  add_foreign_key 'media', 'tubecam_devices'
   add_foreign_key 'tubecam_devices', 'users'
+  add_foreign_key 'sequences', 'tubecam_devices'
+  add_foreign_key 'media', 'sequences'
 
-  add_foreign_key 'medium_annotations', 'users'
-  add_foreign_key 'medium_annotations', 'media'
-  add_foreign_key 'medium_annotations', 'annotations_lookup_tables'
+  add_foreign_key 'annotations', 'users'
+  add_foreign_key 'annotations', 'sequences'
+  add_foreign_key 'annotations', 'annotations_lookup_tables'
 
-  add_index :medium_annotations, [:user_id, :medium_id], unique: true
+  add_index :annotations, [:user_id, :sequence_id], unique: true
 
 end

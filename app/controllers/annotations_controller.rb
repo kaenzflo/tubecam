@@ -3,14 +3,14 @@ class AnnotationsController < ApplicationController
   def new
     @user = current_user
     available_media = Medium.where(deleted: false)
-    media = available_media.where.not(id: MediumAnnotation.where(user_id: @user.id).select('medium_id'))
+    media = available_media.where.not(id: Annotation.where(user_id: @user.id).select('medium_id'))
     random = rand(0...media.size)
     @medium = media[random]
     instantiate_vars(media)
   end
 
   def create
-    @medium_annotation = MediumAnnotation.new(annotations_params)
+    @medium_annotation = Annotation.new(annotations_params)
     respond_to do |format|
       if @medium_annotation.annotations_lookup_table_id != '' &&
           @medium_annotation.user_id == current_user.id &&
@@ -27,7 +27,7 @@ class AnnotationsController < ApplicationController
   def specific
     @user = current_user
     available_media = Medium.where(deleted: false)
-    own_annotations = MediumAnnotation.where(user_id: @user.id)
+    own_annotations = Annotation.where(user_id: @user.id)
     if own_annotations.where(medium_id: specific_param[:id])
       # TODO Flash doesn't work
       redirect_to '/annotations/new', warn: 'Medium bereits annotiert'
@@ -51,7 +51,7 @@ class AnnotationsController < ApplicationController
         ENV['S3_BUCKET_NAME'] + '/'
     @cloud_resource_thumbnail_url = @cloud_resource_image_url + 'thumbnails/'
     @annotations_lookup_table = AnnotationsLookupTable.all.order('annotation_id')
-    @medium_annotation = MediumAnnotation.new
+    @medium_annotation = Annotation.new
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

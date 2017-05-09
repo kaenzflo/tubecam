@@ -1,5 +1,5 @@
 class Medium < ApplicationRecord
-  belongs_to :tubecam_device
+  belongs_to :sequence
 
   # Use scoping for filteroptions in media gallery
   include Filterable
