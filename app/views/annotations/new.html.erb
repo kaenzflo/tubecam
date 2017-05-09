@@ -54,6 +54,11 @@
       <% end %>
     </td>
   </tr>
+  <tr>
+    <% @thumbnails.each do |thumbnail| %>
+    <td><%= link_to image_tag(@cloud_resource_thumbnail_url + thumbnail.filename_hash), controller: 'annotations', action: 'specific', id: thumbnail.id %></td>
+    <% end %>
+  </tr>
 </table>
 
 

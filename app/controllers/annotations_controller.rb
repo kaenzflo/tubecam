@@ -5,9 +5,12 @@ class AnnotationsController < ApplicationController
     media = Medium.where.not(id: MediumAnnotation.where(user_id: @user.id).select('medium_id'))
     random = rand(0...media.size)
     @medium = media[random]
+    @thumbnails = media.where(sequence: @medium.sequence, frame: @medium.frame..(@medium.frame + 3))
+    p @thumbnails.inspect
     @cloud_resource_image_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/'
+    @cloud_resource_thumbnail_url = @cloud_resource_image_url + 'thumbnails/'
     @annotations_lookup_table = AnnotationsLookupTable.all
     @medium_annotation = MediumAnnotation.new
   end
@@ -27,11 +30,20 @@ class AnnotationsController < ApplicationController
     end
   end
 
+  def specific
+    @medium = Medium.new(medium_param)
+
+  end
+
   private
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def annotations_params
     params.require(:medium_annotation).permit(:user_id, :medium_id, :annotations_lookup_table_id)
+  end
+
+  def medium_param
+    params.require(:medium).permit(:id)
   end
 
 
