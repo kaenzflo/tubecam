@@ -18,7 +18,7 @@
       <div class="item-actions">
         <ul>
           <% if user_signed_in? %>
-            <li><%= link_to 'Annotieren', annotations_specific_path, :id => medium.id %></li>
+            <li><%= link_to 'Annotieren', controller: 'annotations', action: 'specific', :id => medium.id %></li>
           <% end %>
           <li><%= link_to 'Tubecam', tubecam_device_path(medium.tubecam_device_id) %></li>
           <li><%= link_to 'Karte', maps_path(:longitude => medium.longitude, :latitude => medium.latitude) %></li>

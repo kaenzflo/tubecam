@@ -6,7 +6,7 @@ class AnnotationsController < ApplicationController
     media = available_media.where.not(id: MediumAnnotation.where(user_id: @user.id).select('medium_id'))
     random = rand(0...media.size)
     @medium = media[random]
-    instantiate_annotation_variables(media)
+    instantiate_vars(media)
   end
 
   def create
@@ -27,9 +27,15 @@ class AnnotationsController < ApplicationController
   def specific
     @user = current_user
     available_media = Medium.where(deleted: false)
-    @medium = available_media.find(specific_param[:id])
-    media = Medium.all
-    instantiate_annotation_variables(media)
+    own_annotations = MediumAnnotation.where(user_id: @user.id)
+    if own_annotations.where(medium_id: specific_param[:id])
+      # TODO Flash doesn't work
+      redirect_to '/annotations/new', warn: 'Medium bereits annotiert'
+    else
+      @medium = available_media.find(specific_param[:id])
+      media = Medium.all
+      instantiate_vars(media)
+    end
   end
 
   def index
@@ -38,7 +44,7 @@ class AnnotationsController < ApplicationController
 
   private
 
-  def instantiate_annotation_variables(media)
+  def instantiate_vars(media)
     @thumbnails = media.where(sequence: @medium.sequence, frame: @medium.frame..(@medium.frame + 3))
     @cloud_resource_image_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +

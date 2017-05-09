@@ -103,17 +103,18 @@ class MediaController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_medium
-      @medium = Medium.find(params[:id])
-    end
+  
+  # Use callbacks to share common setup or constraints between actions.
+  def set_medium
+    @medium = Medium.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def medium_params
-      params.require(:medium).permit(:path, :filename, :mediatype, :datetime, :longitude, :latitude, :sequence, :frame, :tubecam_device_id, :exifdata, :deleted)
-      # Additional for filtering gallery
-      params.require(:medium).permit(:date_start, :date_end)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def medium_params
+    params.require(:medium).permit(:path, :filename, :mediatype, :datetime, :longitude, :latitude, :sequence, :frame, :tubecam_device_id, :exifdata, :deleted)
+    # Additional for filtering gallery
+    params.require(:medium).permit(:date_start, :date_end)
+  end
 
   def filter_params
     filter_params = params.slice(:tubecam_device_id, :sequence, :date_start, :date_end)

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get '/projekt', to: 'pages#project', as: "project"
   get '/kontakt', to: 'pages#contact', as: "contact"
 
+  get '/annotations' => 'annotations#index'
   get '/annotations/new' => 'annotations#new'
   get '/annotations/specific' => 'annotations#specific'
   post '/annotations' => 'annotations#create'
