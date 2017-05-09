@@ -72,15 +72,37 @@ namespace :heroku do
         datetime = exif_json['DateTimeOriginal']
         longitude = exif_json['GPSLongitude']
         latitude = exif_json['GPSLatitude']
-        sequence = original_filename[29..32]
+        sequence_no = original_filename[29..32]
         frame = original_filename[34..35]
         tubecam_device = TubecamDevice.find_by(serialnumber: tubecam_sn)
         tubecam_device_id = tubecam_device.id
-        Medium.create(original_path: original_path, original_filename: original_filename,
+        @sequence = Sequence.create(tubecam_device_id: tubecam_device_id,
+                                        sequence_no: sequence_no)
+
+        # p tubecam_device_id.inspect
+        # @sequence = nil
+        # p Sequence.where(sequence_no: sequence_no, tubecam_device_id: tubecam_device_id).nil?.inspect
+        # if !Sequence.where(tubecam_device_id: tubecam_device_id)
+        #   p @sequence.inspect
+        # end
+        #   if !Sequence.where(sequence_no: sequence_no)
+        #     @sequence = Sequence.create(tubecam_device_id: tubecam_device_id,
+        #                                 sequence_no: sequence_no)
+        #     p 'IF'
+        #     p @sequence.inspect
+        #   end
+        # else
+        #   @sequence = Sequence.where(tubecam_device_id: tubecam_device_id,
+        #                              sequence_no: sequence_no)
+        #   p 'ELSE'
+        #   p @sequence.inspect
+        # end
+        # p 'AFTER END'
+        Medium.create(sequence_id: @sequence.id,
+                      original_path: original_path, original_filename: original_filename,
                       filename_hash: filename_hash, mediatype: mediatype,
                       datetime: datetime, longitude: longitude,
-                      latitude: latitude, sequence: sequence,
-                      frame: frame, tubecam_device_id: tubecam_device_id,
+                      latitude: latitude, frame: frame,
                       exifdata: json_data, deleted: false)
 
         # Upload medium
@@ -99,6 +121,7 @@ namespace :heroku do
       end
     rescue => e
       ftp.close
+      p e.message
       Rails.logger.error e.message
     end
     ftp.close
