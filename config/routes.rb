@@ -17,8 +17,8 @@ Rails.application.routes.draw do
 
 
   # Deactivate instead of Destroy
-  get '/media/delete/:id' => 'media#delete'
-  get '/media/activate/:id' => 'media#activate'
+  get '/sequences/delete/:id' => 'sequences#delete'
+  get '/sequences/activate/:id' => 'sequences#activate'
   get '/tubecam_devices/delete/:id' => 'tubecam_devices#delete'
   get '/tubecam_devices/activate/:id' => 'tubecam_devices#activate'
 

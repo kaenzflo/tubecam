@@ -18,9 +18,9 @@ class TubecamDevicesController < ApplicationController
   # GET /tubecam_devices/1
   # GET /tubecam_devices/1.json
   def show
-    @media = Medium.where(tubecam_device_id: @tubecam_device.id).page(params[:page])
+    @sequences = Sequence.where(tubecam_device_id: @tubecam_device.id).order("id").page(params[:page])
     if user_signed_in? && !current_user.admin_role?
-      @media = @media.where(deleted: false)
+      @sequences = @sequences.where(deleted: false)
     end
     @cloud_resource_thumbnail_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +

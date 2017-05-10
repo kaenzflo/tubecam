@@ -24,7 +24,7 @@ class MediaController < ApplicationController
     @cloud_resource_image_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/'
-    @tubecam_device = TubecamDevice.find(medium.tubecam_device_id)
+    @tubecam_device = TubecamDevice.find(id: Sequence.find(sequence_id: medium.sequence_id).select('tubecam_device_id'))
     @annotations = Annotation.where(medium_id: medium.id)
     @annotations_lookup_table = AnnotationsLookupTable.all
   end
@@ -80,22 +80,22 @@ class MediaController < ApplicationController
 
   def delete
     @medium = set_medium
-    tubecam_device_id = @medium.tubecam_device_id
+    sequence_id = @medium.sequence_id
     if (current_user.admin_role? || current_user.trapper_role?) && @medium.update( :deleted => true )
-      redirect_to tubecam_device_url(tubecam_device_id), notice: 'Das Medium wurde erfolgreich entfernt.'
+      redirect_to tubecam_device_url(sequence_id), notice: 'Das Medium wurde erfolgreich entfernt.'
     else
-      redirect_to tubecam_device_url(tubecam_device_id), alert: 'Das Medium kann nicht entfernt werden.'
+      redirect_to tubecam_device_url(sequence_id), alert: 'Das Medium kann nicht entfernt werden.'
     end
   end
 
   # Set medium active
   def activate
     @medium = set_medium
-    tubecam_device_id = @medium.tubecam_device_id
+    sequence_id = @medium.sequence_id
     if (current_user.admin_role? || current_user.trapper_role?) && @medium.update( :deleted => false )
-      redirect_to tubecam_device_url(tubecam_device_id), notice: 'Das Medium wurde erfolgreich reaktiviert.'
+      redirect_to tubecam_device_url(sequence_id), notice: 'Das Medium wurde erfolgreich reaktiviert.'
     else
-      redirect_to tubecam_device_url(tubecam_device_id), alert: 'Das Medium kann nicht reaktivert werden.'
+      redirect_to tubecam_device_url(sequence_id), alert: 'Das Medium kann nicht reaktivert werden.'
     end
   end
 
