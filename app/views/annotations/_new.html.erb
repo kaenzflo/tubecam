@@ -7,7 +7,7 @@
     <td>
       <%= form_for @annotation, url: {action: 'create'} do |f| %>
           <%= f.hidden_field :user_id, value: @user.id %>
-          <%= f.hidden_field :medium_id, value: @medium.id %>
+          <%= f.hidden_field :sequence_id, value: @medium.sequence_id %>
 
           <select id='annotations_select' class="selectpicker form-control" name='annotation[annotations_lookup_table_id]' size='20'  required >
             <% @annotations_lookup_table.each do |lookup| %>
@@ -55,8 +55,12 @@
     </td>
   </tr>
   <tr>
-    <% @thumbnails.each do |medium| %>
-        <td><%= link_to image_tag(@cloud_resource_thumbnail_url + medium.filename_hash), controller: 'annotations', action: 'specific', :id => medium.id %></td>
+    <% for i in 0..3 %>
+        <% if @thumbnails[i].nil? %>
+            <td><%= image_tag(@cloud_resource_thumbnail_url + 'no_media.png') %></td>
+            <% else %>
+        <td><%= link_to image_tag(@cloud_resource_thumbnail_url + @thumbnails[i].filename_hash), controller: 'annotations', action: 'specific', :id => @thumbnails[i].id %></td>
+            <% end %>
     <% end %>
   </tr>
 </table>
