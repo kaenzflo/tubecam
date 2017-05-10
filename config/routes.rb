@@ -13,6 +13,10 @@ Rails.application.routes.draw do
   get '/annotations' => 'annotations#index', as: "annotations"
   get '/annotations/new' => 'annotations#new', as: "new_annotation"
   get '/annotations/specific' => 'annotations#specific', as: "spedific_annotation"
+  get '/annotations/done' => 'annotations#done'
+  get '/annotations/destroy' => 'annotations#destroy'
+  get '/annotations/confirm_verification' => 'annotations#confirm_verification'
+  get '/annotations/delete_verification' => 'annotations#delete_verification'
   post '/annotations' => 'annotations#create'
 
 

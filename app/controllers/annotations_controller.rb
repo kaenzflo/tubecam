@@ -4,18 +4,21 @@ class AnnotationsController < ApplicationController
     @user = current_user
     available_sequences = Sequence.where(deleted: false)
     sequences = available_sequences.where.not(id: Annotation.where(user_id: @user.id).select('sequence_id'))
-    sequence = sequences[rand(0...sequences.size)]
-    sequence_media = Medium.where(sequence_id: sequence.id, deleted: false).order('frame ASC')
-    @medium = sequence_media.first
-    instantiate_vars(sequence_media)
+    if sequences.empty?
+      redirect_to '/annotations/done'
+    else
+      sequence = sequences[rand(0...sequences.size)]
+      sequence_media = Medium.where(sequence_id: sequence.id, deleted: false).order('frame ASC')
+      @medium = sequence_media.first
+      instantiate_vars(sequence_media)
+    end
   end
 
   def specific
     @user = current_user
     medium = Medium.find(specific_param[:id])
-    own_annotations = Annotation.where(user_id: @user.id)
-    if own_annotations.where(sequence_id: medium.sequence_id).nil?
-      redirect_to '/annotations/new', alert: 'Medium bereits annotiert'
+    if !Annotation.where(sequence_id: medium.sequence_id, user_id: @user.id).empty?
+      redirect_to '/annotations/new', alert: 'Medium bereits annotiert: Anderes Medium wird angezeigt'
     else
       @medium = medium
       sequence_media = Medium.where(deleted: false, sequence_id: medium.sequence_id).order('frame ASC')
@@ -39,13 +42,35 @@ class AnnotationsController < ApplicationController
   end
 
   def index
+    @annotations = Annotation.all
+    @annotations_lookup_table = AnnotationsLookupTable.all
+    @users = User.all
+    @user = current_user
+  end
 
+  def destroy
+    @annotation = Annotation.find(destroy_param[:id])
+    @annotation.destroy
+    respond_to do |format|
+      format.html { redirect_to annotations_path, notice: 'Annotation gelöscht' }
+      format.json { head :no_content }
+    end
+  end
+
+  def confirm_verification
+    #TODO
+    redirect_to '/annotations', notice: 'Not yet implemented'
+  end
+
+  def delete_verification
+    #TODO
+    redirect_to '/annotations', notice: 'Not yet implemented'
   end
 
   private
 
   def instantiate_vars(sequence_media)
-    @thumbnails = sequence_media.where(frame: (@medium.frame + 1)..(@medium.frame + 4)) #.order('frame ASC')
+    @thumbnails = sequence_media.where(frame: (@medium.frame + 1)..(@medium.frame + 4)).order('frame ASC')
     @cloud_resource_image_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/'
@@ -63,6 +88,8 @@ class AnnotationsController < ApplicationController
     params.permit(:id)
   end
 
+  def destroy_param
+    params.permit(:id)
+  end
 
 end
-
