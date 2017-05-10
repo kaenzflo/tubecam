@@ -13,7 +13,7 @@
               <% if user_signed_in? %>
                   <li><%= link_to 'Annotieren', controller: 'annotations', action: 'specific', :id => medium.id %></li>
               <% end %>
-              <li><%= link_to 'Tubecam', tubecam_device_path(medium.tubecam_device_id) %></li>
+              <li><%= link_to 'Tubecam', tubecam_device_path(medium.sequence.tubecam_device_id) %></li>
               <li><%= link_to 'Karte', maps_path(:longitude => medium.longitude, :latitude => medium.latitude) %></li>
             </ul>
           </div>
@@ -37,7 +37,7 @@
   <div class="row row-padding row-margin bg-success">
         <h2>Galerie</h2>
       <p>Werde Teil des Projektes und hilft mit den [...Hermelin...]bestand zu sichern.</p>
-      <%= link_to('Anschauen', media_path, class: 'btn btn-success') %>
+      <%= link_to('Anschauen', sequences_path, class: 'btn btn-success') %>
   </div>
 </div>
 

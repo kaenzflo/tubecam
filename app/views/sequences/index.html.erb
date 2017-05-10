@@ -1,0 +1,36 @@
+<h1>Galerie</h1>
+
+<%= render 'filter' %>
+
+<% if @sequences.empty? %>
+    <h3>Keine Medien gefunden.</h3>
+<% else %>
+
+  <%= will_paginate @sequences %>
+
+ <div class="gallery">
+   <% @sequences.each do |sequence| %>
+     <% @media = Medium.where(sequence_id: sequence.id) %>
+     <% @media.each do |medium| %>
+         <% medium = Coordinates.wgs_to_ch(medium) %>
+      <div class="item">
+        <%= link_to image_tag(@cloud_resource_thumbnail_url + medium.filename_hash), sequence %>
+        <p class="item-date"><%= medium.datetime.strftime("%d.%m.%Y %H:%M:%S") %></p>
+        <!--<p class="item-delete"><a href="#">X</a></p>-->
+        <div class="item-actions">
+          <ul>
+            <% if user_signed_in? %>
+              <li><%= link_to 'Annotieren', controller: 'annotations', action: 'specific', :id => medium.id %></li>
+            <% end %>
+            <li><%= link_to 'Tubecam', tubecam_device_path(sequence.tubecam_device_id) %></li>
+            <li><%= link_to 'Karte', maps_path(:longitude => medium.longitude, :latitude => medium.latitude) %></li>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+   <% end %>
+ </div>
+
+  <%= will_paginate @sequences %>
+
+<% end %>

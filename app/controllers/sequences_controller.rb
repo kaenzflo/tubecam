@@ -10,7 +10,7 @@ class SequencesController < ApplicationController
   def index
     @filter_params = filter_params()
     sequences = Sequence.filter(@filter_params)
-    @sequences = sequences.where(deleted: false).page(params[:page])
+    @sequences = sequences.page(params[:page])
     @cloud_resource_thumbnail_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/thumbnails/'
