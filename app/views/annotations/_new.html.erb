@@ -1,8 +1,14 @@
 <table>
-  <p><%= link_to 'Anderes annotieren', action='new' %></p>
   <tr>
     <td>
-      <%= image_tag(@cloud_resource_image_url + @medium.filename_hash, size: '612x459') %>
+      <div class="annotation-image">
+        <%= image_tag(@cloud_resource_image_url + @medium.filename_hash, size: '612x459') %>
+        <div class="annotation-refresh">
+          <a href="<%= new_annotation_path %>">
+            <button type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
+          </a>
+        </div>
+      </div>
     </td>
     <td>
       <%= form_for @annotation, url: {action: 'create'} do |f| %>

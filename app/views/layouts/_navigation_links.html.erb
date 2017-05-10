@@ -5,7 +5,7 @@
 
 
 <% if user_signed_in? %>
-    <li><%= link_to 'Annotieren', annotations_new_path %></li>
+    <li><%= link_to 'Annotieren', new_annotation_path %></li>
 <% end %>
 
 <% if user_signed_in? && current_user.trapper_role? && !current_user.admin_role?%>
