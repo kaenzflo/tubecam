@@ -46,11 +46,11 @@
         <td><%= user.firstname %></td>
         <td><%= user.lastname %></td>
         <td><%= user.email %></td>
-        <td><%= user.spotter_role %></td>
-        <td><%= user.verified_spotter_role %></td>
-        <td><%= user.trapper_role %></td>
-        <td><%= user.admin_role %></td>
-        <td><%= user.active %></td>
+        <td><%= user.spotter_role ? '✔' : '-' %></td>
+        <td><%= user.verified_spotter_role ? '✔' : '-' %></td>
+        <td><%= user.trapper_role ? '✔' : '-' %></td>
+        <td><%= user.admin_role ? '✔' : '-' %></td>
+        <td><%= user.active ? '✔' : '-' %></td>
         <% if can? :manage, User %>
           <td><%= link_to 'Bearbeiten', edit_user_path(user) %></td>
           <td><%= link_to 'Löschen', user, method: :delete, data: { confirm: 'Soll der Benutzer "' + user.firstname.to_s + ' ' + user.lastname.to_s + '" mit der Id "' + user.id.to_s + '" wirklich gelöscht werden?' } %></td>
