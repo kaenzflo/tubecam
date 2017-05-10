@@ -38,15 +38,17 @@ class MapsController < ApplicationController
     params.permit(:longitude, :latitude)
   end
 
+
   def generate_tubecams_json(exact_position=true)
     @tubecams = TubecamDevice.where(:active => true)
+
 
     tubecamsHash = {}
     tubecamsHash[:type] = "FeatureCollection"
 
     tubecamArray = []
     @tubecams.each do |tubecam|
-      latest_image = Medium.where(:tubecam_device_id => tubecam.id).order("id DESC").first;
+      latest_image = Medium.where(sequence_id: Sequence.where(tubecam_device_id: tubecam.id)).last
       if !latest_image.nil?
         longitude = Coordinates.wgs_to_ch_y(latest_image.longitude, latest_image.latitude);
         latitude = Coordinates.wgs_to_ch_x(latest_image.longitude, latest_image.latitude);
@@ -64,7 +66,7 @@ class MapsController < ApplicationController
                            "coordinates" => [longitude, latitude]
                        },
                        "properties" => {
-                           "description" => description.to_s,
+                           "description" => description,
                            "style-class" => tubecam.id
                        }
         }
@@ -85,9 +87,10 @@ class MapsController < ApplicationController
 
     styleArray = []
     @tubecams.each do |tubecam|
-      latest_image = Medium.where(:tubecam_device_id => tubecam.id).order("id DESC").first;
-      relative_point_factor = calculate_point_factor(tubecam.id, total_images, 10)
+      latest_image = Medium.where(sequence_id: Sequence.where(tubecam_device_id: tubecam.id)).last
+      p latest_image
       if !latest_image.nil?
+         relative_point_factor = calculate_point_factor(tubecam.id, total_images, 10)
         time_period = days_since_last_image(latest_image)
         point_color = set_point_color(time_period)
 
@@ -114,10 +117,11 @@ class MapsController < ApplicationController
     stylesHash.to_json
   end
 
+
   def generate_description serialnumber, latest_image_text, time_period, longitude, latitude, tubecam, description, exact_position=true
     s = StringIO.new
     s << "<p>" + "Seriennummer:<b> " +serialnumber + "</b></p>"
-    s << "<p>" + "Anzahl Aufnahmen:<b> " + Medium.where(tubecam_device_id: tubecam.id).count.to_s + "</b></p>"
+    s << "<p>" + "Anzahl Aufnahmen:<b> " + Medium.where(sequence_id: Sequence.where(tubecam_device_id: tubecam.id)).count.to_s + "</b></p>"
     s << latest_image_text
     if exact_position
       s << "<p>" + "Koordinaten: " + sprintf('%#.2f', longitude) + ", " + sprintf('%#.2f', latitude) +  "</p>"
@@ -155,13 +159,18 @@ class MapsController < ApplicationController
   end
 
   def latest_image_text(latest_image, time_period)
+    p "==================="
+    p latest_image
     day_text = time_period == 1 ? " Tag" : " Tage"
     text = "<p>Letzte Aufnahme: " + latest_image.datetime.to_date.strftime('%d.%m.%Y').to_s + " (" + time_period.to_s + day_text + ")</p>"
   end
 
   def calculate_point_factor(tubecam_id, total_images, scalefactor)
-    count = Medium.where(tubecam_device_id: tubecam_id).count
+    #TODO: Count is not working at moment
+    count = Medium.where(sequence_id: Sequence.where(tubecam_device_id: tubecam_id)).count
     relative = 1.0 * count / (total_images / scalefactor) + 1
+    relative
+    relative = 0.1 * scalefactor
   end
 
   def calculate_best_default_view_options

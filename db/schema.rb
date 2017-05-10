@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 20170422144129) do
     t.integer  'sequence_no'
     t.datetime 'created_at',        null: false
     t.datetime 'updated_at',        null: false
+    t.index ['tubecam_device_id'], name: 'index_sequences_on_tubecam_device_id', using: :btree
   end
 
   create_table 'media', force: :cascade do |t|

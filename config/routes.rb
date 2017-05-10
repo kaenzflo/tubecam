@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => { registrations: 'registrations' }
   resources :tubecam_devices
   resources :media
+  resources :sequence
   resources :users
 
   get '/standorte' => 'maps#index', as: "maps"
