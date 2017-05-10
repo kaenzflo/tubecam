@@ -1,17 +1,18 @@
 <table>
+  <p><%= link_to 'Anderes annotieren', action='new' %></p>
   <tr>
     <td>
       <%= image_tag(@cloud_resource_image_url + @medium.filename_hash, size: '612x459') %>
     </td>
     <td>
-      <%= form_for @medium_annotation, url: {action: 'create'} do |f| %>
+      <%= form_for @annotation, url: {action: 'create'} do |f| %>
           <%= f.hidden_field :user_id, value: @user.id %>
           <%= f.hidden_field :medium_id, value: @medium.id %>
 
-          <select id='annotations_select' class="selectpicker form-control" name='medium_annotation[annotations_lookup_table_id]' size='20'  required >
+          <select id='annotations_select' class="selectpicker form-control" name='annotation[annotations_lookup_table_id]' size='20'  required >
             <% @annotations_lookup_table.each do |lookup| %>
                 <% selected_string = ''
-                   if @medium_annotation.annotations_lookup_table_id == lookup.id
+                   if @annotation.annotations_lookup_table_id == lookup.id
                      selected_string = ' selected="selected" '
                    end
                 %>

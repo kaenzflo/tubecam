@@ -102,7 +102,6 @@ namespace :heroku do
       end
     rescue => e
       ftp.close
-      p e.message
       Rails.logger.error e.message
     end
     ftp.close

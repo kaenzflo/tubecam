@@ -54,9 +54,11 @@ ActiveRecord::Schema.define(version: 20170422144129) do
   create_table 'sequences', force: :cascade do |t|
     t.integer  'tubecam_device_id',        null: false
     t.integer  'sequence_no'
+    t.boolean  'deleted',           default: false
     t.datetime 'created_at',        null: false
     t.datetime 'updated_at',        null: false
     t.index ['tubecam_device_id'], name: 'index_sequences_on_tubecam_device_id', using: :btree
+    t.index ['sequence_no'], name: 'index_sequences_on_sequence_no', using: :btree
   end
 
   create_table 'media', force: :cascade do |t|
@@ -70,7 +72,7 @@ ActiveRecord::Schema.define(version: 20170422144129) do
     t.float    'latitude'
     t.integer  'frame'
     t.json     'exifdata'
-    t.boolean  'deleted'
+    t.boolean  'deleted',           default: false
     t.datetime 'created_at',        null: false
     t.datetime 'updated_at',        null: false
     t.index ['sequence_id'], name: 'index_media_on_sequence_id', using: :btree
