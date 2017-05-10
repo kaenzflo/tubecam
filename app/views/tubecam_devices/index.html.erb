@@ -25,7 +25,7 @@
           <td><%= user.username %> (<%= user.id %>)</td>
         <% end %>
         <td><%= tubecam_device.description %></td>
-        <td><%= tubecam_device.active %></td>
+        <td><%= tubecam_device.active ? '✔' : '-'  %></td>
         <td><%= link_to 'Anzeigen', tubecam_device_path(tubecam_device) %></td>
        <% if current_user.admin_role? %>
           <% if tubecam_device.active? %>
