@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get '/annotations/specific' => 'annotations#specific'
   post '/annotations' => 'annotations#create'
 
+
   # Deactivate instead of Destroy
   get '/media/delete/:id' => 'media#delete'
   get '/media/activate/:id' => 'media#activate'

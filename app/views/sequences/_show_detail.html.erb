@@ -1,0 +1,45 @@
+<div class="medium-detail">
+  <div class="image-detail">
+    <%= image_tag(@cloud_resource_image_url + @medium.filename_hash) %>
+  </div>
+  <div class="image-description">
+    <p>
+      <strong>Medientyp:</strong>
+      <%= @medium.mediatype %>
+    </p>
+
+    <p>
+      <strong>Datum:</strong>
+      <%= @medium.datetime.strftime("%d.%m.%Y %H:%M:%S") %>
+    </p>
+
+    <% if user_signed_in? %>
+        <p>
+          <strong>Längengrad:</strong>
+          <%= @medium.longitude %>
+        </p>
+
+        <p>
+          <strong>Breitengrad:</strong>
+          <%= @medium.latitude %>
+        </p>
+    <% end %>
+
+    <p>
+      <strong>Sequenz:</strong>
+      <%= @medium.sequence %>
+    </p>
+
+    <p>
+      <strong>Frame:</strong>
+      <%= @medium.frame %>
+    </p>
+  </div>
+  <div class="image-links">
+    <%= link_to 'Tubecam ' + @tubecam_device.serialnumber, tubecam_device_path(@medium.tubecam_device_id), class: 'btn btn-primary' %>
+    <%= link_to 'Standort auf Karte anzeigen', maps_path(:longitude => @medium.longitude, :latitude => @medium.latitude), class: 'btn btn-primary' %>
+    <% if !@annotations.empty? %>
+        <%= link_to 'Annotieren', annotations_new_path, :id => @medium.id, class: 'btn btn-primary' %>
+    <% end %>
+  </div>
+</div>

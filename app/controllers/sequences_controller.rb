@@ -24,7 +24,12 @@ class SequencesController < ApplicationController
   # GET /sequences/1.json
   def show
     sequence = Sequence.find(params[:id])
-    @sequence = Coordinates.wgs_to_ch(sequence)
+    @sequence = sequence
+    medium = sequence.media.last
+    @medium = Coordinates.wgs_to_ch(medium)
+    @cloud_resource_thumbnail_url = 'https://' +
+        ENV['S3_HOST_NAME'] + '/' +
+        ENV['S3_BUCKET_NAME'] + '/thumbnails/'
     @cloud_resource_image_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/'
@@ -97,9 +102,9 @@ class SequencesController < ApplicationController
     @sequence = set_sequence
     tubecam_device_id = @sequence.tubecam_device_id
     if (current_user.admin_role? || current_user.trapper_role?) && @sequence.update( :deleted => false )
-      redirect_to tubecam_device_url(tubecam_device_id), notice: 'Das Sequence wurde erfolgreich reaktiviert.'
+      redirect_to tubecam_device_url(tubecam_device_id), notice: 'Das Sequenze wurde erfolgreich reaktiviert.'
     else
-      redirect_to tubecam_device_url(tubecam_device_id), alert: 'Das Sequence kann nicht reaktivert werden.'
+      redirect_to tubecam_device_url(tubecam_device_id), alert: 'Das Sequenze kann nicht reaktivert werden.'
     end
   end
 
@@ -126,14 +131,14 @@ class SequencesController < ApplicationController
     if !params[:date_start].nil?
       if !params[:date_start].empty?
         @filter_params[:date_start] = string_to_date(params[:date_start], '00:00:00')
-        filter_date_start = Medium.joins(:sequence).select(:sequence_id).where(['datetime >=  ?', @filter_params[:date_start]]).uniq.pluck(:sequence_id)
+        filter_date_start = Medium.select(:sequence_id).where(['datetime >=  ?', @filter_params[:date_start]]).uniq.pluck(:sequence_id)
         sequences = sequences.where(id: filter_date_start) if !filter_date_start.nil?
       end
     end
     if !params[:date_end].nil?
       if !params[:date_end].empty?
         @filter_params[:date_end] = string_to_date(params[:date_end], '22:59:59')
-        filter_date_end = Medium.joins(:sequence).select(:sequence_id).where(['datetime <=  ?', @filter_params[:date_end]]).uniq.pluck(:sequence_id)
+        filter_date_end = Medium.select(:sequence_id).where(['datetime <=  ?', @filter_params[:date_end]]).uniq.pluck(:sequence_id)
         sequences = sequences.where(id: filter_date_end) if !filter_date_end.nil?
       end
     end
