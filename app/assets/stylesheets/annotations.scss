@@ -24,3 +24,22 @@ option.annotations-level-1 {
 option.annotations-level-2 {
 
 }
+
+
+.annotation-image {
+  position: relative;
+}
+
+.annotation-image .annotation-refresh {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 900;
+  opacity: 0.5;
+  transition: 1s;
+}
+
+.annotation-image:hover .annotation-refresh {
+  opacity: 0.7;
+  transition: 0.3s;
+}
