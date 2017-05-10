@@ -8,8 +8,12 @@ class SequencesController < ApplicationController
   # GET /sequences
   # GET /sequences.json
   def index
-    @filter_params = filter_params()
-    sequences = Sequence.filter(@filter_params)
+    scope_params = scope_params()
+    @filter_params = scope_params
+    sequences = Sequence.filter(scope_params)
+
+    sequences = filter_sequences(sequences)
+
     @sequences = sequences.page(params[:page])
     @cloud_resource_thumbnail_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
@@ -113,18 +117,31 @@ class SequencesController < ApplicationController
     params.require(:sequence).permit(:date_start, :date_end)
   end
 
-  def filter_params
-    filter_params = params.slice(:tubecam_device_id, :sequence, :date_start, :date_end)
-
-    if !filter_params[:date_start].nil?
-      filter_params[:date_start] = string_to_date(filter_params[:date_start], '00:00:00')
-    end
-    if !filter_params[:date_end].nil?
-      filter_params[:date_end] = string_to_date(filter_params[:date_end], '22:59:59')
-    end
-
-    filter_params
+  def scope_params
+    scope_params = params.slice(:tubecam_device_id, :sequence)
   end
+
+  def filter_sequences sequences
+    filter_by_date = ''
+    if !params[:date_start].nil?
+      if !params[:date_start].empty?
+        @filter_params[:date_start] = string_to_date(params[:date_start], '00:00:00')
+        filter_date_start = Medium.joins(:sequence).select(:sequence_id).where(['datetime >=  ?', @filter_params[:date_start]]).uniq.pluck(:sequence_id)
+        sequences = sequences.where(id: filter_date_start) if !filter_date_start.nil?
+      end
+    end
+    if !params[:date_end].nil?
+      if !params[:date_end].empty?
+        @filter_params[:date_end] = string_to_date(params[:date_end], '22:59:59')
+        filter_date_end = Medium.joins(:sequence).select(:sequence_id).where(['datetime <=  ?', @filter_params[:date_end]]).uniq.pluck(:sequence_id)
+        sequences = sequences.where(id: filter_date_end) if !filter_date_end.nil?
+      end
+    end
+
+    sequences
+  end
+
+  # scope :date_start, -> (date_start) { where("datetime > ?", date_start) } if !:date_start.empty?
 
   def string_to_date date_string, time
     if !date_string.empty?

@@ -1,6 +1,5 @@
 class Medium < ApplicationRecord
   belongs_to :sequence
-  has_many :media, :dependent => :destroy
 
   # Use scoping for filteroptions in media gallery
   include Filterable
