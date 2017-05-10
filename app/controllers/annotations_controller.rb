@@ -2,10 +2,11 @@ class AnnotationsController < ApplicationController
 
   def new
     @user = current_user
-    available_media = Medium.where(deleted: false)
-    media = available_media.where.not(id: Annotation.where(user_id: @user.id).select('medium_id'))
-    random = rand(0...media.size)
-    @medium = media[random]
+    available_sequences = Sequence.where(deleted: false)
+    sequences = available_sequences.where.not(id: Annotation.where(user_id: @user.id).select('sequence_id'))
+    sequence = sequences[rand(0...sequences.size)]
+    media = Medium.where(sequence_id: sequence.id, deleted: false)
+    @medium = media.first
     instantiate_vars(media)
   end
 
@@ -18,7 +19,7 @@ class AnnotationsController < ApplicationController
         format.html { redirect_to '/annotations/new', notice: 'Medium erfolgreich annotiert' }
         format.json { render :'annotations/new', status: :created, location: @medium_annotation }
       else
-        format.html { redirect_to '/annotations/new', warn: 'Annotation fehlgeschlagen' }
+        format.html { redirect_to '/annotations/new', alert: 'Annotation fehlgeschlagen' }
         format.json { render json: @medium_annotation.errors, status: :unprocessable_entity }
       end
     end
@@ -26,15 +27,17 @@ class AnnotationsController < ApplicationController
 
   def specific
     @user = current_user
-    available_media = Medium.where(deleted: false)
+    media = Medium.all
+    available_media = media.where(deleted: false)
     own_annotations = Annotation.where(user_id: @user.id)
-    if own_annotations.where(medium_id: specific_param[:id])
-      # TODO Flash doesn't work
-      redirect_to '/annotations/new', warn: 'Medium bereits annotiert'
+    medium = available_media.find(specific_param[:id])
+    p '##############'
+    p medium.sequence_id.inspect
+    if own_annotations.where(sequence_id: medium.sequence_id)
+      redirect_to '/annotations/new', alert: 'Medium bereits annotiert'
     else
       @medium = available_media.find(specific_param[:id])
-      media = Medium.all
-      instantiate_vars(media)
+      instantiate_vars(available_media)
     end
   end
 
@@ -45,13 +48,13 @@ class AnnotationsController < ApplicationController
   private
 
   def instantiate_vars(media)
-    @thumbnails = media.where(sequence: @medium.sequence, frame: @medium.frame..(@medium.frame + 3))
+    @thumbnails = media.where(frame: @medium.frame..(@medium.frame + 3))
     @cloud_resource_image_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/'
     @cloud_resource_thumbnail_url = @cloud_resource_image_url + 'thumbnails/'
     @annotations_lookup_table = AnnotationsLookupTable.all.order('annotation_id')
-    @medium_annotation = Annotation.new
+    @annotation = Annotation.new
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

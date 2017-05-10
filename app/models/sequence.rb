@@ -11,4 +11,6 @@ class Sequence < ApplicationRecord
 
   # Pagination: Amount of items per page
   self.per_page = 16
+
+  validates :tubecam_device_id, uniqueness: { scope: :sequence_no }
 end

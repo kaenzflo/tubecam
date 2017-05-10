@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    sequences_path
+    annotations_new_path
   end
 
   rescue_from CanCan::AccessDenied do |exception|

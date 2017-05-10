@@ -7,7 +7,7 @@
     <% @media.each do |medium| %>
         <% medium = Coordinates.wgs_to_ch(medium) %>
         <div class="item">
-          <%= link_to image_tag(@cloud_resource_thumbnail_url + medium.filename_hash), medium %>
+          <%= link_to image_tag(@cloud_resource_thumbnail_url + medium.filename_hash), tubecam_device_path(medium.sequence.tubecam_device_id) %>
           <div class="item-actions">
             <ul>
               <% if user_signed_in? %>
@@ -36,7 +36,7 @@
 <div class=" text-center col-sm-6">
   <div class="row row-padding row-margin bg-success">
         <h2>Galerie</h2>
-      <p>Werde Teil des Projektes und hilft mit den [...Hermelin...]bestand zu sichern.</p>
+      <p>Betrachte die aktuellsten Bilder aus der Wildniss.</p>
       <%= link_to('Anschauen', sequences_path, class: 'btn btn-success') %>
   </div>
 </div>
