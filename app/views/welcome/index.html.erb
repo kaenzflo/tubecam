@@ -7,7 +7,7 @@
     <% @media.each do |medium| %>
         <% medium = Coordinates.wgs_to_ch(medium) %>
         <div class="item">
-          <%= link_to image_tag(@cloud_resource_thumbnail_url + medium.filename_hash), tubecam_device_path(medium.sequence.tubecam_device_id) %>
+          <%= link_to image_tag(@cloud_resource_thumbnail_url + medium.filename_hash), sequence_path(medium.sequence_id) %>
           <div class="item-actions">
             <ul>
               <% if user_signed_in? %>
