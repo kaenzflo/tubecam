@@ -90,7 +90,7 @@ class MapsController < ApplicationController
       latest_image = Medium.where(sequence_id: Sequence.where(tubecam_device_id: tubecam.id)).last
       p latest_image
       if !latest_image.nil?
-         relative_point_factor = calculate_point_factor(tubecam.id, total_images, 10)
+         relative_point_factor = calculate_point_factor(tubecam.id, total_images, 2)
         time_period = days_since_last_image(latest_image)
         point_color = set_point_color(time_period)
 
@@ -131,7 +131,7 @@ class MapsController < ApplicationController
     s << "<p>"
     s << "<a href='" + tubecam_device_url(tubecam) + "'>Tubecam</a>"
     s << " | "
-    s << "<a href='" + media_path + "?tubecam_device_id=" + tubecam.id.to_s + "'>Fotos</a>"
+    s << "<a href='" + sequences_path + "?tubecam_device_id=" + tubecam.id.to_s + "'>Fotos</a>"
     s << "</p>"
 
     s.string
@@ -168,9 +168,8 @@ class MapsController < ApplicationController
   def calculate_point_factor(tubecam_id, total_images, scalefactor)
     #TODO: Count is not working at moment
     count = Medium.where(sequence_id: Sequence.where(tubecam_device_id: tubecam_id)).count
-    relative = 1.0 * count / (total_images / scalefactor) + 1
+    relative = 1.0 * count / (1.0 * total_images / scalefactor) + 1
     relative
-    relative = 0.1 * scalefactor
   end
 
   def calculate_best_default_view_options
