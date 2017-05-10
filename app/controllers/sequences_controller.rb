@@ -18,6 +18,7 @@ class SequencesController < ApplicationController
     @cloud_resource_thumbnail_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/thumbnails/'
+    @annotations_lookup_table = AnnotationsLookupTable.all.order('annotation_id')
   end
 
   # GET /sequences/1
@@ -119,7 +120,7 @@ class SequencesController < ApplicationController
   def sequence_params
     params.require(:sequence).permit(:path, :filename, :sequencestype, :datetime, :longitude, :latitude, :sequence, :frame, :tubecam_device_id, :exifdata, :deleted)
     # Additional for filtering gallery
-    params.require(:sequence).permit(:date_start, :date_end)
+    params.require(:sequence).permit(:date_start, :date_end, :lookup_table_id)
   end
 
   def scope_params
@@ -128,19 +129,28 @@ class SequencesController < ApplicationController
 
   def filter_sequences sequences
     filter_by_date = ''
-    if !params[:date_start].nil?
-      if !params[:date_start].empty?
+    if !params[:date_start].nil? && !params[:date_start].empty?
         @filter_params[:date_start] = string_to_date(params[:date_start], '00:00:00')
         filter_date_start = Medium.select(:sequence_id).where(['datetime >=  ?', @filter_params[:date_start]]).uniq.pluck(:sequence_id)
         sequences = sequences.where(id: filter_date_start) if !filter_date_start.nil?
-      end
     end
-    if !params[:date_end].nil?
-      if !params[:date_end].empty?
+    if !params[:date_end].nil? && !params[:date_end].empty?
         @filter_params[:date_end] = string_to_date(params[:date_end], '22:59:59')
         filter_date_end = Medium.select(:sequence_id).where(['datetime <=  ?', @filter_params[:date_end]]).uniq.pluck(:sequence_id)
         sequences = sequences.where(id: filter_date_end) if !filter_date_end.nil?
+    end
+    if !params[:lookup_table_id].nil? && !params[:lookup_table_id].empty?
+      @filter_params[:lookup_table_id] = params[:lookup_table_id]
+      lookup_table_id = params[:lookup_table_id]
+      annotation_id = AnnotationsLookupTable.find(lookup_table_id).annotation_id
+      if /000/.match(annotation_id)
+        p "nur Bilder ohne Tiere"
       end
+      if /[1-9]00/.match(annotation_id)
+        p "JJJJJJJJJJJUIUIJIU"
+        p annotation_id
+      end
+
     end
 
     sequences
