@@ -76,28 +76,9 @@ namespace :heroku do
         frame = original_filename[34..35]
         tubecam_device = TubecamDevice.find_by(serialnumber: tubecam_sn)
         tubecam_device_id = tubecam_device.id
-        @sequence = Sequence.create(tubecam_device_id: tubecam_device_id,
-                                        sequence_no: sequence_no)
 
-        # p tubecam_device_id.inspect
-        # @sequence = nil
-        # p Sequence.where(sequence_no: sequence_no, tubecam_device_id: tubecam_device_id).nil?.inspect
-        # if !Sequence.where(tubecam_device_id: tubecam_device_id)
-        #   p @sequence.inspect
-        # end
-        #   if !Sequence.where(sequence_no: sequence_no)
-        #     @sequence = Sequence.create(tubecam_device_id: tubecam_device_id,
-        #                                 sequence_no: sequence_no)
-        #     p 'IF'
-        #     p @sequence.inspect
-        #   end
-        # else
-        #   @sequence = Sequence.where(tubecam_device_id: tubecam_device_id,
-        #                              sequence_no: sequence_no)
-        #   p 'ELSE'
-        #   p @sequence.inspect
-        # end
-        # p 'AFTER END'
+        @sequence = Sequence.where(tubecam_device_id: tubecam_device_id,
+                                   sequence_no: sequence_no).first_or_create
         Medium.create(sequence_id: @sequence.id,
                       original_path: original_path, original_filename: original_filename,
                       filename_hash: filename_hash, mediatype: mediatype,

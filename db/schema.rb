@@ -120,5 +120,6 @@ ActiveRecord::Schema.define(version: 20170422144129) do
   add_foreign_key 'annotations', 'annotations_lookup_tables'
 
   add_index :annotations, [:user_id, :sequence_id], unique: true
+  add_index :sequences, [:tubecam_device_id, :sequence_no], unique: true
 
 end
