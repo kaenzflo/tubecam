@@ -10,7 +10,6 @@ namespace :heroku do
   desc 'Heroku scheduler add-on'
   task crawlftp: :environment do
 
-
     # List already imported media files
     media = Medium.all
     imported_files = []
@@ -59,12 +58,12 @@ namespace :heroku do
       ftp = Net::FTP.new(ENV['FTP_HOST_NAME'])
       ftp.login(ENV['FTP_USER_NAME'], ENV['FTP_PASSWORD'])
       ftp.passive = true
-      # S3.host = ENV['S3_HOST_NAME']
-      # s3service = S3::Service.new(access_key_id: ENV['S3_ACCESS_KEY'],
-      #                             secret_access_key: ENV['S3_SECRET_KEY'],
-      #                             use_ssl: true)
-      # upload_bucket = s3service.buckets.find(ENV['S3_BUCKET_NAME'])
-      #
+      S3.host = ENV['S3_HOST_NAME']
+      s3service = S3::Service.new(access_key_id: ENV['S3_ACCESS_KEY'],
+                                  secret_access_key: ENV['S3_SECRET_KEY'],
+                                  use_ssl: true)
+      upload_bucket = s3service.buckets.find(ENV['S3_BUCKET_NAME'])
+
       new_remote_files.each do |file_url|
         #
         p 'Processing ' + file_url + '...'
@@ -98,19 +97,19 @@ namespace :heroku do
                       latitude: latitude, frame: frame,
                       exifdata: json_data, deleted: false)
 
-        # Upload medium
-        # new_object = upload_bucket.objects.build(filename_hash)
-        # new_object.content = new_medium
-        # new_object.acl = :public_read
-        # new_object.save
-        #
-        # # Generate and upload thumbnail
-        # resized_new_medium = MiniMagick::Image.read(new_medium)
-        # resized_new_medium.resize('200x200')
-        # new_object = upload_bucket.objects.build('thumbnails/' + filename_hash)
-        # new_object.content = resized_new_medium.to_blob
-        # new_object.acl = :public_read
-        # new_object.save
+        Upload medium
+        new_object = upload_bucket.objects.build(filename_hash)
+        new_object.content = new_medium
+        new_object.acl = :public_read
+        new_object.save
+
+        # Generate and upload thumbnail
+        resized_new_medium = MiniMagick::Image.read(new_medium)
+        resized_new_medium.resize('200x200')
+        new_object = upload_bucket.objects.build('thumbnails/' + filename_hash)
+        new_object.content = resized_new_medium.to_blob
+        new_object.acl = :public_read
+        new_object.save
       end
     rescue => e
       ftp.close
