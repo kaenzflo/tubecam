@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 20170422144129) do
     t.index ['reset_password_token'], name: 'index_users_on_reset_password_token', unique: true, using: :btree
   end
 
-  create_table 'tubecam_devices', force: :cascade do |t|
+  create_table 'tubecam_devices' do |t|
     t.integer  'user_id',           null: false
     t.string   'serialnumber'
     t.text     'description'
@@ -49,16 +49,15 @@ ActiveRecord::Schema.define(version: 20170422144129) do
     t.datetime 'created_at',        null: false
     t.datetime 'updated_at',        null: false
     t.index ['user_id'], name: 'index_tubecam_devices_on_user_id', using: :btree
+    t.index ['serialnumber'], name: 'index_tubecam_devices_on_serialnumber', using: :btree
   end
 
-  create_table 'sequences', force: :cascade do |t|
+  create_table 'sequences' do |t|
     t.integer  'tubecam_device_id',        null: false
     t.integer  'sequence_no'
     t.boolean  'deleted',           default: false
     t.datetime 'created_at',        null: false
     t.datetime 'updated_at',        null: false
-    t.index ['tubecam_device_id'], name: 'index_sequences_on_tubecam_device_id', using: :btree
-    t.index ['sequence_no'], name: 'index_sequences_on_sequence_no', using: :btree
   end
 
   create_table 'media', force: :cascade do |t|
@@ -113,9 +112,9 @@ ActiveRecord::Schema.define(version: 20170422144129) do
     t.datetime 'updated_at',   null: false
   end
 
-  add_foreign_key 'tubecam_devices', 'users'
-  add_foreign_key 'sequences', 'tubecam_devices'
   add_foreign_key 'media', 'sequences'
+  add_foreign_key 'sequences', 'tubecam_devices'
+  add_foreign_key 'tubecam_devices', 'users'
 
   add_foreign_key 'annotations', 'users'
   add_foreign_key 'annotations', 'sequences'

@@ -1,5 +1,5 @@
 class Sequence < ApplicationRecord
-  belongs_to :sequence
+  belongs_to :tubecam_device
   has_many :media, :dependent => :destroy
 
   # Use scoping for filteroptions in media gallery
