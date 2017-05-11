@@ -25,7 +25,8 @@ namespace :heroku do
       p 'Connect to FTP-Server'
       ftp = Net::FTP.new(ENV['FTP_HOST_NAME'])
       ftp.login(ENV['FTP_USER_NAME'], ENV['FTP_PASSWORD'])
-      remote_files = ftp.nlst('/TEST_Tubecam0001*/*/*/*')
+      ftp.passive = true
+      remote_files = ftp.nlst('/TEST_Tubecam_SN0001*/*/*/*') #TEST_Tubecam_SN0001
     rescue => e
       ftp.close
       p 'Error reading file listing:'
@@ -44,7 +45,7 @@ namespace :heroku do
       end
     end
 
-    p validated_remote_files.inspect
+    p validated_remote_files.size.inspect
 
     # New remote files to be imported
     new_remote_files = validated_remote_files - imported_files
@@ -57,6 +58,7 @@ namespace :heroku do
       # Initialize FTP and S3 services
       ftp = Net::FTP.new(ENV['FTP_HOST_NAME'])
       ftp.login(ENV['FTP_USER_NAME'], ENV['FTP_PASSWORD'])
+      ftp.passive = true
       # S3.host = ENV['S3_HOST_NAME']
       # s3service = S3::Service.new(access_key_id: ENV['S3_ACCESS_KEY'],
       #                             secret_access_key: ENV['S3_SECRET_KEY'],
@@ -64,10 +66,10 @@ namespace :heroku do
       # upload_bucket = s3service.buckets.find(ENV['S3_BUCKET_NAME'])
       #
       new_remote_files.each do |file_url|
-      #
-      p 'Processing ' + file_url + '...'
-      #   # Get medium from FTP
-      #   new_medium = ftp.getbinaryfile(file_url, nil, 1024)
+        #
+        p 'Processing ' + file_url + '...'
+        #   # Get medium from FTP
+        #   new_medium = ftp.getbinaryfile(file_url, nil, 1024)
 
         # # Persist medium details
         # original_filename = file_url[(TEST_PREFIX.length + 28)..-1]
@@ -109,7 +111,7 @@ namespace :heroku do
         # new_object.content = resized_new_medium.to_blob
         # new_object.acl = :public_read
         # new_object.save
-       end
+      end
     rescue => e
       ftp.close
       Rails.logger.error e.message
