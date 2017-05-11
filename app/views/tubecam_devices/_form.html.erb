@@ -28,13 +28,6 @@
     <%= f.text_area :description %>
   </div>
 
-  <% if current_user.admin_role? %>
-    <div class="field">
-      <%= f.label :active %>
-      <%= f.check_box :active %>
-    </div>
-  <% end %>
-
   <div class="actions">
     <%= f.submit 'Tubecam speichern', class: 'btn btn-primary'%>
   </div>

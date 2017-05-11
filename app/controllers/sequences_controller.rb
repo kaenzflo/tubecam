@@ -12,7 +12,7 @@ class SequencesController < ApplicationController
     @filter_params = scope_params
     sequences = Sequence.filter(scope_params)
     sequences = filter_sequences(sequences)
-    sequences = sequences.order('datetime DESC')
+    sequences = sequences.where(deleted: false).order('datetime DESC')
     @sequences = sequences.page(params[:page])
     @cloud_resource_thumbnail_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +

@@ -1,14 +1,9 @@
 <h1><%= @tubecam_device.serialnumber %></h1>
+<p><%= @tubecam_device.description %></p>
 
 <h4>
-  <strong>User ID:</strong>
-  <%= User.find_by(id: @tubecam_device.user_id).username %>
+  Besitzer <strong><%= User.find_by(id: @tubecam_device.user_id).username %></strong>
 </h4>
-
-<p>
-  <strong>Beschreibung:</strong>
-  <%= @tubecam_device.description %>
-</p>
 
 
 <% if @sequences.empty? %>
@@ -31,7 +26,7 @@
         <tr <%= sequence.deleted? ? 'class=deleted' : '' %>>
           <td><%= sequence.sequence_no %></td>
           <td>
-            <% sequence.media.each do |medium| %>
+            <% sequence.media.limit(5).each do |medium| %>
               <%= link_to image_tag(@cloud_resource_thumbnail_url + medium.filename_hash), medium %>
             <% end %>
           </td>
