@@ -69,36 +69,36 @@ namespace :heroku do
         #
         p 'Processing ' + file_url + '...'
         #   # Get medium from FTP
-        #   new_medium = ftp.getbinaryfile(file_url, nil, 1024)
+        new_medium = ftp.getbinaryfile(file_url, nil, 1024)
 
-        # # Persist medium details
-        # original_filename = file_url[(TEST_PREFIX.length + 28)..-1]
-        # original_path = file_url[0..(27 + TEST_PREFIX.length)]
-        # new_medium_exif = MiniExiftool.new(StringIO.new(new_medium), numerical: true)
-        # json_data = new_medium_exif.to_json
-        # exif_json = ActiveSupport::JSON.decode(json_data)
-        # filename_hash = Digest::SHA256.hexdigest original_filename
-        # filename_hash += '.' + original_filename.gsub(/.*\./, '')
-        # mediatype = exif_json['MIMEType']
-        # tubecam_sn = exif_json['SerialNumber']
-        # datetime = exif_json['DateTimeOriginal']
-        # longitude = exif_json['GPSLongitude']
-        # latitude = exif_json['GPSLatitude']
-        # sequence_no = original_filename[29..32]
-        # frame = original_filename[34..35]
-        # tubecam_device = TubecamDevice.find_by(serialnumber: tubecam_sn)
-        # tubecam_device_id = tubecam_device.id
-        #
-        # @sequence = Sequence.where(tubecam_device_id: tubecam_device_id,
-        #                            sequence_no: sequence_no).first_or_create
-        # Medium.create(sequence_id: @sequence.id,
-        #               original_path: original_path, original_filename: original_filename,
-        #               filename_hash: filename_hash, mediatype: mediatype,
-        #               datetime: datetime, longitude: longitude,
-        #               latitude: latitude, frame: frame,
-        #               exifdata: json_data, deleted: false)
-        #
-        # # Upload medium
+        # Persist medium details
+        original_filename = file_url[(TEST_PREFIX.length + 28)..-1]
+        original_path = file_url[0..(27 + TEST_PREFIX.length)]
+        new_medium_exif = MiniExiftool.new(StringIO.new(new_medium), numerical: true)
+        json_data = new_medium_exif.to_json
+        exif_json = ActiveSupport::JSON.decode(json_data)
+        filename_hash = Digest::SHA256.hexdigest original_filename
+        filename_hash += '.' + original_filename.gsub(/.*\./, '')
+        mediatype = exif_json['MIMEType']
+        tubecam_sn = exif_json['SerialNumber']
+        datetime = exif_json['DateTimeOriginal']
+        longitude = exif_json['GPSLongitude']
+        latitude = exif_json['GPSLatitude']
+        sequence_no = original_filename[29..32]
+        frame = original_filename[34..35]
+        tubecam_device = TubecamDevice.find_by(serialnumber: tubecam_sn)
+        tubecam_device_id = tubecam_device.id
+
+        @sequence = Sequence.where(tubecam_device_id: tubecam_device_id,
+                                   sequence_no: sequence_no).first_or_create
+        Medium.create(sequence_id: @sequence.id,
+                      original_path: original_path, original_filename: original_filename,
+                      filename_hash: filename_hash, mediatype: mediatype,
+                      datetime: datetime, longitude: longitude,
+                      latitude: latitude, frame: frame,
+                      exifdata: json_data, deleted: false)
+
+        # Upload medium
         # new_object = upload_bucket.objects.build(filename_hash)
         # new_object.content = new_medium
         # new_object.acl = :public_read
