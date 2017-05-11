@@ -6,7 +6,7 @@ Rails.application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
-  # Do not eager load code on boot.
+  # Do not eager load137.74.175.51 code on boot.
   config.eager_load = false
 
   # ActionMailerDefault for Devise.
@@ -29,10 +29,22 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.delivery_method = :smtp
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
 
   config.action_mailer.perform_caching = false
+
+  config.action_mailer.smtp_settings = {
+      user_name:      ENV['MAIL_USERNAME'],
+      password:       ENV['MAIL_PWD'],
+      domain:         'gmail.com',
+      address:       'smtp.gmail.com',
+      port:          '587',
+      authentication: :plain,
+      enable_starttls_auto: true
+  }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
