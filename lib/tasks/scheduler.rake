@@ -16,26 +16,19 @@ namespace :heroku do
     media.each do |medium|
       imported_files.append(medium.original_path + medium.original_filename)
     end
-    p 'Imported files:'
-    p imported_files.size.inspect
 
     # Get remote media files listing
     begin
-      p 'Connect to FTP-Server'
       ftp = Net::FTP.new(ENV['FTP_HOST_NAME'])
       ftp.login(ENV['FTP_USER_NAME'], ENV['FTP_PASSWORD'])
       ftp.passive = true
       remote_files = ftp.nlst('/TEST_Tubecam_SN0001*/*/*/*') #TEST_Tubecam_SN0001
     rescue => e
       ftp.close
-      p 'Error reading file listing:'
-      p e.message
       Rails.logger.error e.message
     end
     ftp.close
 
-    p 'Remote files:'
-    p remote_files.size.inspect
     # Validate remote media files listing
     validated_remote_files = []
     remote_files.each do |line|
@@ -43,8 +36,6 @@ namespace :heroku do
         validated_remote_files.append(line)
       end
     end
-
-    p validated_remote_files.size.inspect
 
     # New remote files to be imported
     new_remote_files = validated_remote_files - imported_files
@@ -65,9 +56,8 @@ namespace :heroku do
       upload_bucket = s3service.buckets.find(ENV['S3_BUCKET_NAME'])
 
       new_remote_files.each do |file_url|
-        #
-        p 'Processing ' + file_url + '...'
-        #   # Get medium from FTP
+        puts 'Processing ' + file_url + '...'
+        # Get medium from FTP
         new_medium = ftp.getbinaryfile(file_url, nil, 1024)
 
         # Persist medium details
