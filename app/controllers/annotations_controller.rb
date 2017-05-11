@@ -43,7 +43,7 @@ class AnnotationsController < ApplicationController
 
   def index
     @annotations = Annotation.all
-    @annotations_lookup_table = AnnotationsLookupTable.all
+    @annotations_lookup_table = AnnotationsLookupTable.all.order('id ASC')
     @users = User.all
     @user = current_user
   end
@@ -70,7 +70,7 @@ class AnnotationsController < ApplicationController
   private
 
   def instantiate_vars(sequence_media)
-    @thumbnails = sequence_media.where(frame: (@medium.frame + 1)..(@medium.frame + 4)).order('frame ASC')
+    @thumbnails = sequence_media.where(frame: (@medium.frame - 1)..(@medium.frame + 4)).order('frame ASC')
     @cloud_resource_image_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/'

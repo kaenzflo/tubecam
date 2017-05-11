@@ -18,7 +18,7 @@ class SequencesController < ApplicationController
     @cloud_resource_thumbnail_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/thumbnails/'
-    @annotations_lookup_table = AnnotationsLookupTable.all.order('annotation_id')
+    @annotations_lookup_table = AnnotationsLookupTable.all
   end
 
   # GET /sequences/1
@@ -146,16 +146,20 @@ class SequencesController < ApplicationController
       first, second, third = annotation_id.to_s.split('')
       if /000/.match(annotation_id)
         # Matchs ids with empty picture annotation
-        p "nur Bilder ohne Tiere"
+        annotations = AnnotationsLookupTable.where(annotation_id: annotation_id).select(:id).pluck(:id)
+        sequence_ids = Annotation.where(annotations_lookup_table_id: annotations).select(:sequence_id)
+        sequences = sequences.where(id: sequence_ids) if !annotations.nil?
       elsif /[1-9]00/.match(annotation_id)
         # Matchs all ids of a family
-        annotations = AnnotationsLookupTable.where("annotation_id ~* ?", '1[0-9][0-9]').select(:id).pluck(:id)
+        search = '' + first + '[0-9]' + '[0-9]'
+        annotations = AnnotationsLookupTable.where("annotation_id ~* ?", search).select(:id).pluck(:id)
+        p annotations
         sequence_ids = Annotation.where(annotations_lookup_table_id: annotations).select(:sequence_id)
         sequences = sequences.where(id: sequence_ids) if !annotations.nil?
       elsif /[1-9][1-9]0/.match(annotation_id)
         # Matchs all ids of a subclass
-        
-        annotations = AnnotationsLookupTable.where("annotation_id ~* ?", ':first:second[0-9]').select(:id).pluck(:id)
+        search = '' + first + second + '[0-9]'
+        annotations = AnnotationsLookupTable.where("annotation_id ~* ?", search).select(:id).pluck(:id)
         sequence_ids = Annotation.where(annotations_lookup_table_id: annotations).select(:sequence_id)
         sequences = sequences.where(id: sequence_ids) if !annotations.nil?
       else

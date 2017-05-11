@@ -12,8 +12,8 @@
       <% @sequences.each do |sequence| %>
 
           <div class="sequence">
-            <h2>Sequenz: <%= sequence.sequence_no.to_s %></h2>
-            <% @media = Medium.where(sequence_id: sequence.id) %>
+            <p><%= sequence.sequence_no.to_s %></p>
+            <% @media = Medium.where(sequence_id: sequence.id).order('frame ASC').limit(5) %>
             <% @media.each do |medium| %>
                 <% medium = Coordinates.wgs_to_ch(medium) %>
                 <div class="item">
