@@ -1,6 +1,6 @@
 require 'net/ftp'
 require 'mini_magick'
-require 'mini_exiftool'
+require 'mini_exiftool_vendored'
 require 'digest'
 
 # Test prefix

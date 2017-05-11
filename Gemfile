@@ -11,7 +11,7 @@ end
 gem 'digest'
 
 # Use mini_exiftool for Exif manipulation
-gem 'mini_exiftool'
+gem 'mini_exiftool_vendored'
 
 # Use mini-magick for image processing
 gem 'mini_magick'
