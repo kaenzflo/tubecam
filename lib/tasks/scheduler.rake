@@ -17,18 +17,25 @@ namespace :heroku do
     media.each do |medium|
       imported_files.append(medium.original_path + medium.original_filename)
     end
+    p 'Imported files:'
+    p imported_files.inspect
 
     # Get remote media files listing
     begin
+      p 'Connect to FTP-Server'
       ftp = Net::FTP.new(ENV['FTP_HOST_NAME'])
       ftp.login(ENV['FTP_USER_NAME'], ENV['FTP_PASSWORD'])
       remote_files = ftp.nlst('/*/*/*/*')
     rescue => e
       ftp.close
+      p e.message
       Rails.logger.error e.message
     end
     ftp.close
 
+    p 'Remote files:'
+    p remote_files.inspect
+    p remote_files.size.inspect
     # Validate remote media files listing
     validated_remote_files = []
     remote_files.each do |line|
@@ -36,6 +43,8 @@ namespace :heroku do
         validated_remote_files.append(line)
       end
     end
+
+    p validated_remote_files.inspect
 
     # New remote files to be imported
     new_remote_files = validated_remote_files - imported_files
