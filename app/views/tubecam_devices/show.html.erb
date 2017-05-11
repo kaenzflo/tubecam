@@ -33,9 +33,9 @@
           <td><%= link_to 'Details', sequence_path(sequence) %></td>
           <% if user_signed_in? && current_user.admin_role? %>
               <% if !sequence.deleted %>
-                  <td><%= link_to 'Deaktivieren', :controller => 'sequences', :action => 'delete', :id => sequence.id %></td>
+                  <td><%= link_to 'Deaktivieren', :controller => 'sequences', :action => 'deactivate', :id => sequence.id %></td>
               <% else %>
-                  <td><%= link_to 'Aktivieren', :controller => 'sequences', :action => 'activate', :id => sequence.id %></td>
+                  <td><b><%= link_to 'Aktivieren', :controller => 'sequences', :action => 'activate', :id => sequence.id %></b></td>
               <% end %>
           <% end %>
         </tr>

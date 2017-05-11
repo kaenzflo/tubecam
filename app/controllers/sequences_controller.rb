@@ -86,13 +86,13 @@ class SequencesController < ApplicationController
     end
   end
 
-  def delete
+  def deactivate
     @sequence = set_sequence
     tubecam_device_id = @sequence.tubecam_device_id
     if (current_user.admin_role? || current_user.trapper_role?) && @sequence.update( :deleted => true )
-      redirect_to tubecam_device_url(tubecam_device_id), notice: 'Das Sequence wurde erfolgreich entfernt.'
+      redirect_to tubecam_device_url(tubecam_device_id), notice: 'Das Sequence wurde erfolgreich deaktiviert.'
     else
-      redirect_to tubecam_device_url(tubecam_device_id), alert: 'Das Sequence kann nicht entfernt werden.'
+      redirect_to tubecam_device_url(tubecam_device_id), alert: 'Das Sequence kann nicht deaktiviert werden.'
     end
   end
 
@@ -106,6 +106,8 @@ class SequencesController < ApplicationController
       redirect_to tubecam_device_url(tubecam_device_id), alert: 'Das Sequenze kann nicht reaktivert werden.'
     end
   end
+
+
 
   private
   

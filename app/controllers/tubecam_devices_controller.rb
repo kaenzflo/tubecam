@@ -77,12 +77,12 @@ class TubecamDevicesController < ApplicationController
   end
 
   # Set tubecam inactive
-  def delete
+  def deactivate
     @tubecam_device = set_tubecam_device
     if current_user.admin_role? && @tubecam_device.update( :active => false )
-      redirect_to tubecam_devices_path, notice: 'Die Tubecam wurde erfolgreich entfernt.'
+      redirect_to tubecam_devices_path, notice: 'Die Tubecam wurde erfolgreich deaktiviert.'
     else
-      redirect_to tubecam_devices_path, alert: 'Die Tubecam kann nicht entfernt werden.'
+      redirect_to tubecam_devices_path, alert: 'Die Tubecam kann nicht deaktiviert werden.'
     end
   end
 

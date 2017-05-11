@@ -21,10 +21,12 @@ Rails.application.routes.draw do
 
 
   # Deactivate instead of Destroy
-  get '/sequences/delete/:id' => 'sequences#delete'
+  get '/sequences/deactivate/:id' => 'sequences#deactivate'
   get '/sequences/activate/:id' => 'sequences#activate'
-  get '/tubecam_devices/delete/:id' => 'tubecam_devices#delete'
+  get '/tubecam_devices/deactivate/:id' => 'tubecam_devices#deactivate'
   get '/tubecam_devices/activate/:id' => 'tubecam_devices#activate'
+  get '/users/deactivate/:id' => 'users#deactivate'
+  get '/users/activate/:id' => 'users#activate'
 
   root 'welcome#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
