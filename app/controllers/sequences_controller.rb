@@ -33,7 +33,7 @@ class SequencesController < ApplicationController
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/'
     @tubecam_device = TubecamDevice.find(sequence.tubecam_device_id)
-    @annotations = Annotation.where(sequence_id: sequence.id)
+    @annotations = Annotation.where(sequence_id: sequence.id).order('verified_id ASC, created_at DESC')
     @annotations_lookup_table = AnnotationsLookupTable.all
   end
 
