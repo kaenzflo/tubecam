@@ -1,6 +1,6 @@
 /* Preload images */
 body:after {
-  content: url(../images/lightbox/close.png) url(../images/lightbox/loading.gif) url(../images/lightbox/prev.png) url(../images/lightbox/next.png);
+  content: url(../../assets/images/lightbox/close.png) url(../../assets/images/lightbox/loading.gif) url(../../assets/images/lightbox/prev.png) url(../images/lightbox/next.png);
   display: none;
 }
 
@@ -78,7 +78,7 @@ body.lb-disable-scrolling {
   width: 32px;
   height: 32px;
   margin: 0 auto;
-  background: url(../images/lightbox/loading.gif) no-repeat;
+  background: url('../../assets/images/lightbox/loading.gif') no-repeat;
 }
 
 .lb-nav {
