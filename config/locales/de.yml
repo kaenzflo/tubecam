@@ -38,6 +38,8 @@ de:
       multi_page: "Displaying %{model} %{from} - %{to} of %{count} in total"
       multi_page_html: "Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> in total"
     models:
+      tubecam:
+        serialnumber: 'Seriennummer'
       line_item:
         zero:  line items
         one:   line item

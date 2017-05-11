@@ -26,7 +26,7 @@ namespace :heroku do
       p 'Connect to FTP-Server'
       ftp = Net::FTP.new(ENV['FTP_HOST_NAME'])
       ftp.login(ENV['FTP_USER_NAME'], ENV['FTP_PASSWORD'])
-      remote_files = ftp.nlst('/TEST_Tubecam*/*/*/*')
+      remote_files = ftp.nlst('/TEST_Tubecam0001*/*/*/*')
     rescue => e
       ftp.close
       p 'Error reading file listing:'
