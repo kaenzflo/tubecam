@@ -18,7 +18,6 @@ namespace :heroku do
       imported_files.append(medium.original_path + medium.original_filename)
     end
     p 'Imported files:'
-    p imported_files.inspect
     p imported_files.size.inspect
 
     # Get remote media files listing
@@ -36,7 +35,7 @@ namespace :heroku do
     ftp.close
 
     p 'Remote files:'
-    p remote_files.inspect
+    p remote_files.size.inspect
     # Validate remote media files listing
     validated_remote_files = []
     remote_files.each do |line|
