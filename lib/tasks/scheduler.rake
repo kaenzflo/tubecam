@@ -22,7 +22,7 @@ namespace :heroku do
       ftp = Net::FTP.new(ENV['FTP_HOST_NAME'])
       ftp.login(ENV['FTP_USER_NAME'], ENV['FTP_PASSWORD'])
       ftp.passive = true
-      remote_files = ftp.nlst('/TEST_Tubecam_SN0001*/*/*/*') #TEST_Tubecam_SN0001
+      remote_files = ftp.nlst('/*/*/*/*')
     rescue => e
       ftp.close
       Rails.logger.error e.message
