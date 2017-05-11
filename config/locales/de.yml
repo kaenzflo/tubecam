@@ -20,14 +20,14 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 de:
-  hello: "Hello world"
+  hello: "Halle Welt"
   will_paginate:
     previous_label: "&#8592; Rückwärts"
     next_label: "Vorwärts &#8594;"
     page_gap: "&hellip;"
     page_entries_info:
       single_page:
-        zero:  "No %{model} found"
+        zero:  "Kein %{model} gefunden"
         one:   "Displaying 1 %{model}"
         other: "Displaying all %{count} %{model}"
       single_page_html:
