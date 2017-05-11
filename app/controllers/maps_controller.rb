@@ -26,7 +26,7 @@ class MapsController < ApplicationController
     if user_signed_in?
       render 'maps/map'
     else
-      flash[:notice] = "Standort sind nur ungefähr eingetragen. Um die exakten Standorte mit Koordinate anzeigen zu lassen, muss man angemeldet sein."
+      flash[:notice] = "Standort sind nur ungefähr eingetragen. Um die exakten Standorte mit Koordinaten anzeigen zu lassen, muss man angemeldet sein."
       render 'maps/mapdefault'
     end
   end
