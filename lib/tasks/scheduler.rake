@@ -25,7 +25,8 @@ namespace :heroku do
       p 'Connect to FTP-Server'
       ftp = Net::FTP.new(ENV['FTP_HOST_NAME'])
       ftp.login(ENV['FTP_USER_NAME'], ENV['FTP_PASSWORD'])
-      remote_files = ftp.nlst('/TEST_Tubecam0001*/*/*/*')
+      ftp.passive = true
+      remote_files = ftp.nlst('/TEST_Tubecam_SN0001*/*/*/*') #TEST_Tubecam_SN0001
     rescue => e
       ftp.close
       p 'Error reading file listing:'
@@ -57,6 +58,7 @@ namespace :heroku do
       # Initialize FTP and S3 services
       ftp = Net::FTP.new(ENV['FTP_HOST_NAME'])
       ftp.login(ENV['FTP_USER_NAME'], ENV['FTP_PASSWORD'])
+      ftp.passive = true
       # S3.host = ENV['S3_HOST_NAME']
       # s3service = S3::Service.new(access_key_id: ENV['S3_ACCESS_KEY'],
       #                             secret_access_key: ENV['S3_SECRET_KEY'],

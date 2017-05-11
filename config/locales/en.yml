@@ -21,6 +21,9 @@
 
 en:
   hello: "Hello world"
+  tubecam:
+    index:
+      serialnumber: "Serial number"
   will_paginate:
     previous_label: "&#8592; back"
     next_label: "next &#8594;"
