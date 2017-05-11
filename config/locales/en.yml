@@ -22,8 +22,8 @@
 en:
   hello: "Hello world"
   will_paginate:
-    previous_label: "&#8592; Rückwärts"
-    next_label: "Vorwärts &#8594;"
+    previous_label: "&#8592; back"
+    next_label: "next &#8594;"
     page_gap: "&hellip;"
     page_entries_info:
       single_page:
