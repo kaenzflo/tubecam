@@ -131,24 +131,38 @@ class SequencesController < ApplicationController
     filter_by_date = ''
     if !params[:date_start].nil? && !params[:date_start].empty?
         @filter_params[:date_start] = string_to_date(params[:date_start], '00:00:00')
-        filter_date_start = Medium.select(:sequence_id).where(['datetime >=  ?', @filter_params[:date_start]]).uniq.pluck(:sequence_id)
+        filter_date_start = Medium.select(:sequence_id).where(['datetime >=  ?', @filter_params[:date_start]]).distinct.pluck(:sequence_id)
         sequences = sequences.where(id: filter_date_start) if !filter_date_start.nil?
     end
     if !params[:date_end].nil? && !params[:date_end].empty?
         @filter_params[:date_end] = string_to_date(params[:date_end], '22:59:59')
-        filter_date_end = Medium.select(:sequence_id).where(['datetime <=  ?', @filter_params[:date_end]]).uniq.pluck(:sequence_id)
+        filter_date_end = Medium.select(:sequence_id).where(['datetime <=  ?', @filter_params[:date_end]]).distinct.pluck(:sequence_id)
         sequences = sequences.where(id: filter_date_end) if !filter_date_end.nil?
     end
     if !params[:lookup_table_id].nil? && !params[:lookup_table_id].empty?
       @filter_params[:lookup_table_id] = params[:lookup_table_id]
       lookup_table_id = params[:lookup_table_id]
       annotation_id = AnnotationsLookupTable.find(lookup_table_id).annotation_id
+      first, second, third = annotation_id.to_s.split('')
       if /000/.match(annotation_id)
+        # Matchs ids with empty picture annotation
         p "nur Bilder ohne Tiere"
-      end
-      if /[1-9]00/.match(annotation_id)
-        p "JJJJJJJJJJJUIUIJIU"
-        p annotation_id
+      elsif /[1-9]00/.match(annotation_id)
+        # Matchs all ids of a family
+        annotations = AnnotationsLookupTable.where("annotation_id ~* ?", '1[0-9][0-9]').select(:id).pluck(:id)
+        sequence_ids = Annotation.where(annotations_lookup_table_id: annotations).select(:sequence_id)
+        sequences = sequences.where(id: sequence_ids) if !annotations.nil?
+      elsif /[1-9][1-9]0/.match(annotation_id)
+        # Matchs all ids of a subclass
+        
+        annotations = AnnotationsLookupTable.where("annotation_id ~* ?", ':first:second[0-9]').select(:id).pluck(:id)
+        sequence_ids = Annotation.where(annotations_lookup_table_id: annotations).select(:sequence_id)
+        sequences = sequences.where(id: sequence_ids) if !annotations.nil?
+      else
+        # Matchs one specific id
+        annotations = AnnotationsLookupTable.where(annotation_id: annotation_id).select(:id).pluck(:id)
+        sequence_ids = Annotation.where(annotations_lookup_table_id: annotations).select(:sequence_id)
+        sequences = sequences.where(id: sequence_ids) if !annotations.nil?
       end
 
     end
