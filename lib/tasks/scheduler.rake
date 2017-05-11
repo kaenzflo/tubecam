@@ -102,14 +102,14 @@ namespace :heroku do
         new_object.content = new_medium
         new_object.acl = :public_read
         new_object.save
-        #
-        # # Generate and upload thumbnail
-        # resized_new_medium = MiniMagick::Image.read(new_medium)
-        # resized_new_medium.resize('200x200')
-        # new_object = upload_bucket.objects.build('thumbnails/' + filename_hash)
-        # new_object.content = resized_new_medium.to_blob
-        # new_object.acl = :public_read
-        # new_object.save
+
+        # Generate and upload thumbnail
+        resized_new_medium = MiniMagick::Image.read(new_medium)
+        resized_new_medium.resize('200x200')
+        new_object = upload_bucket.objects.build('thumbnails/' + filename_hash)
+        new_object.content = resized_new_medium.to_blob
+        new_object.acl = :public_read
+        new_object.save
       end
     rescue => e
       ftp.close
