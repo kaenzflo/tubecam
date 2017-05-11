@@ -11,9 +11,8 @@ class SequencesController < ApplicationController
     scope_params = scope_params()
     @filter_params = scope_params
     sequences = Sequence.filter(scope_params)
-
     sequences = filter_sequences(sequences)
-
+    sequences = sequences.order('datetime DESC')
     @sequences = sequences.page(params[:page])
     @cloud_resource_thumbnail_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
@@ -25,9 +24,8 @@ class SequencesController < ApplicationController
   # GET /sequences/1.json
   def show
     sequence = Sequence.find(params[:id])
-    @sequence = sequence
-    medium = sequence.media.last
-    @medium = Coordinates.wgs_to_ch(medium)
+    @media = sequence.media.order('frame ASC')
+    @medium = Coordinates.wgs_to_ch(@media.last)
     @cloud_resource_thumbnail_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/thumbnails/'

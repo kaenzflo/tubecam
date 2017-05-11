@@ -61,17 +61,22 @@
 
 
 .gallery {
-  flex-wrap: wrap;
-  display: flex;
+  position: relative;
 }
 
 .gallery img {
   border-radius: 4px;
 }
 
+.gallery .sequence-description {
+  margin: 15px 10px -5px 10px;
+}
+
+.gallery .sequence-description p {
+  margin: 15px 0 0 0;
+}
+
 .gallery .sequence {
-  margin: 10px;
-  position: relative;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -145,8 +150,8 @@ p.item-delete {
 
 .item ul li {
   display: inline;
-  padding: 0 5px;
-  font-size: 12px;
+  padding: 10px;
+  font-size: 14px;
 }
 
 .item li a {

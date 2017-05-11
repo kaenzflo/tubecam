@@ -46,6 +46,9 @@ ActiveRecord::Schema.define(version: 20170422144129) do
     t.string   'serialnumber'
     t.text     'description'
     t.boolean  'active'
+    t.datetime 'last_activity'
+    t.float    'longitude'
+    t.float    'latitude'
     t.datetime 'created_at',        null: false
     t.datetime 'updated_at',        null: false
     t.index ['user_id'], name: 'index_tubecam_devices_on_user_id', using: :btree
@@ -55,6 +58,7 @@ ActiveRecord::Schema.define(version: 20170422144129) do
   create_table 'sequences' do |t|
     t.integer  'tubecam_device_id',        null: false
     t.integer  'sequence_no'
+    t.datetime 'datetime'
     t.boolean  'deleted',           default: false
     t.datetime 'created_at',        null: false
     t.datetime 'updated_at',        null: false
