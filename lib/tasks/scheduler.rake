@@ -19,6 +19,7 @@ namespace :heroku do
     end
     p 'Imported files:'
     p imported_files.inspect
+    p imported_files.size.inspect
 
     # Get remote media files listing
     begin
@@ -28,6 +29,7 @@ namespace :heroku do
       remote_files = ftp.nlst('/*/*/*/*')
     rescue => e
       ftp.close
+      p 'Error reading file listing:'
       p e.message
       Rails.logger.error e.message
     end
@@ -35,7 +37,6 @@ namespace :heroku do
 
     p 'Remote files:'
     p remote_files.inspect
-    p remote_files.size.inspect
     # Validate remote media files listing
     validated_remote_files = []
     remote_files.each do |line|
