@@ -19,15 +19,15 @@ namespace :heroku do
     end
 
     # Get remote media files listing
-    # begin
-    #   ftp = Net::FTP.new(ENV['FTP_HOST_NAME'])
-    #   ftp.login(ENV['FTP_USER_NAME'], ENV['FTP_PASSWORD'])
-    #   remote_files = ftp.nlst('/*/*/*/*')
-    # rescue => e
-    #   ftp.close
-    #   Rails.logger.error e.message
-    # end
-    # ftp.close
+    begin
+      ftp = Net::FTP.new(ENV['FTP_HOST_NAME'])
+      ftp.login(ENV['FTP_USER_NAME'], ENV['FTP_PASSWORD'])
+      remote_files = ftp.nlst('/*/*/*/*')
+    rescue => e
+      ftp.close
+      Rails.logger.error e.message
+    end
+    ftp.close
 
     # Validate remote media files listing
     validated_remote_files = []
@@ -46,15 +46,15 @@ namespace :heroku do
 
     begin
       # Initialize FTP and S3 services
-      # ftp = Net::FTP.new(ENV['FTP_HOST_NAME'])
-      # ftp.login(ENV['FTP_USER_NAME'], ENV['FTP_PASSWORD'])
+      ftp = Net::FTP.new(ENV['FTP_HOST_NAME'])
+      ftp.login(ENV['FTP_USER_NAME'], ENV['FTP_PASSWORD'])
       # S3.host = ENV['S3_HOST_NAME']
       # s3service = S3::Service.new(access_key_id: ENV['S3_ACCESS_KEY'],
       #                             secret_access_key: ENV['S3_SECRET_KEY'],
       #                             use_ssl: true)
       # upload_bucket = s3service.buckets.find(ENV['S3_BUCKET_NAME'])
       #
-      # new_remote_files.each do |file_url|
+      new_remote_files.each do |file_url|
       #
       p 'Processing ' + file_url + '...'
       #   # Get medium from FTP
@@ -100,12 +100,12 @@ namespace :heroku do
         # new_object.content = resized_new_medium.to_blob
         # new_object.acl = :public_read
         # new_object.save
-      end
+       end
     rescue => e
-      #ftp.close
+      ftp.close
       Rails.logger.error e.message
     end
-    #ftp.close
+    ftp.close
 
   end
 
