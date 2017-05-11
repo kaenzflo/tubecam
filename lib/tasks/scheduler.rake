@@ -45,7 +45,7 @@ namespace :heroku do
       end
     end
 
-    p validated_remote_files.inspect
+    p validated_remote_files.size.inspect
 
     # New remote files to be imported
     new_remote_files = validated_remote_files - imported_files
@@ -66,10 +66,10 @@ namespace :heroku do
       # upload_bucket = s3service.buckets.find(ENV['S3_BUCKET_NAME'])
       #
       new_remote_files.each do |file_url|
-      #
-      p 'Processing ' + file_url + '...'
-      #   # Get medium from FTP
-      #   new_medium = ftp.getbinaryfile(file_url, nil, 1024)
+        #
+        p 'Processing ' + file_url + '...'
+        #   # Get medium from FTP
+        #   new_medium = ftp.getbinaryfile(file_url, nil, 1024)
 
         # # Persist medium details
         # original_filename = file_url[(TEST_PREFIX.length + 28)..-1]
@@ -111,7 +111,7 @@ namespace :heroku do
         # new_object.content = resized_new_medium.to_blob
         # new_object.acl = :public_read
         # new_object.save
-       end
+      end
     rescue => e
       ftp.close
       Rails.logger.error e.message

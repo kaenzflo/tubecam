@@ -12,7 +12,9 @@
       <% @sequences.each do |sequence| %>
 
           <div class="sequence-description">
-            <%= link_to sequence.tubecam_device.serialnumber, tubecam_device_path(sequence.tubecam_device_id) %> | <%= link_to 'Sequenz ' + sequence.sequence_no.to_s, sequence_path(sequence.id) %>  <span class="item-date"> | <%= sequence.media[0].datetime.strftime("%d.%m.%Y %H:%M:%S") %> Uhr</span>
+            <%= link_to sequence.tubecam_device.serialnumber, tubecam_device_path(sequence.tubecam_device_id) %>
+            | <%= link_to 'Sequenz ' + sequence.sequence_no.to_s, sequence_path(sequence.id) %>
+            | <%= sequence.media[0].datetime.strftime("%d.%m.%Y %H:%M:%S") %> Uhr
           </div>
           <div class="sequence">
             <% @media = Medium.where(sequence_id: sequence.id).order('frame ASC').limit(5) %>

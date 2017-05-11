@@ -9,11 +9,20 @@
 <% end %>
 
 <% if user_signed_in? && current_user.trapper_role? && !current_user.admin_role?%>
-    <li><%= link_to 'Trapper', tubecam_devices_path %></li>
+    <li><%= link_to 'Tubecams', tubecam_devices_path %></li>
 <% end %>
 
 <% if user_signed_in? && current_user.admin_role? %>
-    <li><%= link_to 'Dashboard', dashboard_path %></li>
+    <li>
+      <a href="<%= dashboard_url %>" data-toggle="dropdown">Dashboard <b class="caret"></b></a>
+      <ul class="dropdown-menu multi-level">
+        <li><a href="<%= dashboard_url %>">Übersicht</a></li>
+        <li class="divider"></li>
+        <li><a href="<%= users_url %>">Benutzer</a></li>
+        <li><a href="<%= tubecam_devices_url %>">Tubecams</a></li>
+        <li><a href="<%= sequences_url %>">Sequenzen</a></li>
+      </ul>
+    </li>
 <% end %>
 
 

@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   get '/annotations' => 'annotations#index', as: "annotations"
   get '/annotations/new' => 'annotations#new', as: "new_annotation"
-  get '/annotations/specific' => 'annotations#specific', as: "spedific_annotation"
+  get '/annotations/specific' => 'annotations#specific', as: "specific_annotation"
   get '/annotations/done' => 'annotations#done'
   get '/annotations/destroy' => 'annotations#destroy'
   get '/annotations/confirm_verification' => 'annotations#confirm_verification'
@@ -21,10 +21,12 @@ Rails.application.routes.draw do
 
 
   # Deactivate instead of Destroy
-  get '/sequences/delete/:id' => 'sequences#delete'
+  get '/sequences/deactivate/:id' => 'sequences#deactivate'
   get '/sequences/activate/:id' => 'sequences#activate'
-  get '/tubecam_devices/delete/:id' => 'tubecam_devices#delete'
+  get '/tubecam_devices/deactivate/:id' => 'tubecam_devices#deactivate'
   get '/tubecam_devices/activate/:id' => 'tubecam_devices#activate'
+  get '/users/deactivate/:id' => 'users#deactivate'
+  get '/users/activate/:id' => 'users#activate'
 
   root 'welcome#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

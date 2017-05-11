@@ -12,7 +12,7 @@ class SequencesController < ApplicationController
     @filter_params = scope_params
     sequences = Sequence.filter(scope_params)
     sequences = filter_sequences(sequences)
-    sequences = sequences.order('datetime DESC')
+    sequences = sequences.where(deleted: false).order('datetime DESC')
     @sequences = sequences.page(params[:page])
     @cloud_resource_thumbnail_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
@@ -33,7 +33,7 @@ class SequencesController < ApplicationController
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/'
     @tubecam_device = TubecamDevice.find(sequence.tubecam_device_id)
-    @annotations = Annotation.where(sequence_id: sequence.id)
+    @annotations = Annotation.where(sequence_id: sequence.id).order('verified_id ASC, created_at DESC')
     @annotations_lookup_table = AnnotationsLookupTable.all
   end
 
@@ -86,13 +86,13 @@ class SequencesController < ApplicationController
     end
   end
 
-  def delete
+  def deactivate
     @sequence = set_sequence
     tubecam_device_id = @sequence.tubecam_device_id
     if (current_user.admin_role? || current_user.trapper_role?) && @sequence.update( :deleted => true )
-      redirect_to tubecam_device_url(tubecam_device_id), notice: 'Das Sequence wurde erfolgreich entfernt.'
+      redirect_to tubecam_device_url(tubecam_device_id), notice: 'Das Sequence wurde erfolgreich deaktiviert.'
     else
-      redirect_to tubecam_device_url(tubecam_device_id), alert: 'Das Sequence kann nicht entfernt werden.'
+      redirect_to tubecam_device_url(tubecam_device_id), alert: 'Das Sequence kann nicht deaktiviert werden.'
     end
   end
 
@@ -106,6 +106,8 @@ class SequencesController < ApplicationController
       redirect_to tubecam_device_url(tubecam_device_id), alert: 'Das Sequenze kann nicht reaktivert werden.'
     end
   end
+
+
 
   private
   

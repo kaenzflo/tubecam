@@ -14,7 +14,7 @@
       <%= f.hidden_field :user_id, value: @user.id %>
       <%= f.hidden_field :sequence_id, value: @medium.sequence_id %>
 
-      <select id='annotations_select' class="selectpicker form-control" name='annotation[annotations_lookup_table_id]' size='20' required>
+      <select id='annotations_select' class="selectpicker form-control" name='annotation[annotations_lookup_table_id]' size='23' required>
         <% @annotations_lookup_table.each do |lookup| %>
             <% selected_string = ''
                if @annotation.annotations_lookup_table_id == lookup.id
@@ -53,6 +53,7 @@
               <%= displayed_tag %></option>
         <% end %>
       </select>
+      <br />
       <div class="actions text-right">
         <%= f.submit 'Speichern', class: 'btn btn-success' %>
       </div>

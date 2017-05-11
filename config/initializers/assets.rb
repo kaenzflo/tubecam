@@ -15,3 +15,5 @@ Rails.application.config.assets.version = '1.0'
 Rails.application.config.assets.precompile += %w( loadmap.js )
 Rails.application.config.assets.precompile += %w( media/moment_locale_de-ch.js )
 Rails.application.config.assets.precompile += %w( media/datetimepicker.js )
+
+Rails.application.config.assets.precompile += %w( lightbox.js )

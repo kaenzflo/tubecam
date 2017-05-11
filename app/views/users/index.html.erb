@@ -1,4 +1,4 @@
-<h1>Spotters</h1>
+<h1>Benutzer</h1>
 
 <table class="table table-striped table-sm table-responsive table-hover">
   <thead>
@@ -40,7 +40,7 @@
   <tbody>
     <% @users.each do |user| %>
 
-      <tr <%= !user.active ? ' class=text-gray' : '' %> >
+      <tr <%= !user.active ? ' class=deleted' : '' %> >
         <td><%= user.id %></td>
         <td><%= user.username %></td>
         <td><%= user.firstname %></td>
@@ -53,7 +53,13 @@
         <td><%= user.active ? '✔' : '-' %></td>
         <% if can? :manage, User %>
           <td><%= link_to 'Bearbeiten', edit_user_path(user) %></td>
-          <td><%= link_to 'Löschen', user, method: :delete, data: { confirm: 'Soll der Benutzer "' + user.firstname.to_s + ' ' + user.lastname.to_s + '" mit der Id "' + user.id.to_s + '" wirklich gelöscht werden?' } %></td>
+        <% end %>
+        <% if current_user.admin_role? %>
+            <% if user.active? %>
+                <td><%= link_to 'Deaktivieren', :controller => 'users', :action => 'deactivate', :id => user.id %></td>
+            <% else %>
+                <td><b><%= link_to 'Aktivieren', :controller => 'users', :action => 'activate', :id => user.id %></b></td>
+            <% end %>
         <% end %>
       </tr>
     <% end %>

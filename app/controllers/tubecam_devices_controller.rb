@@ -18,7 +18,7 @@ class TubecamDevicesController < ApplicationController
   # GET /tubecam_devices/1
   # GET /tubecam_devices/1.json
   def show
-    @sequences = Sequence.where(tubecam_device_id: @tubecam_device.id).order("id").page(params[:page])
+    @sequences = Sequence.where(tubecam_device_id: @tubecam_device.id).order("datetime ASC").page(params[:page])
     if user_signed_in? && !current_user.admin_role?
       @sequences = @sequences.where(deleted: false)
     end
@@ -77,12 +77,12 @@ class TubecamDevicesController < ApplicationController
   end
 
   # Set tubecam inactive
-  def delete
+  def deactivate
     @tubecam_device = set_tubecam_device
     if current_user.admin_role? && @tubecam_device.update( :active => false )
-      redirect_to tubecam_devices_path, notice: 'Die Tubecam wurde erfolgreich entfernt.'
+      redirect_to tubecam_devices_path, notice: 'Die Tubecam wurde erfolgreich deaktiviert.'
     else
-      redirect_to tubecam_devices_path, alert: 'Die Tubecam kann nicht entfernt werden.'
+      redirect_to tubecam_devices_path, alert: 'Die Tubecam kann nicht deaktiviert werden.'
     end
   end
 
