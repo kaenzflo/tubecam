@@ -55,37 +55,50 @@
     <table class="table table-striped table-sm table-responsive table-hover">
       <thead>
       <tr>
-        <th>#</th>
-        <th>Lookup-Index</th>
         <th>Name</th>
-        <th>Familie</th>
+        <th>Gattung</th>
         <th>Art</th>
-        <th>Spezies</th>
+        <th>Familie</th>
+        <th>Lookup-Index</th>
         <th>Datum</th>
+        <th>Benutzername</th>
+        <th>Bearbeiten</th>
+        <th>Verifiziert</th>
+        <% if user_signed_in? && current_user.verified_spotter_role? %>
+            <th>Verifikation</th>
+        <% end %>
         <th colspan="3"></th>
       </tr>
       </thead>
 
       <tbody>
       <% @annotations.each do |annotation| %>
-        <% lookup_id = annotation.annotations_lookup_table_id %>
+        <% lookup_id = annotation.annotations_lookup_table_id - 1 %>
           <tr>
-            <td><%= @annotations_lookup_table[lookup_id].annotation_id %></td>
             <td><%= @annotations_lookup_table[lookup_id].name %></td>
-            <td><%= @annotations_lookup_table[lookup_id].family %></td>
             <td><%= @annotations_lookup_table[lookup_id].genus %></td>
             <td><%= @annotations_lookup_table[lookup_id].species %></td>
+            <td><%= @annotations_lookup_table[lookup_id].family %></td>
+            <td><%= @annotations_lookup_table[lookup_id].annotation_id %></td>
             <td><%= annotation.created_at.strftime("%d.%m.%Y %H:%M:%S") %></td>
+            <td><%= annotation.user.username %></td>
             <% if current_user.id == annotation.user_id %>
-              <td><%= link_to 'Löschen', :controller => 'annotations', :action => 'destroy', :id => annotation.id %></td>
+                <td><%= link_to 'Löschen', :controller => 'annotations', :action => 'destroy', :id => annotation.id, :sequence_id => annotation.sequence.id%></td>
             <% else %>
-              <td></td>
+            <td>-</td>
             <% end %>
-            <% if user_signed_in? && current_user.verified_spotter_role?  %>
-                <% if annotation.verified_id.nil? %>
-                    <td><%= link_to 'Bestätigen', :controller => 'annotations', :action => 'confirm_verification', :id => annotation.id %></td>
+
+            <% if annotation.verified_id.nil? %>
+              <td>-</td>
+                <% if !@annotations.where.not(verified_id: nil).empty? %>
+                    <td>-</td>
                 <% else %>
-                    <td><%= link_to 'Entfernen', :controller => 'annotations', :action => 'delete_verification', :id => annotation.id %></td>
+                    <td><%= link_to 'Verifizieren', controller: 'sequences', action: 'verify', :annotation_id => annotation.id %></td>
+                <% end %>
+            <% else %>
+              <td>🎖</td>
+                <% if user_signed_in? && current_user.verified_spotter_role? %>
+                    <td><%= link_to 'Entfernen', controller: 'sequences', action: 'unverify', :annotation_id => annotation.id %></td>
                 <% end %>
             <% end %>
           </tr>
