@@ -173,16 +173,21 @@ class MapsController < ApplicationController
   end
 
   def calculate_best_default_view_options
-    long_max = Medium.maximum(:longitude)
-    long_min = Medium.minimum(:longitude)
-    long_cent = long_min + (long_max - long_min) / 2
+    if Medium.first.nil?
+      long = 659000.00
+      lat = 185548.39
+    else
+      long_max = Medium.maximum(:longitude)
+      long_min = Medium.minimum(:longitude)
+      long_cent = long_min + (long_max - long_min) / 2
 
-    lat_max = Medium.maximum(:latitude)
-    lat_min = Medium.minimum(:latitude)
-    lat_cent = lat_min + (lat_max - lat_min) / 2
+      lat_max = Medium.maximum(:latitude)
+      lat_min = Medium.minimum(:latitude)
+      lat_cent = lat_min + (lat_max - lat_min) / 2
 
-    long = Coordinates.wgs_to_ch_y(long_cent, lat_cent)
-    lat = Coordinates.wgs_to_ch_x(long_cent, lat_cent)
+      long = Coordinates.wgs_to_ch_y(long_cent, lat_cent)
+      lat = Coordinates.wgs_to_ch_x(long_cent, lat_cent)
+    end
 
     return long, lat
   end

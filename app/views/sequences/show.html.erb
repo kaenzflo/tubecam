@@ -36,9 +36,10 @@
     <% @media.order('frame ASC').each do |medium| %>
         <% medium = Coordinates.wgs_to_ch(medium) %>
         <div class="item">
-          <a href="<%= @cloud_resource_image_url + medium.filename_hash %>" data-lightbox="<%= @sequence.sequence_no %>">
+          <a href="<%= @cloud_resource_image_url + medium.filename_hash %>" data-imagelightbox="f">
           <%= image_tag(@cloud_resource_thumbnail_url + medium.filename_hash) %>
         </a>
+
         </div>
     <% end %>
   </div>
@@ -101,3 +102,9 @@
   <% end %>
   </div>
 </div>
+
+
+
+
+<%= javascript_include_tag 'imagelightbox.min' %>
+<%= javascript_include_tag 'custom_imagelightbox' %>

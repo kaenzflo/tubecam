@@ -5,8 +5,10 @@ class WelcomeController < ApplicationController
   def index
     @media = []
     media = Medium.where(deleted: false)
-    for i in 1..6
-      @media << media[rand(0...media.size)]
+    if !media.empty?
+      for i in 1..6
+        @media << media[rand(0...media.size)]
+      end
     end
 
     @cloud_resource_image_url = 'https://' +
