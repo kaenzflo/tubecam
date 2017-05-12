@@ -3,7 +3,7 @@ class SequencesController < ApplicationController
 
   load_and_authorize_resource
   skip_before_filter :authenticate_user!
-  skip_authorize_resource :only => [:index, :show]
+  skip_authorize_resource :only => [:index, :show, :verify, :unverify]
 
   # GET /sequences
   # GET /sequences.json
