@@ -57,16 +57,6 @@ class AnnotationsController < ApplicationController
     end
   end
 
-  def confirm_verification
-    #TODO
-    redirect_to '/annotations', notice: 'Not yet implemented'
-  end
-
-  def delete_verification
-    #TODO
-    redirect_to '/annotations', notice: 'Not yet implemented'
-  end
-
   private
 
   def instantiate_vars(sequence_media)

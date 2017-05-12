@@ -21,15 +21,15 @@
           <% %>
         </td>
         <% if user_signed_in? && (current_user.id == annotation.user_id  || current_user.admin_role?) %>
-            <td><%= link_to 'löschen', :controller => 'annotations', :action => 'destroy', :id => annotation.id %></td>
+            <td><%= link_to 'Löschen', :controller => 'annotations', :action => 'destroy', :id => annotation.id %></td>
             <% else %>
-        <td></td>
+            <td>-</td>
         <% end %>
         <% if user_signed_in? && @user.verified_spotter_role?  %>
             <% if annotation.verified_id.nil? %>
-                <td><%= link_to 'bestätigen', :controller => 'annotations', :action => 'confirm_verification', :id => annotation.id %></td>
+                <td><%= link_to 'Verifizieren', sequence_path(annotation.sequence.id) %></td>
             <% else %>
-                <td><%= link_to 'entfernen', :controller => 'annotations', :action => 'delete_verification', :id => annotation.id %></td>
+                <td><%= link_to 'Entfernen', sequence_path(annotation.sequence.id) %></td>
             <% end %>
         <% end %>
 

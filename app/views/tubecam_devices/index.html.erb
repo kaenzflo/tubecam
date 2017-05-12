@@ -1,4 +1,4 @@
-<h1>Tubecams</h1>
+<h1>TubeCams verwalten</h1>
 
 <% if user_signed_in? && current_user.admin_role? %>
     <div class="text-right">
@@ -32,7 +32,7 @@
         <% end %>
         <td><%= tubecam_device.description %></td>
         <td><%= tubecam_device.active ? '✔' : '-' %></td>
-        <td><%= link_to 'Anzeigen', tubecam_device_path(tubecam_device) %></td>
+        <td><%= link_to 'Medien', tubecam_device_path(tubecam_device) %></td>
         <% if current_user.admin_role? || current_user.trapper_role? %>
             <td><%= link_to 'Ändern', edit_tubecam_device_path(tubecam_device) %></td>
         <% end %>

@@ -18,6 +18,7 @@ class SequencesController < ApplicationController
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/thumbnails/'
     @annotations_lookup_table = AnnotationsLookupTable.all
+    Annotation.where()
   end
 
   # GET /sequences/1
@@ -101,16 +102,34 @@ class SequencesController < ApplicationController
     @sequence = set_sequence
     tubecam_device_id = @sequence.tubecam_device_id
     if (current_user.admin_role? || current_user.trapper_role?) && @sequence.update( :deleted => false )
-      redirect_to tubecam_device_url(tubecam_device_id), notice: 'Das Sequenze wurde erfolgreich reaktiviert.'
+      redirect_to tubecam_device_url(tubecam_device_id), notice: 'Das Sequenz wurde erfolgreich reaktiviert'
     else
-      redirect_to tubecam_device_url(tubecam_device_id), alert: 'Das Sequenze kann nicht reaktivert werden.'
+      redirect_to tubecam_device_url(tubecam_device_id), alert: 'Das Sequenz kann nicht reaktivert werden'
+    end
+  end
+
+  def verify
+    annotation = Annotation.find(params[:id])
+    p params[:id].inspect
+    if user_signed_in? && current_user.verified_spotter_role? && annotation.update(verified_id:current_user.id)
+      redirect_to sequence_path(annotation.sequence.id), notice: 'Annotation verifiziert'
+    else
+      redirect_to sequence_path(annotation.sequence.id), alert: 'Annotation kann nicht verifiziert werden'
+    end
+  end
+
+  def unverify
+    annotation = Annotation.find(params[:id])
+    if user_signed_in? && current_user.verified_spotter_role? && annotation.update(verified_id: nil)
+      redirect_to sequence_path(annotation.sequence.id), notice: 'Verifikation entfernt'
+    else
+      redirect_to sequence_path(annotation.sequence.id), alert: 'Verifikation kann nicht entfernt werden'
     end
   end
 
 
-
   private
-  
+
   # Use callbacks to share common setup or constraints between actions.
   def set_sequence
     @sequence = Sequence.find(params[:id])
@@ -130,14 +149,14 @@ class SequencesController < ApplicationController
   def filter_sequences sequences
     filter_by_date = ''
     if !params[:date_start].nil? && !params[:date_start].empty?
-        @filter_params[:date_start] = string_to_date(params[:date_start], '00:00:00')
-        filter_date_start = Medium.select(:sequence_id).where(['datetime >=  ?', @filter_params[:date_start]]).distinct.pluck(:sequence_id)
-        sequences = sequences.where(id: filter_date_start) if !filter_date_start.nil?
+      @filter_params[:date_start] = string_to_date(params[:date_start], '00:00:00')
+      filter_date_start = Medium.select(:sequence_id).where(['datetime >=  ?', @filter_params[:date_start]]).distinct.pluck(:sequence_id)
+      sequences = sequences.where(id: filter_date_start) if !filter_date_start.nil?
     end
     if !params[:date_end].nil? && !params[:date_end].empty?
-        @filter_params[:date_end] = string_to_date(params[:date_end], '22:59:59')
-        filter_date_end = Medium.select(:sequence_id).where(['datetime <=  ?', @filter_params[:date_end]]).distinct.pluck(:sequence_id)
-        sequences = sequences.where(id: filter_date_end) if !filter_date_end.nil?
+      @filter_params[:date_end] = string_to_date(params[:date_end], '22:59:59')
+      filter_date_end = Medium.select(:sequence_id).where(['datetime <=  ?', @filter_params[:date_end]]).distinct.pluck(:sequence_id)
+      sequences = sequences.where(id: filter_date_end) if !filter_date_end.nil?
     end
     if !params[:lookup_table_id].nil? && !params[:lookup_table_id].empty?
       @filter_params[:lookup_table_id] = params[:lookup_table_id]

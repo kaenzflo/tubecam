@@ -9,7 +9,7 @@
 <% end %>
 
 <% if user_signed_in? && current_user.trapper_role? && !current_user.admin_role?%>
-    <li><%= link_to 'Tubecams', tubecam_devices_path %></li>
+    <li><%= link_to 'TubeCams', tubecam_devices_path %></li>
 <% end %>
 
 <% if user_signed_in? && current_user.admin_role? %>
@@ -19,8 +19,7 @@
         <li><a href="<%= dashboard_url %>">Übersicht</a></li>
         <li class="divider"></li>
         <li><a href="<%= users_url %>">Benutzer</a></li>
-        <li><a href="<%= tubecam_devices_url %>">Tubecams</a></li>
-        <li><a href="<%= sequences_url %>">Sequenzen</a></li>
+        <li><a href="<%= tubecam_devices_url %>">TubeCams</a></li>
       </ul>
     </li>
 <% end %>
