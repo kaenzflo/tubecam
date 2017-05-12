@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   get '/annotations/new' => 'annotations#new', as: "new_annotation"
   get '/annotations/specific/:id' => 'annotations#specific', as: "specific_annotation"
   get '/annotations/done' => 'annotations#done'
-  get '/annotations/destroy' => 'annotations#destroy'
+  get '/annotations/destroy/:id' => 'annotations#destroy'
   post '/annotations' => 'annotations#create'
 
   # Deactivate instead of Destroy
