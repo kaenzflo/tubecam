@@ -73,7 +73,7 @@
 
       <tbody>
       <% @annotations.each do |annotation| %>
-        <% lookup_id = annotation.annotations_lookup_table_id %>
+        <% lookup_id = annotation.annotations_lookup_table_id - 1 %>
           <tr>
             <td><%= @annotations_lookup_table[lookup_id].name %></td>
             <td><%= @annotations_lookup_table[lookup_id].genus %></td>
@@ -87,12 +87,18 @@
             <% else %>
             <td>-</td>
             <% end %>
-            <td><%= annotation.verified_id.nil? ? '-' : '🎖️' %></td>
-            <% if user_signed_in? && current_user.verified_spotter_role?  %>
-                <% if annotation.verified_id.nil? %>
-                    <td><%= link_to 'Bestätigen', verify_annotation_path(annotation.id) %></td>
+
+            <% if annotation.verified_id.nil? %>
+              <td>-</td>
+                <% if !@annotations.where.not(verified_id: nil).empty? %>
+                    <td>-</td>
                 <% else %>
-                    <td><%= link_to 'Entfernen', unverify_annotation_path(annotation.id) %></td>
+                    <td><%= link_to 'Verifizieren', controller: 'sequences', action: 'verify', :annotation_id => annotation.id %></td>
+                <% end %>
+            <% else %>
+              <td>🎖</td>
+                <% if user_signed_in? && current_user.verified_spotter_role? %>
+                    <td><%= link_to 'Entfernen', controller: 'sequences', action: 'unverify', :annotation_id => annotation.id %></td>
                 <% end %>
             <% end %>
           </tr>

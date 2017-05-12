@@ -18,7 +18,6 @@ class SequencesController < ApplicationController
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/thumbnails/'
     @annotations_lookup_table = AnnotationsLookupTable.all
-    Annotation.where()
   end
 
   # GET /sequences/1
@@ -109,9 +108,9 @@ class SequencesController < ApplicationController
   end
 
   def verify
-    annotation = Annotation.find(params[:id])
-    p params[:id].inspect
-    if user_signed_in? && current_user.verified_spotter_role? && annotation.update(verified_id:current_user.id)
+    annotation = Annotation.find(params[:annotation_id])
+    annotated = Annotation.where(sequence_id: annotation.sequence.id).where.not(verified_id: nil)
+    if user_signed_in? && current_user.verified_spotter_role? && annotation.update(verified_id: current_user.id)
       redirect_to sequence_path(annotation.sequence.id), notice: 'Annotation verifiziert'
     else
       redirect_to sequence_path(annotation.sequence.id), alert: 'Annotation kann nicht verifiziert werden'
@@ -119,7 +118,7 @@ class SequencesController < ApplicationController
   end
 
   def unverify
-    annotation = Annotation.find(params[:id])
+    annotation = Annotation.find(params[:annotation_id])
     if user_signed_in? && current_user.verified_spotter_role? && annotation.update(verified_id: nil)
       redirect_to sequence_path(annotation.sequence.id), notice: 'Verifikation entfernt'
     else
