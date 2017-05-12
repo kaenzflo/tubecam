@@ -40,6 +40,9 @@ option.annotations-level-2 {
   width: 40%;
   margin: 10px;
 }
+select#annotations_select {
+  margin-bottom: 5px;
+}
 
 .annotation-image .annotation-refresh {
   position: absolute;
@@ -67,5 +70,10 @@ option.annotations-level-2 {
   .annotation-dropdown {
     width: 100%;
   }
+}
 
+@media not screen {
+  .gallery .sequence {
+    flex-wrap: none;
+  }
 }

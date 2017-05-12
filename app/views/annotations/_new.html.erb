@@ -53,9 +53,8 @@
               <%= displayed_tag %></option>
         <% end %>
       </select>
-      <br />
       <div class="actions text-right">
-        <%= f.submit 'Speichern', class: 'btn btn-success' %>
+        <%= f.submit 'Speichern', class: 'btn btn-success btn-block' %>
       </div>
   <% end %>
 </div>
@@ -63,7 +62,7 @@
 
 <div class="gallery">
   <div class="sequence">
-    <% for i in 0..3 %>
+    <% for i in 0..4 %>
         <div class="item">
           <% if @thumbnails[i].nil? %>
               <%= image_tag(@cloud_resource_thumbnail_url + 'no_media.png') %>
