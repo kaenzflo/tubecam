@@ -42,17 +42,24 @@ class AnnotationsController < ApplicationController
   end
 
   def index
-    @annotations = Annotation.all
+    @user = current_user
+    if @user.admin_role
+      @annotations = Annotation.all
+    else
+      @annotations = Annotation.where(user_id: @user.id)
+    end
     @annotations_lookup_table = AnnotationsLookupTable.all.order('id ASC')
     @users = User.all
-    @user = current_user
   end
+
 
   def destroy
     @annotation = Annotation.find(destroy_param[:id])
+    p '####################'
+    p destroy_param.inspect
     @annotation.destroy
     respond_to do |format|
-      format.html { redirect_to annotations_path, notice: 'Annotation gelöscht' }
+      format.html { redirect_to sequence_path(destroy_param[:sequence_id]), notice: 'Annotation gelöscht' }
       format.json { head :no_content }
     end
   end
@@ -75,11 +82,11 @@ class AnnotationsController < ApplicationController
   end
 
   def specific_param
-    params.permit(:id)
+    params.permit( :id)
   end
 
   def destroy_param
-    params.permit(:id)
+    params.permit(:sequence_id, :id)
   end
 
 end
