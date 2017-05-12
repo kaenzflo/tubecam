@@ -1,0 +1,9 @@
+<%- headers = ['id', 'annotation_id'] -%>
+<%= CSV.generate_line headers %>
+
+<%- @annotations.each do |annotation| -%>
+    <% p @annotations %>
+    <%= CSV.generate_line([annotation.id, \
+                           annotation.annotations_lookup_table_id],
+                          :col_sep => ',') -%>
+<%- end -%>

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   get '/standorte' => 'maps#index', as: "maps"
   get '/projekt', to: 'pages#project', as: "project"
+  get '/projekt/dataexport', to: 'pages#dataexport', as: "dataexport"
   get '/kontakt', to: 'pages#contact', as: "contact"
   get '/dashboard', to: 'pages#dashboard', as: "dashboard"
 
