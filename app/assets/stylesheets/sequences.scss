@@ -2,7 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-// Gallery
+// Gallery filter
 
 select#tubecam_device_id,
 #datetimepicker-start-icon,
@@ -15,7 +15,7 @@ select#annotations-select {
 }
 
 .filter-search-reset {
-  float: right;
+  float: left;
 }
 
 select#tubecam_device_id {

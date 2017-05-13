@@ -1,13 +1,3 @@
-<%
-  def generate_description tubecam, tubecam_owner
-    s = StringIO.new
-    s << tubecam.serialnumber
-    s << " ("
-    s << tubecam_owner.username
-    s << ") "
-    s.string
-  end
-%>
 
 <div class='form-inline'>
   <form action="<%= sequences_path %>" method="get">
@@ -20,7 +10,9 @@
              end
              tubecam_owner = User.find_by(id: tubecam.user_id)
           %>
-          <option id='tubecam_device_id_id' <%= selected_string %> value='<%= tubecam.id %>'><%= generate_description tubecam, tubecam_owner %></option>
+          <option id='tubecam_device_id_id' <%= selected_string %> value='<%= tubecam.id %>'>
+            <%= tubecam.serialnumber %> (<%= tubecam.user.username %>)
+          </option>
       <% end %>
     </select>
 
