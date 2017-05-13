@@ -4,35 +4,44 @@
 
 // Gallery
 
-select#tubecam_device_id {
+select#tubecam_device_id,
+#datetimepicker-start-icon,
+#datetimepicker-end-icon,
+select#annotations-select {
   height: 34px;
+  margin-bottom: 8px;
+  margin-right: 8px;
+  float: left;
+}
+
+.filter-search-reset {
+  float: right;
+}
+
+select#tubecam_device_id {
+  width: auto;
 }
 
 #datetimepicker-start-icon,
 #datetimepicker-end-icon {
-  max-width: 140px;
-  height: 34px;
+  width: 150px;
 }
 
-#annotations-select {
-  height: 34px;
-}
-
-.filter-bottom {
-  margin-bottom: 6px;
-}
-
-@media screen and (max-width: 800px) {
-  #datetimepicker-start-icon,
-  #datetimepicker-end-icon {
-    float: left;
-    max-width: 48.8%;
+@media screen and (max-width: 770px) {
+  select#annotations-select {
+    width: 70%;
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 560px) {
+  select#tubecam_device_id,
   #datetimepicker-start-icon,
-  #datetimepicker-end-icon {
-    max-width: none;
+  #datetimepicker-end-icon,
+  select#annotations-select {
+    height: 34px;
+    margin-bottom: 6px;
+    margin-right: 6px;
+    float: left;
+    width: 100%;
   }
 }

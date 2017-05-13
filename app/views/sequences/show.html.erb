@@ -88,13 +88,13 @@
                         <td>-</td>
                     <% else %>
                         <% if user_signed_in? && current_user.verified_spotter_role? %>
-                            <td><%= link_to 'Verifizieren', controller: 'sequences', action: 'verify', :annotation_id => annotation.id %></td>
+                            <td><%= link_to 'Verifizieren', verify_annotation_path(annotation_id: annotation.id) %></td>
                         <% end %>
                     <% end %>
                 <% else %>
                     <td>🎖</td>
                     <% if user_signed_in? && current_user.verified_spotter_role? %>
-                        <td><%= link_to 'Entfernen', controller: 'sequences', action: 'unverify', :annotation_id => annotation.id %></td>
+                        <td><%= link_to 'Entfernen', unverify_annotation_path(annotation_id: annotation.id) %></td>
                     <% end %>
                 <% end %>
 

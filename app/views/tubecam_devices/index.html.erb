@@ -38,9 +38,9 @@
         <% end %>
         <% if current_user.admin_role? %>
             <% if tubecam_device.active? %>
-                <td><%= link_to 'Deaktivieren', :controller => 'tubecam_devices', :action => 'deactivate', :id => tubecam_device.id %></td>
+                <td><%= link_to 'Deaktivieren', deactivate_tubecam_device_path(id: tubecam_device.id) %></td>
             <% else %>
-                <td><b><%= link_to 'Aktivieren', :controller => 'tubecam_devices', :action => 'activate', :id => tubecam_device.id %></b></td>
+                <td><b><%= link_to 'Aktivieren', activate_tubecam_device_path(id: tubecam_device.id) %></b></td>
             <% end %>
         <% end %>
       </tr>

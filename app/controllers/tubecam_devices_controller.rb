@@ -18,7 +18,7 @@ class TubecamDevicesController < ApplicationController
   # GET /tubecam_devices/1
   # GET /tubecam_devices/1.json
   def show
-    @sequences = Sequence.where(tubecam_device_id: @tubecam_device.id).order("datetime ASC").page(params[:page])
+    @sequences = Sequence.where(tubecam_device_id: @tubecam_device.id).order("datetime DESC").page(params[:page])
     if user_signed_in? && !current_user.admin_role?
       @sequences = @sequences.where(deleted: false)
     end
@@ -30,10 +30,12 @@ class TubecamDevicesController < ApplicationController
   # GET /tubecam_devices/new
   def new
     @tubecam_device = TubecamDevice.new
+    @users = User.all.order(username: 'ASC')
   end
 
   # GET /tubecam_devices/1/edit
   def edit
+    @users = User.all.order(username: 'ASC')
   end
 
   # POST /tubecam_devices

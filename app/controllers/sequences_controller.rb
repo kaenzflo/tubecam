@@ -18,6 +18,7 @@ class SequencesController < ApplicationController
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/thumbnails/'
     @annotations_lookup_table = AnnotationsLookupTable.all
+    @tubecam_devices = TubecamDevice.where(active: true).order(serialnumber: 'ASC')
   end
 
   # GET /sequences/1
@@ -198,7 +199,7 @@ class SequencesController < ApplicationController
     if !date_string.empty?
       date_start_string = date_string.split(".")
       date_start_string = date_start_string[2] + ":" + date_start_string[1] + ":" + date_start_string[0] + " " + time
-      date_start = DateTime.strptime(date_start_string, '%Y:%m:%d %H:%M:%S')
+      date_start = Time.strptime(date_start_string, '%Y:%m:%d %H:%M:%S')
       date_string = date_start
     end
     date_string

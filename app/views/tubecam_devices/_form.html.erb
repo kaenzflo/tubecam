@@ -1,34 +1,53 @@
 <%= form_for(tubecam_device) do |f| %>
-  <% if tubecam_device.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(tubecam_device.errors.count, "error") %> prohibited this tubecam_device from being saved:</h2>
+    <% if tubecam_device.errors.any? %>
+        <div id='error_explanation'>
+          <h2><%= pluralize(tubecam_device.errors.count, 'error') %> prohibited this tubecam_device from being
+            saved:</h2>
 
-      <ul>
-      <% tubecam_device.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+          <ul>
+            <% tubecam_device.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <% if current_user.admin_role? %>
+        <div class='field'>
+          <%= f.label :serialnumber %>
+          <%= f.text_field :serialnumber, :required => true%>
+        </div>
+
+        <div class='field'>
+          <%= f.label :user_id %>
+          <select id='user_id' name='user_id' size='1' required>
+            <option></option>
+            <% @users.each do |user| %>
+                <% selected_string = ''
+                   if tubecam_device.user_id == user.id
+                     selected_string = ' selected="selected" '
+                   end
+                %>
+                <% disabled_string = ''
+                   if !user.active?
+                     disabled_string = ' disabled="disabled" '
+                   end
+                %>
+                <option <%= selected_string %> <%= disabled_string %> value='<%= user.id %>'>
+                  <%= user.username %> (<%= user.firstname %> <%= user.lastname %>)
+                </option>
+            <% end %>
+          </select>
+        </div>
+
+    <% end %>
+
+    <div class='field'>
+      <%= f.label :description %>
+      <%= f.text_area :description, placeholder: 'Beschreibe deine TubeCam...' %>
     </div>
-  <% end %>
 
-  <% if current_user.admin_role? %>
-    <div class="field">
-      <%= f.label :serialnumber %>
-      <%= f.text_field :serialnumber %>
+    <div class='actions'>
+      <%= f.submit 'Tubecam speichern', class: 'btn btn-primary' %>
     </div>
-
-    <div class="field">
-      <%= f.label :user_id %>
-      <%= f.text_field :user_id %>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :description %>
-    <%= f.text_area :description %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit 'Tubecam speichern', class: 'btn btn-primary' %>
-  </div>
 <% end %>
