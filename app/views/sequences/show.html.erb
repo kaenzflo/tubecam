@@ -98,7 +98,7 @@
                     <% end %>
                 <% end %>
 
-                <% if current_user.id == annotation.user_id %>
+                <% if user_signed_in? && current_user.id == annotation.user_id %>
                     <td><%= link_to '❌', :controller => 'annotations', :action => 'destroy', :id => annotation.id, :sequence_id => annotation.sequence.id %></td>
                 <% else %>
                     <td></td>
