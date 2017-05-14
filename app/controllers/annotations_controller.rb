@@ -44,31 +44,14 @@ class AnnotationsController < ApplicationController
     end
   end
 
-  def set_verified_id
-    annotations = Annotation.where(sequence_id: annotations_params[:sequence_id]).where.not(verified_id: nil)
-    annotations.each do |annotation|
-      annotation.verified_id = nil
-      annotation.save
-    end
-    @annotation.verified_id = current_user.id
-  end
-
   def index
-    @user = current_user
-    if @user.admin_role
+    if current_user.admin_role
       @annotations = Annotation.all
     else
       @annotations = Annotation.where(user_id: @user.id)
     end
     @annotations_lookup_table = AnnotationsLookupTable.all.order('id ASC')
     @users = User.all
-    respond_to do |format|
-      format.html
-      format.csv do
-        headers['Content-Disposition'] = "attachment; filename='annotations.csv'"
-        headers['Content-Type'] ||= 'text/csv'
-      end
-    end
   end
 
 
@@ -91,6 +74,15 @@ class AnnotationsController < ApplicationController
     @cloud_resource_thumbnail_url = @cloud_resource_image_url + 'thumbnails/'
     @annotations_lookup_table = AnnotationsLookupTable.all.order('annotation_id')
     @annotation = Annotation.new
+  end
+
+  def set_verified_id
+    annotations = Annotation.where(sequence_id: annotations_params[:sequence_id]).where.not(verified_id: nil)
+    annotations.each do |annotation|
+      annotation.verified_id = nil
+      annotation.save
+    end
+    @annotation.verified_id = current_user.id
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
