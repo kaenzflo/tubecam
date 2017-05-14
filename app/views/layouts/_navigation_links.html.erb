@@ -9,7 +9,7 @@
 <% end %>
 
 <% if user_signed_in? && current_user.trapper_role? && !current_user.admin_role?%>
-    <li><%= link_to 'Tubecams', tubecam_devices_path %></li>
+    <li><%= link_to 'TubeCams', tubecam_devices_path %></li>
 <% end %>
 
 <% if user_signed_in? && current_user.admin_role? %>
@@ -19,15 +19,22 @@
         <li><a href="<%= dashboard_url %>">Übersicht</a></li>
         <li class="divider"></li>
         <li><a href="<%= users_url %>">Benutzer</a></li>
-        <li><a href="<%= tubecam_devices_url %>">Tubecams</a></li>
-        <li><a href="<%= sequences_url %>">Sequenzen</a></li>
+        <li><a href="<%= tubecam_devices_url %>">TubeCams</a></li>
       </ul>
     </li>
 <% end %>
 
 
-
-<li><%= link_to 'Projekt', project_path %></li>
+<li>
+  <% if user_signed_in? && current_user.admin_role? %>
+      <a href="<%= dashboard_url %>" data-toggle="dropdown">Projekt <b class="caret"></b></a>
+      <ul class="dropdown-menu multi-level">
+        <li><a href="<%= exports_path(format: :csv) %>">Datenexport</a></li>
+      </ul>
+  <% else %>
+      <%= link_to 'Projekt', project_path %>
+  <% end %>
+</li>
 
 
 <li><%= link_to 'Kontakt', contact_path %></li>

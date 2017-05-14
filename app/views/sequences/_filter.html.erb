@@ -9,82 +9,77 @@
   end
 %>
 
-<div class="row">
+<div class='form-inline'>
   <form action="<%= sequences_path %>" method="get">
-    <div class='form-group col-sm-4'>
-      <select id='tubecam_device_id' name='tubecam_device_id' class="form-control" size='1'>
-        <option></option>
-        <% TubecamDevice.where(active: true).each do |tubecam| %>
-            <% selected_string = ''
-               if params[:tubecam_device_id] == tubecam.id.to_s
-                 selected_string = ' selected="selected" '
-               end
-               tubecam_owner = User.find_by(id: tubecam.user_id)
-            %>
-            <option id='tubecam_device_id_id' <%= selected_string %> value=<%= tubecam.id %>><%= generate_description tubecam, tubecam_owner %></option>
-        <% end %>
-      </select>
-    </div>
+    <select id='tubecam_device_id' name='tubecam_device_id' class="form-control" size='1'>
+      <option></option>
+      <% @tubecam_devices.each do |tubecam| %>
+          <% selected_string = ''
+             if params[:tubecam_device_id] == tubecam.id.to_s
+               selected_string = ' selected="selected" '
+             end
+             tubecam_owner = User.find_by(id: tubecam.user_id)
+          %>
+          <option id='tubecam_device_id_id' <%= selected_string %> value='<%= tubecam.id %>'><%= generate_description tubecam, tubecam_owner %></option>
+      <% end %>
+    </select>
 
-    <div class='form-group input-group date col-sm-2 col-xs-5' id='datetimepicker-start-icon'>
+    <div class='input-group date' id='datetimepicker-start-icon'>
       <input type='text' name='date_start' class="form-control" id='datetimepicker-start-input'/>
-      <span class="input-group-addon">
-      <span class="glyphicon glyphicon-calendar"></span>
-    </span>
+      <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
     </div>
 
-    <div class='form-group input-group date col-sm-2 col-xs-5' id='datetimepicker-end-icon'>
+    <div class='input-group date ' id='datetimepicker-end-icon'>
       <input type='text' name='date_end' class='form-control' id='datetimepicker-end-input'/>
-      <span class='input-group-addon'>
-      <span class='glyphicon glyphicon-calendar'></span>
-    </span>
+      <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span>
     </div>
 
-    <div class='form-group input-group date col-sm-2' id='datetimepicker-end-icon'>
-      <select id='annotations_select' class="form-control" name='lookup_table_id' size='1' >
-        <option></option>
-        <% @annotations_lookup_table.each do |lookup| %>
-            <% selected_string = ''
-               if params[:lookup_table_id] == lookup.id.to_s
-                 selected_string = ' selected="selected" '
-               end
-            %>
-            <% disabled_string = ''
-               if !lookup.selectable?
-                 disabled_string = ' disabled="disabled" '
-               end
-            %>
+    <select id='annotations-select' name='annotations-select' class="form-control" name='lookup_table_id' size='1'>
+      <option></option>
+      <% @annotations_lookup_table.each do |lookup| %>
+          <% selected_string = ''
+             if params[:lookup_table_id] == lookup.id.to_s
+               selected_string = ' selected="selected" '
+             end
+          %>
+          <% disabled_string = ''
+             if !lookup.selectable?
+               disabled_string = ' disabled="disabled" '
+             end
+          %>
 
-            <% if !lookup.family.nil? && !lookup.genus.nil?
-                 displayed_tag = lookup.name + " (" + lookup.genus + " " + lookup.species + ")"
-                 class_tag = "annotations-level-2"
-                 space = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.html_safe
-               end
-               if !lookup.genus.nil? && lookup.name.nil?
-                 displayed_tag = lookup.genus
-                 class_tag = "annotations-level-1"
-                 space = '&nbsp;&nbsp;'.html_safe
-               end
-               if !lookup.family.nil? && lookup.name.nil?
-                 displayed_tag = lookup.family
-                 class_tag = "annotations-level-0".html_safe
-                 space = ''
-               end
-               if lookup.family.nil? && lookup.genus.nil? && lookup.species.nil?
-                 displayed_tag = lookup.name
-                 class_tag = "annotations-level-0".html_safe
-                 space = ''
-               end
-            %>
-            <option <%= selected_string %> <%= disabled_string %> class=<%= class_tag %> value='<%= lookup.id %>'><%= space %>
-              <%= displayed_tag %></option>
-        <% end %>
-      </select>
+          <% if !lookup.family.nil? && !lookup.genus.nil?
+               displayed_tag = lookup.name + " (" + lookup.genus + " " + lookup.species + ")"
+               class_tag = "annotations-level-2"
+               space = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.html_safe
+             end
+             if !lookup.genus.nil? && lookup.name.nil?
+               displayed_tag = lookup.genus
+               class_tag = "annotations-level-1"
+               space = '&nbsp;&nbsp;'.html_safe
+             end
+             if !lookup.family.nil? && lookup.name.nil?
+               displayed_tag = lookup.family
+               class_tag = "annotations-level-0".html_safe
+               space = ''
+             end
+             if lookup.family.nil? && lookup.genus.nil? && lookup.species.nil?
+               displayed_tag = lookup.name
+               class_tag = "annotations-level-0".html_safe
+               space = ''
+             end
+          %>
+          <option <%= selected_string %> <%= disabled_string %> class=<%= class_tag %> value='<%= lookup.id %>'><%= space %>
+            <%= displayed_tag %></option>
+      <% end %>
+    </select>
+
+    <div class="filter-search-reset">
+      <%= submit_tag 'Suchen', class: 'btn btn-success' %>
+      <%= link_to '❌', sequences_path, class: 'btn btn-warning' %>
     </div>
-
-    <%= submit_tag 'Suchen', name: nil, class: 'btn btn-success' %>
-    <%= link_to 'Filter zurücksetzen', sequences_path, class: 'btn btn-info' %>
   </form>
+</div>
 </div>
 
 <%= javascript_include_tag 'media/moment_locale_de-ch' %>

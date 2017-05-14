@@ -31,8 +31,8 @@ end
 tubecam_devices = [
     ['SN:00028',3,'ZHAW Winterthur',true],
     ['SN:00010',4,'Bürgestock-Tubecam',true],
-    ['SN:00001',4,'ZHAW-Test-TubeCam \"Burgruine\"',true],
-    ['SN:00002',5,'ZHAW-Test-TubeCam \"Rötibode\"',true],
+    ['SN:00001',4,'ZHAW-Test-TubeCam "Burgruine"',true],
+    ['SN:00002',5,'ZHAW-Test-TubeCam "Rötibode"',true],
     ['SN:00003',5,'TubeCam auf dem Vorderen Hörndli',true],
     ['SN:00004',5,'Neftenbach Waldrand',true],
     ['SN:00005',5,'Eschenberg bei Winterthur',true],
@@ -54,8 +54,6 @@ tubecam_devices.each do |value|
 end
 
 sequences = [
-    [1,31],
-    [2,5]
 ]
 
 sequences.each do |value|
@@ -64,9 +62,6 @@ sequences.each do |value|
 end
 
 media = [
-    [1,'/Tubecam_SN00028/2017/02/28/','SN00028_2017_02_28_18_26_44_S0031I19.jpg','f790923ff6cddb289da516b0bf97f31391f9ea69c08132d10aa2d2c38feae240.jpg','image\jpeg',DateTime.strptime('2017:02:28 18:26:44', '%Y:%m:%d %H:%M:%S'),8.729533, 47.496503,19,nil,false],
-    [2,'/Tubecam_SN00010/2016/02/09/','SN00010_2016_02_09_17_17_31_S0001I05.jpg','ed46a607709409b6b30210aa7b65e8678244258d54950d3cc43c1aabc020734d.jpg','image\jpeg',DateTime.strptime('2016:02:09 17:17:31', '%Y:%m:%d %H:%M:%S'),8.729497, 47.496611,5,nil,false],
-    [2,'/Tubecam_SN00010/2016/02/10/','SN00010_2016_02_09_17_17_31_S0001I06.jpg','ed46a607709409b6b30210aa7b65e8678244258d54950d3cc43c1aabc020734d.jpg','image\jpeg',DateTime.strptime('2016:02:10 17:17:31', '%Y:%m:%d %H:%M:%S'),8.529497, 47.296611,6,nil,false]
 ]
 
 media.each do |value|

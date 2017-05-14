@@ -28,6 +28,9 @@ class AnnotationsController < ApplicationController
 
   def create
     @annotation = Annotation.new(annotations_params)
+    if current_user.verified_spotter_role?
+      set_verified_id
+    end
     respond_to do |format|
       if @annotation.annotations_lookup_table_id != '' &&
           @annotation.user_id == current_user.id &&
@@ -42,29 +45,23 @@ class AnnotationsController < ApplicationController
   end
 
   def index
-    @annotations = Annotation.all
+    if current_user.admin_role
+      @annotations = Annotation.all
+    else
+      @annotations = Annotation.where(user_id: @user.id)
+    end
     @annotations_lookup_table = AnnotationsLookupTable.all.order('id ASC')
     @users = User.all
-    @user = current_user
   end
+
 
   def destroy
     @annotation = Annotation.find(destroy_param[:id])
     @annotation.destroy
     respond_to do |format|
-      format.html { redirect_to annotations_path, notice: 'Annotation gelöscht' }
+      format.html { redirect_to sequence_path(destroy_param[:sequence_id]), notice: 'Annotation gelöscht' }
       format.json { head :no_content }
     end
-  end
-
-  def confirm_verification
-    #TODO
-    redirect_to '/annotations', notice: 'Not yet implemented'
-  end
-
-  def delete_verification
-    #TODO
-    redirect_to '/annotations', notice: 'Not yet implemented'
   end
 
   private
@@ -79,17 +76,26 @@ class AnnotationsController < ApplicationController
     @annotation = Annotation.new
   end
 
+  def set_verified_id
+    annotations = Annotation.where(sequence_id: annotations_params[:sequence_id]).where.not(verified_id: nil)
+    annotations.each do |annotation|
+      annotation.verified_id = nil
+      annotation.save
+    end
+    @annotation.verified_id = current_user.id
+  end
+
   # Never trust parameters from the scary internet, only allow the white list through.
   def annotations_params
     params.require(:annotation).permit(:user_id, :sequence_id, :annotations_lookup_table_id)
   end
 
   def specific_param
-    params.permit(:id)
+    params.permit( :id)
   end
 
   def destroy_param
-    params.permit(:id)
+    params.permit(:sequence_id, :id)
   end
 
 end

@@ -9,13 +9,18 @@ class MapsController < ApplicationController
     long = map_params[:longitude]
     lat = map_params[:latitude]
 
-    if long.nil?
-      @longitude, @latitude = calculate_best_default_view_options
-      @zoom = 250
+    if Medium.first.nil?
+      long = 659000.00
+      lat = 185548.39
     else
-      @longitude = long
-      @latitude = lat
-      @zoom = 10
+      if (long.nil? || lat.nil?)
+        @longitude, @latitude = calculate_best_default_view_options
+        @zoom = 250
+      else
+        @longitude = long
+        @latitude = lat
+        @zoom = 10
+      end
     end
 
     @tubecamjson = generate_tubecams_json()
@@ -92,7 +97,6 @@ class MapsController < ApplicationController
       if !latest_image.nil?
          relative_point_factor = calculate_point_factor(tubecam.id, total_images, 2)
         time_period = days_since_last_image(latest_image)
-        point_color = set_point_color(time_period)
 
         styleHash = {"geomType" => "point",
                       "value" => tubecam.id,
@@ -100,7 +104,7 @@ class MapsController < ApplicationController
                           "type" => "circle",
                           "radius" => 10 * relative_point_factor,
                           "fill" => {
-                              "color" => point_color,
+                              "color" => "##{Gradient.randomColor(time_period)}",
                               "opacity" => 0.5
                           },
                           "stroke" => {
@@ -120,19 +124,15 @@ class MapsController < ApplicationController
 
   def generate_description serialnumber, latest_image_text, time_period, longitude, latitude, tubecam, description, exact_position=true
     s = StringIO.new
-    s << "<p>" + "Seriennummer:<b> " +serialnumber + "</b></p>"
-    s << "<p>" + "Anzahl Aufnahmen:<b> " + Medium.where(sequence_id: Sequence.where(tubecam_device_id: tubecam.id)).count.to_s + "</b></p>"
+    s << "<p>Seriennummer:<b> #{serialnumber}</b></p>"
+    s << "<p>Anzahl Aufnahmen:<b> #{Medium.where(sequence_id: Sequence.where(tubecam_device_id: tubecam.id)).count.to_s}</b></p>"
     s << latest_image_text
     if exact_position
-      s << "<p>" + "Koordinaten: " + sprintf('%#.2f', longitude) + ", " + sprintf('%#.2f', latitude) +  "</p>"
+      s << "<p>Koordinaten: #{sprintf('%#.2f', longitude)}, #{sprintf('%#.2f', latitude)}</p>"
     end
-    s << "<p>" + "Beschreibung: <br />" + description + "</p>"
+    s << "<p>Beschreibung:<br>#{description}</p>"
     s << "<hr class='hr-popover'>"
-    s << "<p>"
-    s << "<a href='" + tubecam_device_url(tubecam) + "'>Tubecam</a>"
-    s << " | "
-    s << "<a href='" + sequences_path + "?tubecam_device_id=" + tubecam.id.to_s + "'>Fotos</a>"
-    s << "</p>"
+    s << "<p>#{view_context.link_to 'TubeCam', tubecam_device_path(tubecam)} | #{view_context.link_to 'Fotos', sequences_path(tubecam_device_id: tubecam.id) }</p>".html_safe
 
     s.string
   end
@@ -151,35 +151,37 @@ class MapsController < ApplicationController
   end
 
   def days_since_last_image(latest_image)
-    time_period = (DateTime.now.to_date - latest_image.datetime.to_date).to_i
+    time_period = (Time.now.to_date - latest_image.datetime.to_date).to_i
   end
 
   def set_point_color(time_period)
-    point_color = "#" + Gradient.randomColor(time_period)
+    point_color = "##{Gradient.randomColor(time_period)}"
   end
 
   def latest_image_text(latest_image, time_period)
-    p "==================="
-    p latest_image
     day_text = time_period == 1 ? " Tag" : " Tage"
-    text = "<p>Letzte Aufnahme: " + latest_image.datetime.to_date.strftime('%d.%m.%Y').to_s + " (" + time_period.to_s + day_text + ")</p>"
+    text = "<p>Letzte Aufnahme: #{latest_image.datetime.to_time.strftime('%d.%m.%Y').to_s} (#{time_period.to_s + day_text})</p>"
   end
 
   def calculate_point_factor(tubecam_id, total_images, scalefactor)
-    #TODO: Count is not working at moment
     count = Medium.where(sequence_id: Sequence.where(tubecam_device_id: tubecam_id)).count
     relative = 1.0 * count / (1.0 * total_images / scalefactor) + 1
     relative
   end
 
+  # Calculates geometrical center of all tubecams
   def calculate_best_default_view_options
-    long_max = Medium.maximum(:longitude)
-    long_min = Medium.minimum(:longitude)
-    long_cent = long_min + (long_max - long_min) / 2
+    long_sum = 0
+    Medium.pluck(:longitude).each do |long|
+      long_sum += long
+    end
+    long_cent = long_sum / Medium.all.size
 
-    lat_max = Medium.maximum(:latitude)
-    lat_min = Medium.minimum(:latitude)
-    lat_cent = lat_min + (lat_max - lat_min) / 2
+    lat_sum = 0
+    Medium.pluck(:latitude).each do |lat|
+      lat_sum += lat
+    end
+    lat_cent = lat_sum / Medium.all.size
 
     long = Coordinates.wgs_to_ch_y(long_cent, lat_cent)
     lat = Coordinates.wgs_to_ch_x(long_cent, lat_cent)

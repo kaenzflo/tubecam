@@ -16,4 +16,5 @@ Rails.application.config.assets.precompile += %w( loadmap.js )
 Rails.application.config.assets.precompile += %w( media/moment_locale_de-ch.js )
 Rails.application.config.assets.precompile += %w( media/datetimepicker.js )
 
-Rails.application.config.assets.precompile += %w( lightbox.js )
+Rails.application.config.assets.precompile += %w( imagelightbox.min.js )
+Rails.application.config.assets.precompile += %w( custom_imagelightbox.js )

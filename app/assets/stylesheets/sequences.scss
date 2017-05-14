@@ -2,9 +2,46 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-
 // Gallery
 
-select#tubecam_device_id {
+select#tubecam_device_id,
+#datetimepicker-start-icon,
+#datetimepicker-end-icon,
+select#annotations-select {
   height: 34px;
+  margin-bottom: 8px;
+  margin-right: 8px;
+  float: left;
+}
+
+.filter-search-reset {
+  float: right;
+}
+
+select#tubecam_device_id {
+  width: auto;
+}
+
+#datetimepicker-start-icon,
+#datetimepicker-end-icon {
+  width: 150px;
+}
+
+@media screen and (max-width: 770px) {
+  select#annotations-select {
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  select#tubecam_device_id,
+  #datetimepicker-start-icon,
+  #datetimepicker-end-icon,
+  select#annotations-select {
+    height: 34px;
+    margin-bottom: 6px;
+    margin-right: 6px;
+    float: left;
+    width: 100%;
+  }
 }

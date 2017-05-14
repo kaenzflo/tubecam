@@ -1,4 +1,4 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<h2>Benutzer <b><%= current_user.username %></b> bearbeiten</h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {method: :put}) do |f| %>
     <%= devise_error_messages! %>
@@ -6,7 +6,7 @@
     <div class="form-group">
       <div class="field">
         <%= f.label :email %><br/>
-        <%= f.email_field :email, class: 'form-control', autofocus: true %>
+        <%= f.email_field :email, autofocus: true %>
       </div>
     </div>
 
@@ -15,73 +15,66 @@
     <% end %>
 
 
+    <div class="form-group">
+      <div class="field">
+        <%= f.label :username, class: "short-label"  %><br/>
+        <%= f.text_field :username%>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="field">
+        <%= f.label :firstname, class: "short-label"  %><br/>
+        <%= f.text_field :firstname%>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="field">
+        <%= f.label :lastname, class: "short-label"  %><br/>
+        <%= f.text_field :lastname%>
+      </div>
+    </div>
+
     <div class="form-group ">
       <div class="form-inline">
-      <div class="form-group ">
-        <div class="field">
-          <%= f.label :password %> <i class="text-primary">(leave blank if you don't want to change it)</i><br/>
-          <%= f.password_field :password, class: 'form-control', autocomplete: "off" %>
-          <% if @minimum_password_length %>
-              <small id="emailHelp" class="form-text text-muted"><%= @minimum_password_length %> characters minimum
-              </small>
-          <% end %>
+        <div class="form-group ">
+          <div class="field">
+            <%= f.label :password, class: "short-label" %> <i class="text-primary">(Nur ausfüllen wenn das Passwort <b>geändert</b> werden soll.)</i><br/>
+            <%= f.password_field :password, autocomplete: "off" %>
+            <% if @minimum_password_length %>
+                <small id="emailHelp" class="form-text text-muted"><%= @minimum_password_length %> characters minimum
+                </small>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="field">
+            <%= f.label :password_confirmation %><br/>
+            <%= f.password_field :password_confirmation, autocomplete: "off" %>
+          </div>
         </div>
       </div>
+    </div>
 
+
+    <br />
+    <br />
+
+    <div class="form-inline">
       <div class="form-group">
         <div class="field">
-          <%= f.label :password_confirmation %><br/>
-          <%= f.password_field :password_confirmation, class: 'form-control', autocomplete: "off" %>
+          <%= f.label :current_password, class: "short-label" %>
+          <span class="text-success">Um Änderugnen speichern zu können, muss das aktuelle Passwort angegeben werden</span><br/>
+          <%= f.password_field :current_password, autocomplete: "off" %>
+
+
+          <%= f.submit "Änderungen speichern", class: 'btn btn-success' %>
+
         </div>
       </div>
-      </div>
-    </div>
 
-    <div class="form-group">
-      <div class="field">
-        <%= f.label :username %> <em>(ist für andere Benutzer ersichtlich)</em><br/>
-        <%= f.text_field :username, class: 'form-control' %>
-      </div>
-    </div>
-
-    <!--
-    <div class="form-group">
-  <div class="field">
-    <%= f.label :firstname %><br />
-    <%= f.text_field :firstname, class: 'form-control' %>
-  </div>
-  </div>
-
-  <div class="form-group">
-  <div class="field">
-    <%= f.label :lastname %><br />
-    <%= f.text_field :lastname, class: 'form-control' %>
-  </div>
-  </div>
-  -->
-
-    <div class="form-group">
-      <div class="field">
-        <%= f.label :current_password %> <i class="text-danger">(we need your current password to confirm your changes)</i><br/>
-        <%= f.password_field :current_password, class: 'form-control', autocomplete: "off" %>
-      </div>
-    </div>
-
-    <div class="actions">
-      <%= f.submit "Update", class: 'btn btn-success' %>
     </div>
 
 <% end %>
-
-
-<div class="form-group text-right">
-  <h4 class="text-danger">Account löschen</h4>
-
-  <div><%= button_to "Account unwiederruflich löschen", registration_path(resource_name), class: "btn btn-danger",
-                     data: {confirm: "Soll dieser Account wirklich unwiederruflich gelöschen werden?"},
-                     method: :delete %></div>
-</div>
-<br/>
-<br/>
-
-<%= link_to "Back", :back, class: "btn btn-primary  "%>

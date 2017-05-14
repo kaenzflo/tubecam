@@ -130,7 +130,7 @@ class MediaController < ApplicationController
     if !date_string.empty?
       date_start_string = date_string.split(".")
       date_start_string = date_start_string[2] + ":" + date_start_string[1] + ":" + date_start_string[0] + " " + time
-      date_start = DateTime.strptime(date_start_string, '%Y:%m:%d %H:%M:%S')
+      date_start = Time.strptime(date_start_string, '%Y:%m:%d %H:%M:%S')
       date_string = date_start
     end
     date_string
