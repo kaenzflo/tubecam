@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get '/projekt/dataexport', to: 'pages#dataexport', as: 'dataexport'
   get '/kontakt', to: 'pages#contact', as: 'contact'
   get '/dashboard', to: 'pages#dashboard', as: 'dashboard'
+  get '/exports', to: 'exports#index', as: 'exports'
 
   get '/annotations' => 'annotations#index', as: 'annotations'
   get '/annotations/new' => 'annotations#new', as: 'new_annotation'

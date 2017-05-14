@@ -50,6 +50,13 @@ class AnnotationsController < ApplicationController
     end
     @annotations_lookup_table = AnnotationsLookupTable.all.order('id ASC')
     @users = User.all
+    respond_to do |format|
+      format.html
+      format.csv do
+        headers['Content-Disposition'] = "attachment; filename='annotations.csv'"
+        headers['Content-Type'] ||= 'text/csv'
+      end
+    end
   end
 
 
