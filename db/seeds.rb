@@ -31,8 +31,8 @@ end
 tubecam_devices = [
     ['SN:00028',3,'ZHAW Winterthur',true],
     ['SN:00010',4,'Bürgestock-Tubecam',true],
-    ['SN:00001',4,'ZHAW-Test-TubeCam \"Burgruine\"',true],
-    ['SN:00002',5,'ZHAW-Test-TubeCam \"Rötibode\"',true],
+    ['SN:00001',4,'ZHAW-Test-TubeCam "Burgruine"',true],
+    ['SN:00002',5,'ZHAW-Test-TubeCam "Rötibode"',true],
     ['SN:00003',5,'TubeCam auf dem Vorderen Hörndli',true],
     ['SN:00004',5,'Neftenbach Waldrand',true],
     ['SN:00005',5,'Eschenberg bei Winterthur',true],

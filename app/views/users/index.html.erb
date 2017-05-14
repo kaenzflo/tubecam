@@ -56,9 +56,9 @@
         <% end %>
         <% if current_user.admin_role? %>
             <% if user.active? %>
-                <td><%= link_to 'Deaktivieren', :controller => 'users', :action => 'deactivate', :id => user.id %></td>
+                <td><%= link_to 'Deaktivieren', deactivate_user_path(id: user.id) %></td>
             <% else %>
-                <td><b><%= link_to 'Aktivieren', :controller => 'users', :action => 'activate', :id => user.id %></b></td>
+                <td><b><%= link_to 'Aktivieren', activate_user_path(id: user.id) %></b></td>
             <% end %>
         <% end %>
       </tr>

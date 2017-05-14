@@ -77,9 +77,9 @@ class UsersController < ApplicationController
   def activate
     @user = set_user
     if current_user.admin_role? && @user.update( :active => true )
-      redirect_to users_path, notice: 'Der Nutzer wurde erfolgreich reaktiviert.'
+      redirect_to users_path, notice: 'Der Nutzer wurde erfolgreich aktiviert.'
     else
-      redirect_to users_path, alert: 'Der Nutzer kann nicht reaktiviert werden.'
+      redirect_to users_path, alert: 'Der Nutzer kann nicht aktiviert werden.'
     end
   end
 

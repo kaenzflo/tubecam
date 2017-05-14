@@ -25,8 +25,16 @@
 <% end %>
 
 
-
-<li><%= link_to 'Projekt', project_path %></li>
+<li>
+  <% if user_signed_in? && current_user.admin_role? %>
+      <a href="<%= dashboard_url %>" data-toggle="dropdown">Projekt <b class="caret"></b></a>
+      <ul class="dropdown-menu multi-level">
+        <li><a href="<%= dataexport_path(format: :csv) %>">Datenexport</a></li>
+      </ul>
+  <% else %>
+      <%= link_to 'Projekt', project_path %>
+  <% end %>
+</li>
 
 
 <li><%= link_to 'Kontakt', contact_path %></li>
