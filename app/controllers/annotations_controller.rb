@@ -55,8 +55,6 @@ class AnnotationsController < ApplicationController
 
   def destroy
     @annotation = Annotation.find(destroy_param[:id])
-    p '####################'
-    p destroy_param.inspect
     @annotation.destroy
     respond_to do |format|
       format.html { redirect_to sequence_path(destroy_param[:sequence_id]), notice: 'Annotation gelöscht' }
