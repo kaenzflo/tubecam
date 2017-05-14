@@ -22,7 +22,7 @@
                            annotation.sequence.tubecam_device.user.email,
                            'https://' + ENV['S3_HOST_NAME'] + '/' + ENV['S3_BUCKET_NAME'] + '/',
                            medium.filename_hash,
-                           'ftp://' + ENV['FTP_HOST_NAME'] + '/' + medium.original_path,
+                           'ftp://' + ENV['FTP_HOST_NAME'] + medium.original_path,
                            medium.original_filename],
                           :col_sep => ',') -%>
 <%- end -%>
