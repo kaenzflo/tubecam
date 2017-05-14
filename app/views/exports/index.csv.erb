@@ -1,0 +1,28 @@
+<%- headers = ['Zeitstempel (Annotation)', 'Tubecam', 'Längengrad', 'Breitengrad',
+               'Sequenz-Nr.', 'Zeitstempel (Sequenz)', 'Annotations-ID',
+               'Spotter-ID', 'Spotter-E-Mail', 'Verifier-ID', 'Verifier-Email',
+               'Trapper-ID', 'Trapper-E-Mail', 'Object-Storage-Pfad',
+               'Object-Storage-Dateiname', 'Original-Pfad', 'Original-Dateiname'] -%>
+<%= CSV.generate_line headers %>
+<%- @annotations.each do |annotation| -%>
+    <% medium = @media.where(sequence_id: annotation.sequence_id).order('frame ASC').first %>
+    <% verified_user = @users.find_by_id(annotation.verified_id) %>
+    <%= CSV.generate_line([annotation.created_at,
+                           annotation.sequence.tubecam_device.serialnumber,
+                           medium.longitude,
+                           medium.latitude,
+                           annotation.sequence.sequence_no,
+                           medium.datetime,
+                           annotation.annotations_lookup_table_id,
+                           annotation.user_id,
+                           annotation.user.email,
+                           annotation.verified_id,
+                           verified_user.nil? ? nil : verified_user.email,
+                           annotation.sequence.tubecam_device.user.id,
+                           annotation.sequence.tubecam_device.user.email,
+                           'https://' + ENV['S3_HOST_NAME'] + '/' + ENV['S3_BUCKET_NAME'] + '/',
+                           medium.filename_hash,
+                           'ftp://' + ENV['FTP_HOST_NAME'] + '/' + medium.original_path,
+                           medium.original_filename],
+                          :col_sep => ',') -%>
+<%- end -%>
