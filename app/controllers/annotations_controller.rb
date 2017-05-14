@@ -28,6 +28,9 @@ class AnnotationsController < ApplicationController
 
   def create
     @annotation = Annotation.new(annotations_params)
+    if current_user.verified_spotter_role?
+      set_verified_id
+    end
     respond_to do |format|
       if @annotation.annotations_lookup_table_id != '' &&
           @annotation.user_id == current_user.id &&
@@ -39,6 +42,15 @@ class AnnotationsController < ApplicationController
         format.json { render json: @annotation.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def set_verified_id
+    annotations = Annotation.where(sequence_id: annotations_params[:sequence_id]).where.not(verified_id: nil)
+    annotations.each do |annotation|
+      annotation.verified_id = nil
+      annotation.save
+    end
+    @annotation.verified_id = current_user.id
   end
 
   def index
