@@ -24,7 +24,7 @@
   <div class="image-links">
     <%= link_to 'Tubecam ' + @tubecam_device.serialnumber, tubecam_device_path(@sequence.tubecam_device_id), class: 'btn btn-primary' %>
     <%= link_to 'Standort auf Karte anzeigen', maps_path(:longitude => @medium.longitude, :latitude => @medium.latitude), class: 'btn btn-primary' %>
-    <% if !@annotations.empty? %>
+    <% if !@annotations.empty? && current_user.id != %>
         <%= link_to 'Annotieren', {controller: 'annotations', action: 'specific', :id => @medium.id}, class: 'btn btn-primary' %>
     <% end %>
   </div>
@@ -99,7 +99,7 @@
                 <% end %>
 
                 <% if user_signed_in? && current_user.id == annotation.user_id %>
-                    <td><%= link_to '❌', :controller => 'annotations', :action => 'destroy', :id => annotation.id, :sequence_id => annotation.sequence.id %></td>
+                    <td><%= link_to 'Löschen', :controller => 'annotations', :action => 'destroy', :id => annotation.id, :sequence_id => annotation.sequence.id %></td>
                 <% else %>
                     <td></td>
                 <% end %>

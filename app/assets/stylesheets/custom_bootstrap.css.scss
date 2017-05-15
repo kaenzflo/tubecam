@@ -12,6 +12,10 @@ img {
   font-size: inherit;
 }
 
+.container-fluid {
+  max-width: 1000px;
+}
+
 /* Custom container */
 .popover {
   width: 260px!important;;
