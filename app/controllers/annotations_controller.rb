@@ -48,7 +48,7 @@ class AnnotationsController < ApplicationController
     if current_user.admin_role
       @annotations = Annotation.all
     else
-      @annotations = Annotation.where(user_id: @user.id)
+      @annotations = Annotation.where(user_id: current_user.id)
     end
     @annotations_lookup_table = AnnotationsLookupTable.all.order('id ASC')
     @users = User.all
