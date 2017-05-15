@@ -42,6 +42,8 @@ class TubecamDevicesController < ApplicationController
   # POST /tubecam_devices.json
   def create
     @tubecam_device = TubecamDevice.new(tubecam_device_params)
+    p @tubecam_device
+    p "============"
 
     respond_to do |format|
       if @tubecam_device.save
