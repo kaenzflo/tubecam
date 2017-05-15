@@ -28,7 +28,7 @@
         <td><%= annotation.created_at.strftime("%d.%m.%Y %H:%M:%S") %></td>
         <td><%= annotation.user.username %></td>
         <% if current_user.id == annotation.user_id %>
-          <td><%= link_to 'Löschen', :controller => 'annotations', :action => 'destroy', :id => annotation.id %></td>
+          <td><%= link_to 'Löschen', :controller => 'annotations', :action => 'destroy', :id => annotation.id, :sequence_id => annotation.sequence.id%></td>
         <% else %>
           <td>-</td>
         <% end %>
