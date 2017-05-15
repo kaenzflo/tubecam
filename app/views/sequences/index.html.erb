@@ -14,6 +14,10 @@
           <div class="sequence-description">
             <%= link_to sequence.tubecam_device.serialnumber, tubecam_device_path(sequence.tubecam_device_id) %>
             | <%= link_to 'Sequenz ' + sequence.sequence_no.to_s, sequence_path(sequence.id) %>
+            | <% if user_signed_in? %>
+                <%= link_to 'Annotieren', controller: 'annotations', action: 'specific', :id => sequence.media.first.id %>
+              <% end %>
+            | <%= link_to 'Karte', maps_path(:longitude => sequence.media.first.longitude, :latitude => sequence.media.first.latitude) %>
             | <%= sequence.media[0].datetime.strftime("%d.%m.%Y %H:%M:%S") %> Uhr
           </div>
           <div class="sequence">
@@ -24,10 +28,8 @@
                   <%= link_to image_tag(@cloud_resource_thumbnail_url + medium.filename_hash), sequence %>
                   <div class="item-actions">
                     <ul>
-                      <% if user_signed_in? %>
-                          <li><%= link_to 'Annotieren', controller: 'annotations', action: 'specific', :id => medium.id %></li>
-                      <% end %>
-                      <li><%= link_to 'Karte', maps_path(:longitude => medium.longitude, :latitude => medium.latitude) %></li>
+
+
                     </ul>
                   </div>
                 </div>

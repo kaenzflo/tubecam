@@ -4,7 +4,6 @@ class MapsController < ApplicationController
 
   skip_before_action :authenticate_user!, :only => [:index]
 
-
   def index
     long = map_params[:longitude]
     lat = map_params[:latitude]
