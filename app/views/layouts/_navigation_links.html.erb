@@ -30,6 +30,7 @@
       <a href="<%= dashboard_url %>" data-toggle="dropdown">Projekt <b class="caret"></b></a>
       <ul class="dropdown-menu multi-level">
         <li><a href="<%= exports_path(format: :csv) %>">Datenexport</a></li>
+        <li><a href="<%= annotations_path %>">Meine Annotationen</a></li>
       </ul>
   <% else %>
       <%= link_to 'Projekt', project_path %>

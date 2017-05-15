@@ -21,6 +21,9 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+    if @user.username = 'admin'
+      redirect_to user_path(@user.id), alert: 'Der Benutzer "Administrator" kann nicht editiert werden'
+    end
   end
 
   # POST /users

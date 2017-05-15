@@ -1,4 +1,4 @@
-<h1>Benutzerverwalten</h1>
+<h1>Benutzer verwalten</h1>
 
 <table class="table table-striped table-sm table-responsive table-hover">
   <thead>
@@ -51,15 +51,19 @@
         <td><%= user.trapper_role ? '✔' : '-' %></td>
         <td><%= user.admin_role ? '✔' : '-' %></td>
         <td><%= user.active ? '✔' : '-' %></td>
-        <% if can? :manage, User %>
+        <% if user.username != 'admin' && (can? :manage, User) %>
           <td><%= link_to 'Bearbeiten', edit_user_path(user) %></td>
+        <% else %>
+          <td></td>
         <% end %>
-        <% if current_user.admin_role? %>
+        <% if user.username != 'admin' && current_user.admin_role? %>
             <% if user.active? %>
                 <td><%= link_to 'Deaktivieren', deactivate_user_path(id: user.id) %></td>
             <% else %>
                 <td><b><%= link_to 'Aktivieren', activate_user_path(id: user.id) %></b></td>
             <% end %>
+        <% else %>
+            <td></td>
         <% end %>
       </tr>
     <% end %>
