@@ -10,6 +10,11 @@
 
     <div class="gallery">
       <% @sequences.each do |sequence| %>
+          <% wgs_long = sequence.media.first.longitude
+             wgs_lat  = sequence.media.first.latitude
+             longitude = Coordinates.wgs_to_ch_y(wgs_long, wgs_lat)
+             latitude = Coordinates.wgs_to_ch_x(wgs_long, wgs_lat) %>
+
 
           <div class="sequence-description">
             <%= link_to sequence.tubecam_device.serialnumber, tubecam_device_path(sequence.tubecam_device_id) %>
@@ -17,7 +22,7 @@
             | <% if user_signed_in? %>
                 <%= link_to 'Annotieren', controller: 'annotations', action: 'specific', :id => sequence.media.first.id %>
               <% end %>
-            | <%= link_to 'Karte', maps_path(:longitude => sequence.media.first.longitude, :latitude => sequence.media.first.latitude) %>
+            | <%= link_to 'Karte', maps_path(:longitude => longitude, :latitude => latitude) %>
             | <%= sequence.media[0].datetime.strftime("%d.%m.%Y %H:%M:%S") %> Uhr
           </div>
           <div class="sequence">
