@@ -174,7 +174,6 @@ class SequencesController < ApplicationController
         # Matchs all ids of a family
         search = '' + first + '[0-9]' + '[0-9]'
         annotations = AnnotationsLookupTable.where("annotation_id ~* ?", search).select(:id).pluck(:id)
-        p annotations
         sequence_ids = Annotation.where(annotations_lookup_table_id: annotations).select(:sequence_id)
         sequences = sequences.where(id: sequence_ids) if !annotations.nil?
       elsif /[1-9][1-9]0/.match(annotation_id)

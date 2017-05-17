@@ -52,7 +52,7 @@ class MapsController < ApplicationController
 
     tubecamArray = []
     @tubecams.each do |tubecam|
-      latest_image = Medium.where(sequence_id: Sequence.where(tubecam_device_id: tubecam.id)).last
+      latest_image = Medium.where(sequence_id: Sequence.where(tubecam_device_id: tubecam.id)).order(frame: 'ASC').last
       if !latest_image.nil?
         longitude = Coordinates.wgs_to_ch_y(latest_image.longitude, latest_image.latitude);
         latitude = Coordinates.wgs_to_ch_x(latest_image.longitude, latest_image.latitude);
@@ -84,6 +84,9 @@ class MapsController < ApplicationController
 
   def generate_tubecams_style
     total_images = Medium.all.where(deleted: false).count
+    amount_of_sequences = Sequence.where(deleted: false).group(:tubecam_device_id).count
+    max_sequences = amount_of_sequences.max_by(&:last)[1]
+    min_sequences = amount_of_sequences.min_by(&:last)[1]
 
     stylesHash = {}
     stylesHash[:type] = "unique"
@@ -92,9 +95,8 @@ class MapsController < ApplicationController
     styleArray = []
     @tubecams.each do |tubecam|
       latest_image = Medium.where(sequence_id: Sequence.where(tubecam_device_id: tubecam.id)).last
-      p latest_image
       if !latest_image.nil?
-         relative_point_factor = calculate_point_factor(tubecam.id, total_images, 2)
+         relative_point_factor = calculate_point_factor(tubecam.id, max_sequences, min_sequences, 1)
         time_period = days_since_last_image(latest_image)
 
         styleHash = {"geomType" => "point",
@@ -103,8 +105,7 @@ class MapsController < ApplicationController
                           "type" => "circle",
                           "radius" => 10 * relative_point_factor,
                           "fill" => {
-                              "color" => "##{Gradient.randomColor(time_period)}",
-                              "opacity" => 0.5
+                              "color" => "##{Gradient.randomColor(time_period)}"
                           },
                           "stroke" => {
                               "color" => "#FFFFFF",
@@ -124,7 +125,7 @@ class MapsController < ApplicationController
   def generate_description serialnumber, latest_image_text, time_period, longitude, latitude, tubecam, description, exact_position=true
     s = StringIO.new
     s << "<p>Seriennummer:<b> #{serialnumber}</b></p>"
-    s << "<p>Anzahl Aufnahmen:<b> #{Medium.where(sequence_id: Sequence.where(tubecam_device_id: tubecam.id)).count.to_s}</b></p>"
+    s << "<p>Anzahl Sequenzen:<b> #{Sequence.where(tubecam_device_id: tubecam.id, deleted: false).count.to_s}</b></p>"
     s << latest_image_text
     if exact_position
       s << "<p>Koordinaten: #{sprintf('%#.2f', longitude)}, #{sprintf('%#.2f', latitude)}</p>"
@@ -153,18 +154,15 @@ class MapsController < ApplicationController
     time_period = (Time.now.to_date - latest_image.datetime.to_date).to_i
   end
 
-  def set_point_color(time_period)
-    point_color = "##{Gradient.randomColor(time_period)}"
-  end
-
   def latest_image_text(latest_image, time_period)
     day_text = time_period == 1 ? " Tag" : " Tage"
     text = "<p>Letzte Aufnahme: #{latest_image.datetime.to_time.strftime('%d.%m.%Y').to_s} (#{time_period.to_s + day_text})</p>"
   end
 
-  def calculate_point_factor(tubecam_id, total_images, scalefactor)
-    count = Medium.where(sequence_id: Sequence.where(tubecam_device_id: tubecam_id)).count
-    relative = 1.0 * count / (1.0 * total_images / scalefactor) + 1
+  def calculate_point_factor(tubecam_id, max_sequences, min_sequences, scalefactor)
+    amount_of_sequences = Sequence.where(tubecam_device_id: tubecam_id, deleted: false).count
+    relative = 1.0 * min_sequences / max_sequences * (amount_of_sequences * scalefactor) + 1
+    p relative
     relative
   end
 
