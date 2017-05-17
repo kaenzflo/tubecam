@@ -41,8 +41,8 @@
     </span>
   </div>
 
-  <%= submit_tag 'Suchen', name: nil, class: 'btn btn-success' %>
-  <%= link_to 'Filter zurücksetzen', media_path, class: 'btn btn-info' %>
+  <%= submit_tag (t 'action.search'), name: nil, class: 'btn btn-success' %>
+  <%= link_to (t 'action.reset_filter'), media_path, class: 'btn btn-info' %>
 </form>
 
 <%= javascript_include_tag 'media/moment_locale_de-ch' %>

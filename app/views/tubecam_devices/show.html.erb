@@ -2,17 +2,17 @@
 <p><%= @tubecam_device.description %></p>
 
 <h4>
-  Besitzer <strong><%= User.find_by(id: @tubecam_device.user_id).username %></strong>
+  <%= t '.owner' %> <strong><%= User.find_by(id: @tubecam_device.user_id).username %></strong>
 </h4>
 
 <div class='text-right'>
-  <%= link_to 'Galerie ', sequences_path(tubecam_device_id: @tubecam_device.id), class: 'btn btn-primary' %>
-  <%= link_to 'Standort auf Karte anzeigen', maps_path(longitude: @tubecam_device.longitude, latitude: @tubecam_device.latitude), class: 'btn btn-primary' %>
+  <%= link_to (t 'link_to.gallery'), sequences_path(tubecam_device_id: @tubecam_device.id), class: 'btn btn-primary' %>
+  <%= link_to (t 'link_to.location'), maps_path(longitude: @tubecam_device.longitude, latitude: @tubecam_device.latitude), class: 'btn btn-primary' %>
 </div>
 
 
 <% if @sequences.empty? %>
-  <h4>Es sind keine Medien dieser Tubecam vorhanden.</h4>
+  <h4><%= t '.no_media' %></h4>
 <% else %>
 
   <%= will_paginate @sequences %>
@@ -20,7 +20,7 @@
   <table class='table table-striped table-sm table-responsive table-hover'>
     <thead>
     <tr>
-      <th>Sequenznr.</th>
+      <th><%= t 'activerecord.attributes.sequence.sequence_no' %></th>
       <th>Bilder</th>
       <th></th>
     </tr>
@@ -35,12 +35,12 @@
               <%= link_to image_tag(@cloud_resource_thumbnail_url + medium.filename_hash, size: '150x150'), sequence %>
             <% end %>
           </td>
-          <td><%= link_to 'Details', sequence_path(sequence) %></td>
+          <td><%= link_to (t 'action.details'), sequence_path(sequence) %></td>
           <% if user_signed_in? && current_user.admin_role? %>
               <% if !sequence.deleted %>
-                  <td><%= link_to 'Deaktivieren', deactivate_sequence_path(id: sequence.id) %></td>
+                  <td><%= link_to (t 'action.deactivate'), deactivate_sequence_path(id: sequence.id) %></td>
               <% else %>
-                  <td><b><%= link_to 'Aktivieren', activate_sequence_path(id:sequence.id) %></b></td>
+                  <td><b><%= link_to (t 'action.activate'), activate_sequence_path(id:sequence.id) %></b></td>
               <% end %>
           <% end %>
         </tr>

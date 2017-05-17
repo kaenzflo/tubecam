@@ -4,42 +4,42 @@
   </div>
   <div class="image-description">
     <p>
-      <strong>Medientyp:</strong>
+      <strong><%= t 'activerecord.attributes.medium.mediatype' %></strong>
       <%= @medium.mediatype %>
     </p>
 
     <p>
-      <strong>Datum:</strong>
+      <strong><%= t 'activerecord.attributes.medium.datetime' %></strong>
       <%= @medium.datetime.strftime("%d.%m.%Y %H:%M:%S") %>
     </p>
 
     <% if user_signed_in? %>
         <p>
-          <strong>Längengrad:</strong>
+          <strong><%= t 'activerecord.attributes.medium.longitude' %></strong>
           <%= @medium.longitude %>
         </p>
 
         <p>
-          <strong>Breitengrad:</strong>
+          <strong><%= t 'activerecord.attributes.medium.latitude' %></strong>
           <%= @medium.latitude %>
         </p>
     <% end %>
 
     <p>
-      <strong>Sequenz:</strong>
+      <strong><%= t 'activerecord.attributes.medium.sequence_id' %></strong>
       <%= @medium.sequence %>
     </p>
 
     <p>
-      <strong>Frame:</strong>
+      <strong><%= t 'activerecord.attributes.medium.frame' %></strong>
       <%= @medium.frame %>
     </p>
   </div>
   <div class="image-links">
-    <%= link_to 'Tubecam ' + @tubecam_device.serialnumber, tubecam_device_path(@medium.tubecam_device_id), class: 'btn btn-primary' %>
-    <%= link_to 'Standort auf Karte anzeigen', maps_path(:longitude => @medium.longitude, :latitude => @medium.latitude), class: 'btn btn-primary' %>
+    <%= link_to (t 'link_to.tubecam') + ' ' + @tubecam_device.serialnumber, tubecam_device_path(@medium.tubecam_device_id), class: 'btn btn-primary' %>
+    <%= link_to (t 'link_to.location'), maps_path(:longitude => @medium.longitude, :latitude => @medium.latitude), class: 'btn btn-primary' %>
     <% if !@annotations.empty? %>
-        <%= link_to 'Annotieren', new_annotation_path, :id => @medium.id, class: 'btn btn-primary' %>
+        <%= link_to (t 'link_to.location'), new_annotation_path, :id => @medium.id, class: 'btn btn-primary' %>
     <% end %>
   </div>
 </div>

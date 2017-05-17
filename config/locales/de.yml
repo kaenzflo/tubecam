@@ -22,12 +22,43 @@
 de:
   # Generic
   action:
+    create: "Hinzufügen"
     edit: "Bearbeiten"
     back: "Zurück"
     activate: "Aktivieren"
     deactivate: "Deaktivieren"
     save: "Speichern"
-  # View specific (in Views: Lazy lookup compliant, i.e.: '<% t '.title' %>
+    destroy: "Löschen"
+    details: "Details"
+    search: "Suchen"
+    show: "Anzeigen"
+    register: "Registrieren"
+    reset_filter: "Filer zurücksetzen"
+  link_to:
+    tubecam: "TubeCam"
+    tubecams: "TubeCams"
+    annotate: "Annotieren"
+    gallery: "Galerie"
+    location: "Standort"
+    locations: "Standorte"
+    media: "Medien"
+    sequence: "Sequenz"
+    users: "Benutzer verwalten"
+    tubecam_devices: "TubeCams verwalten"
+    logout: "Abmelden"
+    login: "Anmelden"
+  # View specific (in Views: Lazy lookup compliant, i.e.: '<% t '.title' %>4
+  welcome:
+    index:
+      title: "Willkommen auf der TubeCam-Startseite"
+      citizen_science_heading: "Citizen Science"
+      citizen_science_text: "Werde Teil des Projektes und hilf mit den Kleinraubtierbestand zu sichern"
+      gallery_heading: "Galerie"
+      gallery_text: "Betrachte die aktuellsten Bilder aus der Wildnis"
+      map_heading: "Karte"
+      map_text: "Lass dir auf der Swisstopo-Karte die Standorte der TubeCams anzeigen"
+  layouts:
+    application: "TubeCam"
   users:
     edit:
       title: "Benutzer bearbeiten"
@@ -35,6 +66,58 @@ de:
       title: "Neuen Benutzer erstellen"
     index:
       title: "Benutzer verwalten"
+  tubecam_devices:
+    show:
+      no_media: "Keine Medien gefunden"
+      owner: "Besitzer"
+    new:
+      title: "Neue TubeCam erstellen"
+    index:
+      title: "TubeCams verwalten"
+    edit:
+      title: "TubeCam bearbeiten"
+    form:
+      text_area_placeholder: "Dies ist meine TubeCam-Beschreibung"
+  sequences:
+    show:
+      coordinates: "Koordinaten"
+      frames: "Frame-Anzahl"
+      verify: "Verifizieren"
+      unverify: "Entfernen"
+      verified: "Verifiziert"
+      verification: "Verifikation"
+      no_annotations: "Keine Annotation vorhanden"
+    new:
+      title: "Neues Medium erstellen"
+    index:
+      title: "Galerie"
+      no_media: "Keine Medien gefunden"
+    edit:
+      title: "Medium bearbeiten"
+  pages:
+    contact:
+      title: "Kontakt"
+    dashboard:
+      title: "Dashboard"
+    project:
+      title: "Über das Projekt Tubecam"
+  dashboard:
+    title: "Dashboard"
+  media:
+    show:
+      first_annotation: "Erste Annotation vornehmen"
+    new:
+      title: "Neues Medium erstellen"
+    index:
+      title: "Galerie"
+      no_media: "Keine Medien gefunden"
+    edit:
+      title: "Medium bearbeiten"
+  maps:
+    title: "Detailinformationen"
+  annotations:
+    index:
+      preview:  "Vorschau"
 
   # Controller specific (incl. notification flashes)
   flash:
@@ -60,6 +143,7 @@ de:
     models:
       user: "Benutzer"
       tubecam_device: "TubeCam"
+      sequence: "Sequenz"
     attributes:
       user:
         username: "Benutzername"
@@ -82,11 +166,11 @@ de:
       annotation:
         user_id: "Benutzer-ID"
         sequence_ud: "Sequenz-ID"
-        annotations_lookup_table_id: "Annotations-Lookup-Table-ID"
+        annotations_lookup_table_id: "Lookup-Index"
         verified_id: "Verifizierer-ID"
         created_at: "Erzeugt am "
         updated_at: "Bearbeitet am "
-      annotation_lookup_table:
+      annotations_lookup_table:
         annotation_id: "Annotations-ID"
         name: "Bezeichnung"
         family: "Familie"
@@ -116,7 +200,7 @@ de:
         original_filename: "Original-Dateiname"
         filename_hash: "Dateinamens-Hash"
         mediatype: "Medientyp"
-        datetime: "Zeitstempel"
+        datetime: "Aufnahmedatum"
         longitude: "Längengrad"
         latitude: "Breitengrad"
         frame: "Frame"
@@ -126,8 +210,8 @@ de:
         updated_at: "Bearbeitet am "
       sequence:
         tubecam_device_id: "TubeCam-ID"
-        sequence_no: "Sequenz_Nr."
-        datetime: "Zeitstempel"
+        sequence_no: "Sequenz-Nr."
+        datetime: "Aufnahmedatum"
         created_at: "Erzeugt am "
         updated_at: "Bearbeitet am "
       tubecam_device:

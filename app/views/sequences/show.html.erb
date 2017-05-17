@@ -1,31 +1,31 @@
-<h1>Sequenz <%= @sequence.sequence_no.to_s %></h1>
+<h1><%= (t 'activerecord.models.sequence') + ' ' + @sequence.sequence_no.to_s %></h1>
 
 <div class="medium-detail">
   <div class="image-description">
     <table class="table table-striped table-sm table-responsive table-hover" style="max-width: 400px;">
       <tr>
-        <td><b>Aufnahmedatum:</b></td>
+        <td><b><%= t 'activerecord.attributes.medium.datetime' %></b></td>
         <td><%= @medium.datetime.strftime("%d.%m.%Y %H:%M:%S") %></td>
       </tr>
       <tr>
-        <td><b>Koordinate:</b></td>
+        <td><b><%= t '.coordinates' %></b></td>
         <td><%= @medium.longitude %>, <%= @medium.latitude %></td>
       </tr>
       <tr>
-        <td><b>Medientyp:</b></td>
+        <td><b><%= t 'activerecord.attributes.medium.mediatype' %></b></td>
         <td> <%= @medium.mediatype %></td>
       </tr>
       <tr>
-        <td><b>Frames:</b></td>
+        <td><b><%= t '.frames' %></b></td>
         <td> <%= @medium.frame %></td>
       </tr>
     </table>
   </div>
   <div class="image-links">
-    <%= link_to 'Tubecam ' + @tubecam_device.serialnumber, tubecam_device_path(@sequence.tubecam_device_id), class: 'btn btn-primary' %>
-    <%= link_to 'Standort auf Karte anzeigen', maps_path(:longitude => @medium.longitude, :latitude => @medium.latitude), class: 'btn btn-primary' %>
+    <%= link_to (t 'link_to.tubecam') + ' ' + @tubecam_device.serialnumber, tubecam_device_path(@sequence.tubecam_device_id), class: 'btn btn-primary' %>
+    <%= link_to (t 'link_to.location'), maps_path(:longitude => @medium.longitude, :latitude => @medium.latitude), class: 'btn btn-primary' %>
     <% if !@annotations.empty? && !@annotations.find_by(user_id: current_user.id) %>
-        <%= link_to 'Annotieren', {controller: 'annotations', action: 'specific', :id => @medium.id}, class: 'btn btn-primary' %>
+        <%= link_to (t 'link_to.annotate'), {controller: 'annotations', action: 'specific', :id => @medium.id}, class: 'btn btn-primary' %>
     <% end %>
   </div>
 </div>
@@ -48,22 +48,22 @@
 <div class="medium-detail">
   <div class="image-links">
     <% if @annotations.empty? %>
-        <h4>Es wurde noch keine Annotation getätigt.</h4>
-        <%= link_to 'Annotieren', {controller: 'annotations', action: 'specific', :id => @sequence.media.first.id}, class: 'btn btn-primary' %>
+        <h4><%= t '.no_annotations' %></h4>
+        <%= link_to (t 'link_to.annotate'), {controller: 'annotations', action: 'specific', :id => @sequence.media.first.id}, class: 'btn btn-primary' %>
     <% else %>
         <table class="table table-striped table-sm table-responsive table-hover">
           <thead>
           <tr>
-            <th>Name</th>
-            <th>Gattung</th>
-            <th>Art</th>
-            <th>Familie</th>
-            <th>Lookup-Index</th>
-            <th>Datum</th>
-            <th>Benutzername</th>
-            <th>Verifiziert</th>
+            <th><%= t 'activerecord.attributes.annotations_lookup_table.name' %></th>
+            <th><%= t 'activerecord.attributes.annotations_lookup_table.genus' %></th>
+            <th><%= t 'activerecord.attributes.annotations_lookup_table.species' %></th>
+            <th><%= t 'activerecord.attributes.annotations_lookup_table.family' %></th>
+            <th><%= t 'activerecord.attributes.annotations_lookup_table.annotation_id' %></th>
+            <th><%= t 'activerecord.attributes.annotations_lookup_table.created_at' %></th>
+            <th><%= t 'activerecord.attributes.user.username' %></th>
+            <th><%= t '.verified' %></th>
             <% if user_signed_in? && current_user.verified_spotter_role? %>
-                <th>Verifikation</th>
+                <th><%= t '.verification' %></th>
             <% end %>
             <th colspan="3"></th>
           </tr>
@@ -87,18 +87,18 @@
                         <td>-</td>
                     <% else %>
                         <% if user_signed_in? && current_user.verified_spotter_role? %>
-                            <td><%= link_to 'Verifizieren', verify_annotation_path(annotation_id: annotation.id) %></td>
+                            <td><%= link_to (t '.verify'), verify_annotation_path(annotation_id: annotation.id) %></td>
                         <% end %>
                     <% end %>
                 <% else %>
                     <td>🎖</td>
                     <% if user_signed_in? && current_user.verified_spotter_role? %>
-                        <td><%= link_to 'Entfernen', unverify_annotation_path(annotation_id: annotation.id) %></td>
+                        <td><%= link_to (t '.unverify'), unverify_annotation_path(annotation_id: annotation.id) %></td>
                     <% end %>
                 <% end %>
 
                 <% if user_signed_in? && current_user.id == annotation.user_id %>
-                    <td><%= link_to 'Löschen', :controller => 'annotations', :action => 'destroy', :id => annotation.id, :sequence_id => annotation.sequence.id %></td>
+                    <td><%= link_to (t 'action.destroy'), :controller => 'annotations', :action => 'destroy', :id => annotation.id, :sequence_id => annotation.sequence.id %></td>
                 <% else %>
                     <td></td>
                 <% end %>

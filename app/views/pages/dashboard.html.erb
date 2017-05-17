@@ -1,5 +1,5 @@
-<h1>Dashboard</h1>
+<h1><%= t '.title' %></h1>
 
 
-<p><%= link_to 'Benutzer verwalten', users_path, class: 'btn btn-primary' %></p>
-<p><%= link_to 'Tubecams verwalten', tubecam_devices_path, class: 'btn btn-primary' %></p>
+<p><%= link_to (t 'link_to.users'), users_path, class: 'btn btn-primary' %></p>
+<p><%= link_to (t 'link_to.tubecam_devices'), tubecam_devices_path, class: 'btn btn-primary' %></p>

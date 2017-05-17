@@ -1,5 +1,5 @@
 <div class="row text-center">
-  <h1 class="center-block">Willkommen auf der TubeCam-Startseite</h1>
+  <h1 class="center-block"><%= t '.title' %></h1>
 </div>
 
 <div class="row row-padding">
@@ -11,10 +11,10 @@
           <div class="item-actions">
             <ul>
               <% if user_signed_in? %>
-                  <li><%= link_to 'Annotieren', controller: 'annotations', action: 'specific', :id => medium.id %></li>
+                  <li><%= link_to (t 'link_to.annotate'), controller: 'annotations', action: 'specific', :id => medium.id %></li>
               <% end %>
-              <li><%= link_to 'Tubecam', tubecam_device_path(medium.sequence.tubecam_device_id) %></li>
-              <li><%= link_to 'Karte', maps_path(:longitude => medium.longitude, :latitude => medium.latitude) %></li>
+              <li><%= link_to (t 'link_to.tubecam'), tubecam_device_path(medium.sequence.tubecam_device_id) %></li>
+              <li><%= link_to (t 'link_to.location'), maps_path(:longitude => medium.longitude, :latitude => medium.latitude) %></li>
             </ul>
           </div>
         </div>
@@ -26,25 +26,25 @@
 <% if !user_signed_in? %>
 
     <div class="row row-padding row-margin bg-warning text-center">
-        <h1>Citizen Science</h1>
-        <p>Werde Teil des Projektes und hilf mit den Kleinraubtierbestand zu sichern.</p>
-        <%= link_to('Registrieren', new_user_registration_path, class: 'btn btn-warning') %>
+        <h1><%= t '.citizen_science_heading' %></h1>
+        <p><%= t '.citizen_science_text' %></p>
+        <%= link_to((t 'action.register'), new_user_registration_path, class: 'btn btn-warning') %>
     </div>
 
 <% end %>
 
 <div class=" text-center col-sm-6">
   <div class="row row-padding row-margin bg-success">
-        <h2>Galerie</h2>
-      <p>Betrachte die aktuellsten Bilder aus der Wildnis.</p>
-      <%= link_to('Anschauen', sequences_path, class: 'btn btn-success') %>
+        <h2><%= t '.gallery_heading' %></h2>
+      <p><%= t '.gallery_text' %></p>
+      <%= link_to((t 'action.show'), sequences_path, class: 'btn btn-success') %>
   </div>
 </div>
 
 <div class=" text-center col-sm-6">
   <div class="row row-padding row-margin bg-info">
-    <h2>Karte</h2>
-    <p>Lass dir auf der Swisstopo-Karte die Standorte der TubeCams anzeigen.</p>
-    <%= link_to('Standorte anzeigen', maps_path, class: 'btn btn-primary') %>
+    <h2><%= t '.map_heading' %></h2>
+    <p><%= t '.map_text' %></p>
+    <%= link_to((t 'link_to.locations'), maps_path, class: 'btn btn-primary') %>
   </div>
 </div>

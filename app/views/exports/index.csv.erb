@@ -1,5 +1,6 @@
-<%- headers = ['Zeitstempel (Annotation)', 'Tubecam', 'Längengrad', 'Breitengrad',
-               'Sequenz-Nr.', 'Zeitstempel (Sequenz)', 'Annotations-ID',
+<%- headers = [(t 'activerecord.attributes.annotation.created_at'), (t 'activerecord.attributes.tubecam_device.serialnumber'),
+               (t 'activerecord.attributes.medium.longitude'), (t 'activerecord.attributes.medium.latitude'),
+               (t 'activerecord.attributes.sequence.sequence_no'), (t 'activerecord.attributes.medium.datetime'), (t 'activerecord.attributes.sequence.sequence_no'),
                'Spotter-ID', 'Spotter-E-Mail', 'Verifier-ID', 'Verifier-Email',
                'Trapper-ID', 'Trapper-E-Mail', 'Object-Storage-Pfad',
                'Object-Storage-Dateiname', 'Original-Pfad', 'Original-Dateiname'] -%>

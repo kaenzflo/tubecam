@@ -1,8 +1,8 @@
-<h1>TubeCams verwalten</h1>
+<h1><%= t '.title' %></h1>
 
 <% if user_signed_in? && current_user.admin_role? %>
     <div class="text-right">
-      <%= link_to 'Neue Tubecam erstellen', new_tubecam_device_path, class: 'btn btn-primary' %>
+      <%= link_to (t 'action.create'), new_tubecam_device_path, class: 'btn btn-primary' %>
     </div>
 <% end %>
 
@@ -10,12 +10,12 @@
   <thead>
     <tr>
       <th>#</th>
-      <th><%= t('serialnumber') %></th>
+      <th><%= t('activerecord.attributes.tubecam_device.serialnumber') %></th>
       <% if current_user.admin_role? %>
-        <th>Benutzer</th>
+        <th><%= t('activerecord.attributes.user.username') %></th>
     <% end %>
-    <th>Beschreibung</th>
-    <th>Aktiv</th>
+    <th><%= t('activerecord.attributes.tubecam_device.description') %></th>
+    <th><%= t('activerecord.attributes.tubecam_device.active') %></th>
     <th colspan="3"></th>
   </tr>
   </thead>
@@ -32,15 +32,15 @@
         <% end %>
         <td><%= tubecam_device.description %></td>
         <td><%= tubecam_device.active ? '✔' : '-' %></td>
-        <td><%= link_to 'Medien', tubecam_device_path(tubecam_device) %></td>
+        <td><%= link_to (t 'link_to.media'), tubecam_device_path(tubecam_device) %></td>
         <% if current_user.admin_role? || current_user.trapper_role? %>
-            <td><%= link_to 'Ändern', edit_tubecam_device_path(tubecam_device) %></td>
+            <td><%= link_to (t 'action.edit'), edit_tubecam_device_path(tubecam_device) %></td>
         <% end %>
         <% if current_user.admin_role? %>
             <% if tubecam_device.active? %>
-                <td><%= link_to 'Deaktivieren', deactivate_tubecam_device_path(id: tubecam_device.id) %></td>
+                <td><%= link_to (t 'action.deactivate'), deactivate_tubecam_device_path(id: tubecam_device.id) %></td>
             <% else %>
-                <td><b><%= link_to 'Aktivieren', activate_tubecam_device_path(id: tubecam_device.id) %></b></td>
+                <td><b><%= link_to (t 'action.activate'), activate_tubecam_device_path(id: tubecam_device.id) %></b></td>
             <% end %>
         <% end %>
       </tr>
@@ -49,12 +49,12 @@
   <tfoot>
   <tr>
     <th>#</th>
-    <th>Seriennummer</th>
+    <th><%= t('activerecord.attributes.tubecam_device.serialnumber') %></th>
     <% if current_user.admin_role? %>
-        <th>Benutzer</th>
+        <th><%= t('activerecord.attributes.user.username') %></th>
     <% end %>
-    <th>Beschreibung</th>
-    <th>Aktiv</th>
+    <th><%= t('activerecord.attributes.tubecam_device.description') %></th>
+    <th><%= t('activerecord.attributes.tubecam_device.active') %></th>
     <th colspan="3"></th>
   </tr>
   </tfoot>

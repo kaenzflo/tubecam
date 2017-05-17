@@ -1,20 +1,20 @@
-<li><%= link_to 'Standorte', maps_path %></li>
+<li><%= link_to (t 'link_to.locations'), maps_path %></li>
 
 
-<li><%= link_to 'Galerie', sequences_path %></li>
+<li><%= link_to (t 'link_to.gallery'), sequences_path %></li>
 
 
 <% if user_signed_in? %>
-    <li><%= link_to 'Annotieren', new_annotation_path %></li>
+    <li><%= link_to (t 'link_to.annotate'), new_annotation_path %></li>
 <% end %>
 
 <% if user_signed_in? && current_user.trapper_role? && !current_user.admin_role?%>
-    <li><%= link_to 'TubeCams', tubecam_devices_path %></li>
+    <li><%= link_to (t 'link_to.tubecams'), tubecam_devices_path %></li>
 <% end %>
 
 <% if user_signed_in? && current_user.admin_role? %>
     <li>
-      <a href="<%= dashboard_url %>" data-toggle="dropdown">Dashboard <b class="caret"></b></a>
+      <a href="<%= dashboard_url %>" data-toggle="dropdown"> (t 'pages.dashboard.title') <b class="caret"></b></a>
       <ul class="dropdown-menu multi-level">
         <li><a href="<%= dashboard_url %>">Übersicht</a></li>
         <li class="divider"></li>
