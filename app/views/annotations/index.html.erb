@@ -18,8 +18,9 @@
   <tbody>
   <% @annotations.each do |annotation| %>
       <% lookup_id = annotation.annotations_lookup_table_id - 1 %>
+      <% p annotation.sequence %>
       <tr>
-        <td><% %></td>
+        <td><%= link_to image_tag(@cloud_resource_thumbnail_url + annotation.sequence.media.first.filename_hash, size: '150x100'), annotation.sequence %></td>
         <td><%= @annotations_lookup_table[lookup_id].name %></td>
         <td><%= @annotations_lookup_table[lookup_id].genus %></td>
         <td><%= @annotations_lookup_table[lookup_id].species %></td>
@@ -41,3 +42,8 @@
   <% end %>
   </tbody>
 </table>
+
+
+
+<%= javascript_include_tag 'imagelightbox.min' %>
+<%= javascript_include_tag 'custom_imagelightbox' %>

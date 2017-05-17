@@ -11,6 +11,7 @@ class Coordinates
     medium.latitude = Coordinates.wgs_to_ch_x(long, lati)
     medium
   end
+
   # Convert WGS lat/long ( dec) to CH y
   def self.wgs_to_ch_y(lng, lat)
 

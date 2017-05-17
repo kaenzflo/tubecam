@@ -26,8 +26,6 @@ class SequencesController < ApplicationController
   def show
     sequence = Sequence.find(params[:id])
     @media = sequence.media.order('frame ASC')
-    @media.longitude = Coordinates.wgs_to_ch_y(@media.longitude, @media.latitude)
-    @media.latitude = Coordinates.wgs_to_ch_x(@media.longitude, @media.latitude)
     @medium = Coordinates.wgs_to_ch(@media.last)
     @cloud_resource_thumbnail_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
