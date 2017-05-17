@@ -21,8 +21,8 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-    if @user.username = 'admin'
-      redirect_to user_path(@user.id), alert: 'Der Benutzer "Administrator" kann nicht editiert werden'
+    if User.find(params[:id]).username == 'admin'
+      redirect_to user_path(@user.id), alert: t('flash.users.user_not_editable')
     end
   end
 
@@ -32,7 +32,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     respond_to do |format|
       if @user.save
-        format.html { redirect_to action: "index", notice: 'User was successfully created.' }
+        format.html { redirect_to action: "index", notice: t('flash.users.create_success') }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
@@ -46,7 +46,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to action: "index", notice: 'User was successfully updated.' }
+        format.html { redirect_to action: "index", notice: t('flash.users.update_success') }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
@@ -60,7 +60,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed' }
+      format.html { redirect_to users_url, notice:  t('flash.users.destroy_success')}
       format.json { head :no_content }
     end
   end
@@ -69,9 +69,9 @@ class UsersController < ApplicationController
   def deactivate
     @user = set_user
     if current_user.admin_role? && @user.update( :active => false )
-      redirect_to users_path, notice: 'Der Nutzer wurde erfolgreich deaktiviert'
+      redirect_to users_path, notice: t('flash.users.deactivate_success')
     else
-      redirect_to users_path, alert: 'Der Nutzer kann nicht deaktiviert werden'
+      redirect_to users_path, alert: t('flash.users.deactivate_fail')
     end
   end
 
@@ -79,9 +79,9 @@ class UsersController < ApplicationController
   def activate
     @user = set_user
     if current_user.admin_role? && @user.update( :active => true )
-      redirect_to users_path, notice: 'Der Nutzer wurde erfolgreich aktiviert'
+      redirect_to users_path, notice: t('flash.users.activate_success')
     else
-      redirect_to users_path, alert: 'Der Nutzer kann nicht aktiviert werden'
+      redirect_to users_path, alert: t('flash.users.activate_fail')
     end
   end
 

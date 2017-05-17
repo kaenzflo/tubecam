@@ -1,48 +1,48 @@
 <p>
-  <strong>Email:</strong>
+  <strong><%= t 'activerecord.attributes.user.email'%></strong>
   <%= @user.email %>
 </p>
 
 <p>
-  <strong>Username:</strong>
+  <strong><%= t 'activerecord.attributes.user.username'%></strong>
   <%= @user.username %>
 </p>
 
 <p>
-  <strong>Firstname:</strong>
+  <strong><%= t 'activerecord.attributes.user.firstname'%></strong>
   <%= @user.firstname %>
 </p>
 
 <p>
-  <strong>Lastname:</strong>
+  <strong><%= t 'activerecord.attributes.user.lastname'%></strong>
   <%= @user.lastname %>
 </p>
 
 <p>
-  <strong>Spotter role:</strong>
+  <strong><%= t 'activerecord.attributes.user.spotter_role'%></strong>
   <%= @user.spotter_role %>
 </p>
 
 <p>
-  <strong>Verified Spotter role:</strong>
+  <strong><%= t 'activerecord.attributes.user.verified_spotter_role'%></strong>
   <%= @user.verified_spotter_role %>
 </p>
 
 <p>
-  <strong>Trapper role:</strong>
+  <strong><%= t 'activerecord.attributes.user.trapper_role'%></strong>
   <%= @user.trapper_role %>
 </p>
 
 <p>
-  <strong>Admin role:</strong>
+  <strong><%= t 'activerecord.attributes.user.admin_role'%></strong>
   <%= @user.admin_role %>
 </p>
 
 <p>
-  <strong>Active:</strong>
+  <strong><%= t 'activerecord.attributes.user.active'%></strong>
   <%= @user.active %>
 </p>
 <% if @user.username != 'admin' %>
-  <%= link_to 'Edit', edit_user_path(@user) %> |
+  <%= link_to (t 'action.edit'), edit_user_path(@user) %> |
 <% end %>
-<%= link_to 'Back', users_path %>
+<%= link_to (t 'action.back'), users_path %>

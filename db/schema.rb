@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20170512115953) do
     t.boolean  "tail_naked"
     t.boolean  "face_painting"
     t.boolean  "bodyshape_compact"
-    t.boolean  "bodyshape_streched"
+    t.boolean  "bodyshape_stretched"
     t.boolean  "ears_visible"
     t.boolean  "ears_hidden"
     t.boolean  "snout_blunt"

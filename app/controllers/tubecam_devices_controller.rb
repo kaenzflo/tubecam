@@ -44,7 +44,7 @@ class TubecamDevicesController < ApplicationController
     @tubecam_device = TubecamDevice.new(tubecam_device_params)
     respond_to do |format|
       if @tubecam_device.save
-        format.html { redirect_to action: "index", notice: 'Tubecam device was successfully created.' }
+        format.html { redirect_to action: "index", notice: t('flash.tubecam_devices.create_success') }
         format.json { render :show, status: :created, location: @tubecam_device }
       else
         format.html { render :new }
@@ -58,7 +58,7 @@ class TubecamDevicesController < ApplicationController
   def update
     respond_to do |format|
       if @tubecam_device.update(tubecam_device_params)
-        format.html { redirect_to action: "index", notice: 'Tubecam device was successfully updated.' }
+        format.html { redirect_to action: "index", notice: t('flash.tubecam_devices.update_success') }
         format.json { render :show, status: :ok, location: @tubecam_device }
       else
         format.html { render :edit }
@@ -72,7 +72,7 @@ class TubecamDevicesController < ApplicationController
   def destroy
     @tubecam_device.destroy
     respond_to do |format|
-      format.html { redirect_to tubecam_devices_url, notice: 'Tubecam device was successfully destroyed.' }
+      format.html { redirect_to tubecam_devices_url, notice: t('flash.tubecam_devices.destroy_success') }
       format.json { head :no_content }
     end
   end
@@ -81,9 +81,9 @@ class TubecamDevicesController < ApplicationController
   def deactivate
     @tubecam_device = set_tubecam_device
     if current_user.admin_role? && @tubecam_device.update( :active => false )
-      redirect_to tubecam_devices_path, notice: 'Die Tubecam wurde erfolgreich deaktiviert.'
+      redirect_to tubecam_devices_path, notice: t('flash.tubecam_devices.deactivate_success')
     else
-      redirect_to tubecam_devices_path, alert: 'Die Tubecam kann nicht deaktiviert werden.'
+      redirect_to tubecam_devices_path, alert: t('flash.tubecam_devices.deactivate_fail')
     end
   end
 
@@ -91,9 +91,9 @@ class TubecamDevicesController < ApplicationController
   def activate
     @tubecam_device = set_tubecam_device
     if current_user.admin_role? && @tubecam_device.update( :active => true )
-      redirect_to tubecam_devices_path, notice: 'Die Tubecam wurde erfolgreich reaktiviert.'
+      redirect_to tubecam_devices_path, notice: t('flash.tubecam_devices.activate_success')
     else
-      redirect_to tubecam_devices_path, alert: 'Die Tubecam kann nicht reaktiviert werden.'
+      redirect_to tubecam_devices_path, alert: t('flash.tubecam_devices.activate_fail')
     end
   end
 
