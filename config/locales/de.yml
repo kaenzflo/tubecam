@@ -59,6 +59,8 @@ de:
       map_text: "Lass dir auf der Swisstopo-Karte die Standorte der TubeCams anzeigen"
   layouts:
     application: "TubeCam"
+    navigations:
+      title: "Dashboard"
   users:
     edit:
       title: "Benutzer bearbeiten"
@@ -118,7 +120,9 @@ de:
   annotations:
     index:
       preview:  "Vorschau"
-
+    done:
+      well_done: "🎉 Well done, you did it all!"
+      well_done_text: "(Hier gibt's nichts mehr zu tun)"
   # Controller specific (incl. notification flashes)
   flash:
     users:

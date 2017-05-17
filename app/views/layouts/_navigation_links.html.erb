@@ -14,8 +14,9 @@
 
 <% if user_signed_in? && current_user.admin_role? %>
     <li>
-      <a href="<%= dashboard_url %>" data-toggle="dropdown"> (t 'pages.dashboard.title') <b class="caret"></b></a>
+      <a href="<%= dashboard_url %>" data-toggle="dropdown"><%= (t 'layouts.navigations.title') %><b class="caret"></b></a>
       <ul class="dropdown-menu multi-level">
+        <li><% link_to (t 'layouts.application') %></li>
         <li><a href="<%= dashboard_url %>">Übersicht</a></li>
         <li class="divider"></li>
         <li><a href="<%= users_url %>">Benutzer</a></li>
