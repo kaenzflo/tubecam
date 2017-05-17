@@ -45,7 +45,7 @@
                if lookup.family.nil? && lookup.genus.nil? && lookup.species.nil?
                  displayed_tag = lookup.name
                  class_tag = "annotations-level-0".html_safe
-                 space = ''
+                 space = '--'
                end
             %>
 
@@ -60,16 +60,23 @@
 </div>
 </div>
 
-<div class="gallery">
+<div class="gallery g-annotation">
   <div class="sequence">
     <% for i in 0..4 %>
         <div class="item">
           <% if @thumbnails[i].nil? %>
               <%= image_tag(@cloud_resource_thumbnail_url + 'no_media.png') %>
           <% else %>
-              <td><%= link_to image_tag(@cloud_resource_thumbnail_url + @thumbnails[i].filename_hash), controller: 'annotations', action: 'specific', :id => @thumbnails[i].id %></td>
+              <% @medium.id == @thumbnails[i].id ? active_frame = 'active-frame' : active_frame = '' %>
+              <%= link_to image_tag(@cloud_resource_thumbnail_url + @thumbnails[i].filename_hash, class: active_frame), specific_annotation_path(id: @thumbnails[i].id) %>
           <% end %>
         </div>
     <% end %>
+  </div>
+</div>
+
+<div class="annotation-flex">
+  <div class="annotation-image">
+    <p>Frame <%= @medium.frame %> von <%= @media_amount %></p>
   </div>
 </div>

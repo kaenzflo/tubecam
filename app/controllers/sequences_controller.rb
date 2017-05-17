@@ -153,11 +153,13 @@ class SequencesController < ApplicationController
       filter_date_start = Medium.select(:sequence_id).where(['datetime >=  ?', @filter_params[:date_start]]).distinct.pluck(:sequence_id)
       sequences = sequences.where(id: filter_date_start) if !filter_date_start.nil?
     end
+
     if !params[:date_end].nil? && !params[:date_end].empty?
       @filter_params[:date_end] = string_to_date(params[:date_end], '22:59:59')
       filter_date_end = Medium.select(:sequence_id).where(['datetime <=  ?', @filter_params[:date_end]]).distinct.pluck(:sequence_id)
       sequences = sequences.where(id: filter_date_end) if !filter_date_end.nil?
     end
+
     if !params[:lookup_table_id].nil? && !params[:lookup_table_id].empty?
       @filter_params[:lookup_table_id] = params[:lookup_table_id]
       lookup_table_id = params[:lookup_table_id]
@@ -172,7 +174,6 @@ class SequencesController < ApplicationController
         # Matchs all ids of a family
         search = '' + first + '[0-9]' + '[0-9]'
         annotations = AnnotationsLookupTable.where("annotation_id ~* ?", search).select(:id).pluck(:id)
-        p annotations
         sequence_ids = Annotation.where(annotations_lookup_table_id: annotations).select(:sequence_id)
         sequences = sequences.where(id: sequence_ids) if !annotations.nil?
       elsif /[1-9][1-9]0/.match(annotation_id)

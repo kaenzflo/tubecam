@@ -30,5 +30,10 @@ Rails.application.routes.draw do
   get '/users/activate/:id' => 'users#activate', as: 'activate_user'
 
   root 'welcome#index'
+
+  if Rails.env.production?
+    get '404', :to => 'welcome#page_not_found'
+  end
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

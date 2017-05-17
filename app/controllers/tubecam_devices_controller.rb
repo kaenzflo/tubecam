@@ -42,7 +42,6 @@ class TubecamDevicesController < ApplicationController
   # POST /tubecam_devices.json
   def create
     @tubecam_device = TubecamDevice.new(tubecam_device_params)
-
     respond_to do |format|
       if @tubecam_device.save
         format.html { redirect_to action: "index", notice: 'Tubecam device was successfully created.' }

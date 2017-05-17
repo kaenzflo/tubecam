@@ -76,30 +76,35 @@ namespace :heroku do
         sequence_no = original_filename[29..32]
         frame = original_filename[34..35]
         tubecam_device = TubecamDevice.find_by(serialnumber: tubecam_sn)
-        tubecam_device_id = tubecam_device.id
 
-        @sequence = Sequence.where(tubecam_device_id: tubecam_device_id,
-                                   sequence_no: sequence_no).first_or_create
-        Medium.create(sequence_id: @sequence.id,
-                      original_path: original_path, original_filename: original_filename,
-                      filename_hash: filename_hash, mediatype: mediatype,
-                      datetime: datetime, longitude: longitude,
-                      latitude: latitude, frame: frame,
-                      exifdata: json_data, deleted: false)
+        if tubecam_device.nil?
+          puts 'Überspringe Import von ' + file_url + ': Tubecam ' + tubecam_sn + ' existiert nicht'
+        else
+          tubecam_device_id = tubecam_device.id
 
-        # Upload medium
-        new_object = upload_bucket.objects.build(filename_hash)
-        new_object.content = new_medium
-        new_object.acl = :public_read
-        new_object.save
+          @sequence = Sequence.where(tubecam_device_id: tubecam_device_id,
+                                     sequence_no: sequence_no).first_or_create
+          Medium.create(sequence_id: @sequence.id,
+                        original_path: original_path, original_filename: original_filename,
+                        filename_hash: filename_hash, mediatype: mediatype,
+                        datetime: datetime, longitude: longitude,
+                        latitude: latitude, frame: frame,
+                        exifdata: json_data, deleted: false)
 
-        # Generate and upload thumbnail
-        resized_new_medium = MiniMagick::Image.read(new_medium)
-        resized_new_medium.resize('200x200')
-        new_object = upload_bucket.objects.build('thumbnails/' + filename_hash)
-        new_object.content = resized_new_medium.to_blob
-        new_object.acl = :public_read
-        new_object.save
+          # Upload medium
+          new_object = upload_bucket.objects.build(filename_hash)
+          new_object.content = new_medium
+          new_object.acl = :public_read
+          new_object.save
+
+          # Generate and upload thumbnail
+          resized_new_medium = MiniMagick::Image.read(new_medium)
+          resized_new_medium.resize('200x200')
+          new_object = upload_bucket.objects.build('thumbnails/' + filename_hash)
+          new_object.content = resized_new_medium.to_blob
+          new_object.acl = :public_read
+          new_object.save
+        end
       end
     rescue => e
       ftp.close

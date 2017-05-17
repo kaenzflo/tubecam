@@ -1,5 +1,19 @@
 class AnnotationsController < ApplicationController
 
+  def index
+    if current_user.admin_role
+      @annotations = Annotation.all
+    else
+      @annotations = Annotation.where(user_id: current_user.id)
+    end
+    @annotations_lookup_table = AnnotationsLookupTable.all.order('id ASC')
+    @users = User.all
+    @cloud_resource_image_url = 'https://' +
+        ENV['S3_HOST_NAME'] + '/' +
+        ENV['S3_BUCKET_NAME'] + '/'
+    @cloud_resource_thumbnail_url = @cloud_resource_image_url + 'thumbnails/'
+  end
+
   def new
     @user = current_user
     available_sequences = Sequence.where(deleted: false)
@@ -44,16 +58,6 @@ class AnnotationsController < ApplicationController
     end
   end
 
-  def index
-    if current_user.admin_role
-      @annotations = Annotation.all
-    else
-      @annotations = Annotation.where(user_id: @user.id)
-    end
-    @annotations_lookup_table = AnnotationsLookupTable.all.order('id ASC')
-    @users = User.all
-  end
-
 
   def destroy
     @annotation = Annotation.find(destroy_param[:id])
@@ -74,6 +78,8 @@ class AnnotationsController < ApplicationController
     @cloud_resource_thumbnail_url = @cloud_resource_image_url + 'thumbnails/'
     @annotations_lookup_table = AnnotationsLookupTable.all.order('annotation_id')
     @annotation = Annotation.new
+
+    @media_amount = @medium.sequence.media.count
   end
 
   def set_verified_id

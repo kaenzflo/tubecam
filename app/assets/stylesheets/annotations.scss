@@ -12,7 +12,7 @@ option.annotations-level-0 {
 option.annotations-level-0:first-child {
   margin-top: 0;
   margin-bottom: 10px;
-  color: #a17b71;
+  color: #5e919c;
   font-size: 14px;
 }
 
@@ -58,6 +58,13 @@ select#annotations_select {
   transition: 0.3s;
 }
 
+.g-annotation img {
+  border: 3px solid transparent;
+}
+.g-annotation img.active-frame {
+  border: 3px solid orange;
+}
+
 @media screen and (max-width: 800px) {
   .annotation-flex {
     flex-direction: column;
@@ -69,11 +76,5 @@ select#annotations_select {
 
   .annotation-dropdown {
     width: 100%;
-  }
-}
-
-@media not screen {
-  .gallery .sequence {
-    flex-wrap: none;
   }
 }
