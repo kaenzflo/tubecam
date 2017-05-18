@@ -21,6 +21,9 @@
 
 de:
   # Generic
+  general:
+    alt_text_verified_icon: "Annotation ist Verifiziert"
+    alt_text_annotation_icon: "Es existieren Annotationen"
   action:
     create: "Hinzufügen"
     edit: "Bearbeiten"
@@ -47,8 +50,6 @@ de:
     sequence: "Sequenz"
     users: "Benutzer verwalten"
     tubecam_devices: "TubeCams verwalten"
-    logout: "Abmelden"
-    login: "Anmelden"
     overview: "Übersicht"
   # View specific (in Views: Lazy lookup compliant, i.e.: '<% t '.title' %>4
   welcome:
@@ -272,6 +273,18 @@ de:
         latitude: "Breitengrad"
         created_at: "Erzeugt am "
         updated_at: "Bearbeitet am "
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              blank: "muss vorhanden sein"
+              taken: "ist bereits registriert. Bitte ein andere wählen."
+            password:
+              blank: "muss vorhanden sein"
+            password_confirmation:
+              confirmation: "ist nicht korrekt oder fehlt"
+
   # Paginate (gem 'will_paginate')
   will_paginate:
     previous_label: "&#8592; Rückwärts"

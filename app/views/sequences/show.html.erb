@@ -92,7 +92,7 @@
                         <% end %>
                     <% end %>
                 <% else %>
-                    <td><span class="emoji-icon">🎖</span></td>
+                    <td><span class="fa-lg"  title="<%= (t 'general.alt_text_verified_icon') %>">🎖</span></td>
                     <% if user_signed_in? && current_user.verified_spotter_role? %>
                         <td><%= link_to (t '.unverify'), unverify_annotation_path(annotation_id: annotation.id) %></td>
                     <% end %>

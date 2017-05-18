@@ -19,9 +19,9 @@
 
           <div class="sequence-description">
               <% if !Annotation.where(sequence_id: sequence).where.not(verified_id: nil).empty? %>
-                <span class="emoji-icon">🎖</span> |
+                <span class="emoji-icon fa-lg" title="<%= (t 'general.alt_text_verified_icon') %>">🎖</span> |
               <% elsif !Annotation.where(sequence_id: sequence).empty? %>
-                <span class="emoji-icon">✍️</span> |
+                <span class="emoji-icon fa-lg" title="<%= (t 'general.alt_text_verified_icon') %>">✍️</span> |
               <% end %>
               <%= link_to (t 'activerecord.models.tubecam_device') + ' ' + sequence.tubecam_device.serialnumber, tubecam_device_path(sequence.tubecam_device_id) %>
             | <%= link_to (t 'link_to.sequence') + ' ' + sequence.sequence_no.to_s, sequence_path(sequence.id) %>

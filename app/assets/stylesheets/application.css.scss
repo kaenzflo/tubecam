@@ -11,6 +11,7 @@
  * It is generally better to create a new file per style scope.
  *
  *= require toastr
+ *= require font-awesome
  *= require_tree .
  *= require_self
  */
@@ -59,7 +60,7 @@ body.container {
 }
 
 .emoji-icon {
-  font-size: 2em;
+  font-size: 1.5em;
 }
 
 
