@@ -43,7 +43,8 @@ tubecam_devices = [
     ['SN:00011',5,'Im Tobel oberhalb Zuzwil SG',true],
     ['SN:00012',5,'Naturschutzgebiet',true],
     ['SN:00013',5,'TubeCam Chrebsbach im Sihltal',true],
-    ['SN:00014',5,'Meine TubeCam steht im Eigental',true]
+    ['SN:00014',5,'Meine TubeCam steht im Eigental',true],
+    ['SN:01001',5,'Tubecam@Klostergarten',true]
 ]
 
 tubecam_devices.each do |value|
