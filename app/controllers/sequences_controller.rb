@@ -18,6 +18,7 @@ class SequencesController < ApplicationController
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/thumbnails/'
     @annotations_lookup_table = AnnotationsLookupTable.all
+    @annotations = Annotation.all
     @tubecam_devices = TubecamDevice.where(active: true).order(serialnumber: 'ASC')
   end
 
