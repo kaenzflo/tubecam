@@ -17,6 +17,7 @@
 
 
           <div class="sequence-description">
+            <% if @annotations.where(sequence_)
             <%= link_to (t 'activerecord.models.tubecam_device') + ' ' + sequence.tubecam_device.serialnumber, tubecam_device_path(sequence.tubecam_device_id) %>
             | <%= link_to (t 'link_to.sequence') + ' ' + sequence.sequence_no.to_s, sequence_path(sequence.id) %>
             | <% if user_signed_in? %>

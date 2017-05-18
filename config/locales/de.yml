@@ -118,7 +118,10 @@ de:
     edit:
       title: "Medium bearbeiten"
   maps:
-    title: "Detailinformationen"
+    map:
+      title: "Detailinformationen"
+    mapdefault:
+      title: "Detailinformationen"
   annotations:
     index:
       preview:  "Vorschau"
