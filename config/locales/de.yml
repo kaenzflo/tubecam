@@ -52,7 +52,8 @@ de:
   # View specific (in Views: Lazy lookup compliant, i.e.: '<% t '.title' %>4
   welcome:
     index:
-      title: "Willkommen auf der TubeCam-Startseite"
+      title: "Willkommen"
+      welcome_title: "Willkommen auf der TubeCam-Startseite"
       citizen_science_heading: "Citizen Science"
       citizen_science_text: "Werde Teil des Projektes und hilf mit den Kleinraubtierbestand zu sichern"
       gallery_heading: "Galerie"
@@ -70,6 +71,8 @@ de:
       title: "Neuen Benutzer erstellen"
     index:
       title: "Benutzer verwalten"
+    show:
+      title: "Benutzer anzeigen"
   tubecam_devices:
     show:
       title: "%{number}"
