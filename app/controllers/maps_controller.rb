@@ -8,7 +8,7 @@ class MapsController < ApplicationController
     long = map_params[:longitude]
     lat = map_params[:latitude]
 
-    if Medium.first.nil?
+    if Sequence.first.nil?
       long = 659000.00
       lat = 185548.39
     else
