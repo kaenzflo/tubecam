@@ -52,7 +52,7 @@ class MapsController < ApplicationController
 
     tubecamArray = []
     @tubecams.each do |tubecam|
-      latest_image = Medium.where(sequence_id: Sequence.where(tubecam_device_id: tubecam.id)).order(frame: 'ASC').last
+      latest_image = Medium.find_by(sequence_id: Sequence.where(tubecam_device_id: tubecam.id).order(datetime: 'ASC').last)
       if !latest_image.nil?
         longitude = Coordinates.wgs_to_ch_y(latest_image.longitude, latest_image.latitude);
         latitude = Coordinates.wgs_to_ch_x(latest_image.longitude, latest_image.latitude);
@@ -94,7 +94,7 @@ class MapsController < ApplicationController
 
     styleArray = []
     @tubecams.each do |tubecam|
-      latest_image = Medium.where(sequence_id: Sequence.where(tubecam_device_id: tubecam.id)).last
+      latest_image = Medium.find_by(sequence_id: Sequence.where(tubecam_device_id: tubecam.id).order(datetime: 'ASC').last)
       if !latest_image.nil?
          relative_point_factor = calculate_point_factor(tubecam.id, max_sequences, min_sequences, 1)
         time_period = days_since_last_image(latest_image)

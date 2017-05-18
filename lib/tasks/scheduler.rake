@@ -82,9 +82,11 @@ namespace :heroku do
         else
           tubecam_device_id = tubecam_device.id
 
-          @sequence = Sequence.where(tubecam_device_id: tubecam_device_id,
+          sequence = Sequence.where(tubecam_device_id: tubecam_device_id,
                                      sequence_no: sequence_no).first_or_create
-          Medium.create(sequence_id: @sequence.id,
+          sequence.datetime = datetime
+          sequence.save
+          Medium.create(sequence_id: sequence.id,
                         original_path: original_path, original_filename: original_filename,
                         filename_hash: filename_hash, mediatype: mediatype,
                         datetime: datetime, longitude: longitude,

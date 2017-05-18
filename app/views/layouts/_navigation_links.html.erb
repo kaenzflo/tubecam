@@ -22,11 +22,13 @@
         <% end %>
         <li><a href="<%= annotations_path %>"><%= t 'annotations.index.title' %></a></li>
         <li><a href="<%= project_path %>"><%= t 'pages.project.title' %></a></li>
+        <li><a href="<%= contact_path %>"><%= t 'pages.contact.title' %></a></li>
       </ul>
   <% else %>
       <%= link_to (t 'link_to.project'), project_path %>
+      </li>
+      <li><%= link_to (t 'pages.contact.title'), contact_path %>
   <% end %>
 </li>
 
 
-<li><%= link_to (t 'pages.contact.title'), contact_path %></li>

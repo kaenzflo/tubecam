@@ -43,7 +43,8 @@ tubecam_devices = [
     ['SN:00011',5,'Im Tobel oberhalb Zuzwil SG',true],
     ['SN:00012',5,'Naturschutzgebiet',true],
     ['SN:00013',5,'TubeCam Chrebsbach im Sihltal',true],
-    ['SN:00014',5,'Meine TubeCam steht im Eigental',true]
+    ['SN:00014',5,'Meine TubeCam steht im Eigental',true],
+    ['SN:01001',5,'Tubecam@Klostergarten',true]
 ]
 
 tubecam_devices.each do |value|
@@ -149,7 +150,7 @@ annotations_lookup_table.each do |value|
                                 tail_naked: value[13],
                                 face_painting: value[14],
                                 bodyshape_compact: value[15],
-                                bodyshape_streched: value[16],
+                                bodyshape_stretched: value[16],
                                 ears_visible: value[17],
                                 ears_hidden: value[18],
                                 snout_blunt: value[19],
