@@ -72,6 +72,7 @@ de:
       title: "Benutzer verwalten"
   tubecam_devices:
     show:
+      title: "%{number}"
       no_media: "Keine Medien gefunden"
       owner: "Besitzer"
     new:
@@ -84,6 +85,7 @@ de:
       text_area_placeholder: "Dies ist meine TubeCam-Beschreibung"
   sequences:
     show:
+      title: "Sequenz  %{number}"
       coordinates: "Koordinaten"
       frames: "Frame-Anzahl"
       verify: "Verifizieren"
@@ -109,6 +111,7 @@ de:
     title: "Dashboard"
   media:
     show:
+      title: "Details"
       first_annotation: "Erste Annotation vornehmen"
     new:
       title: "Neues Medium erstellen"
@@ -119,16 +122,23 @@ de:
       title: "Medium bearbeiten"
   maps:
     map:
-      title: "Detailinformationen"
+      title: "Standorte"
+      popover_title: "Detailinformationen"
     mapdefault:
-      title: "Detailinformationen"
+      title: "Ungefähre Standorte"
+      popover_title: "Detailinformationen"
   annotations:
     index:
       preview:  "Vorschau"
       title: "Meine Annotationen"
     done:
+      title: "Done"
       well_done: "🎉 Well done, you did it all!"
       well_done_text: "(Hier gibt's nichts mehr zu tun)"
+    new:
+      title: "Annotieren"
+    specific:
+      title: "Annotieren"
   exports:
       index:
         title: "Datenexport"

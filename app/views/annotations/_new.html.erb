@@ -1,63 +1,63 @@
 <div class="annotation-flex">
-<div class="annotation-image">
-  <%= image_tag(@cloud_resource_image_url + @medium.filename_hash) %>
-  <div class="annotation-refresh">
-    <a href="<%= new_annotation_path %>">
-      <button type="button" class="btn btn-default btn-lg">
-        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
-    </a>
+  <div class="annotation-image">
+    <%= image_tag(@cloud_resource_image_url + @medium.filename_hash) %>
+    <div class="annotation-refresh">
+      <a href="<%= new_annotation_path %>">
+        <button type="button" class="btn btn-default btn-lg">
+          <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
+      </a>
+    </div>
   </div>
-</div>
 
-<div class="annotation-dropdown">
-  <%= form_for @annotation, url: {action: 'create'} do |f| %>
-      <%= f.hidden_field :user_id, value: @user.id %>
-      <%= f.hidden_field :sequence_id, value: @medium.sequence_id %>
+  <div class="annotation-dropdown">
+    <%= form_for @annotation, url: {action: 'create'} do |f| %>
+        <%= f.hidden_field :user_id, value: @user.id %>
+        <%= f.hidden_field :sequence_id, value: @medium.sequence_id %>
 
-      <select id='annotations_select' class="selectpicker form-control" name='annotation[annotations_lookup_table_id]' size='23' required>
-        <% @annotations_lookup_table.each do |lookup| %>
-            <% selected_string = ''
-               if @annotation.annotations_lookup_table_id == lookup.id
-                 selected_string = ' selected="selected" '
-               end
-            %>
-            <% disabled_string = ''
-               if !lookup.selectable?
-                 disabled_string = ' disabled="disabled" '
-               end
-            %>
+        <select id='annotations_select' class="selectpicker form-control" name='annotation[annotations_lookup_table_id]' size='23' required>
+          <% @annotations_lookup_table.each do |lookup| %>
+              <% selected_string = ''
+                 if @annotation.annotations_lookup_table_id == lookup.id
+                   selected_string = ' selected="selected" '
+                 end
+              %>
+              <% disabled_string = ''
+                 if !lookup.selectable?
+                   disabled_string = ' disabled="disabled" '
+                 end
+              %>
 
-            <% if !lookup.family.nil? && !lookup.genus.nil?
-                 displayed_tag = lookup.name + " (" + lookup.genus + " " + lookup.species + ")"
-                 class_tag = "annotations-level-2"
-                 space = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.html_safe
-               end
-               if !lookup.genus.nil? && lookup.name.nil?
-                 displayed_tag = lookup.genus
-                 class_tag = "annotations-level-1"
-                 space = '&nbsp;&nbsp;'.html_safe
-               end
-               if !lookup.family.nil? && lookup.name.nil?
-                 displayed_tag = lookup.family
-                 class_tag = "annotations-level-0".html_safe
-                 space = ''
-               end
-               if lookup.family.nil? && lookup.genus.nil? && lookup.species.nil?
-                 displayed_tag = lookup.name
-                 class_tag = "annotations-level-0".html_safe
-                 space = '--'
-               end
-            %>
+              <% if !lookup.family.nil? && !lookup.genus.nil?
+                   displayed_tag = lookup.name + " (" + lookup.genus + " " + lookup.species + ")"
+                   class_tag = "annotations-level-2"
+                   space = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.html_safe
+                 end
+                 if !lookup.genus.nil? && lookup.name.nil?
+                   displayed_tag = lookup.genus
+                   class_tag = "annotations-level-1"
+                   space = '&nbsp;&nbsp;'.html_safe
+                 end
+                 if !lookup.family.nil? && lookup.name.nil?
+                   displayed_tag = lookup.family
+                   class_tag = "annotations-level-0".html_safe
+                   space = ''
+                 end
+                 if lookup.family.nil? && lookup.genus.nil? && lookup.species.nil?
+                   displayed_tag = lookup.name
+                   class_tag = "annotations-level-0".html_safe
+                   space = '--'
+                 end
+              %>
 
-            <option <%= selected_string %> <%= disabled_string %> class=<%= class_tag %> value='<%= lookup.id %>'><%= space %>
-              <%= displayed_tag %></option>
-        <% end %>
-      </select>
-      <div class="actions text-right">
-        <%= f.submit (t 'action.save'), class: 'btn btn-success btn-block' %>
-      </div>
-  <% end %>
-</div>
+              <option <%= selected_string %> <%= disabled_string %> class=<%= class_tag %> value='<%= lookup.id %>'><%= space %>
+                <%= displayed_tag %></option>
+          <% end %>
+        </select>
+        <div class="actions text-right">
+          <%= f.submit (t 'action.save'), class: 'btn btn-success btn-block' %>
+        </div>
+    <% end %>
+  </div>
 </div>
 
 <div class="gallery g-annotation">
@@ -77,6 +77,6 @@
 
 <div class="annotation-flex">
   <div class="annotation-image">
-    <p>Frame <%= @medium.frame + 1%> von <%= @media_amount %></p>
+    <p>Frame <%= @medium.frame + 1 %> von <%= @media_amount %></p>
   </div>
 </div>
