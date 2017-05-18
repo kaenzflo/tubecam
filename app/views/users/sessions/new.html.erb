@@ -1,13 +1,13 @@
-<h2>Anmelden</h2>
+<h2><%= t '.title' %></h2>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="field">
-    <%= f.label :email, 'E-Mail' %><br />
+    <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true %>
   </div>
 
   <div class="field">
-    <%= f.label :password, 'Passwort' %><br />
+    <%= f.label :password %><br />
     <%= f.password_field :password, autocomplete: "off" %>
   </div>
 
@@ -19,7 +19,7 @@
   <% end -%>
 
   <div class="actions">
-    <%= f.submit "Anmelden", class: 'btn btn-primary' %>
+    <%= f.submit (t 'action.login'), class: 'btn btn-primary' %>
   </div>
 <% end %>
 
