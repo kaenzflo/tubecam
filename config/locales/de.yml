@@ -35,6 +35,7 @@ de:
     register: "Registrieren"
     reset_filter: "Filer zurücksetzen"
   link_to:
+    project: "Projekt"
     tubecam: "TubeCam"
     tubecams: "TubeCams"
     annotate: "Annotieren"
@@ -47,6 +48,7 @@ de:
     tubecam_devices: "TubeCams verwalten"
     logout: "Abmelden"
     login: "Anmelden"
+    overview: "Übersicht"
   # View specific (in Views: Lazy lookup compliant, i.e.: '<% t '.title' %>4
   welcome:
     index:
@@ -102,7 +104,7 @@ de:
     dashboard:
       title: "Dashboard"
     project:
-      title: "Über das Projekt Tubecam"
+      title: "Über das Projekt"
   dashboard:
     title: "Dashboard"
   media:
@@ -120,9 +122,13 @@ de:
   annotations:
     index:
       preview:  "Vorschau"
+      title: "Meine Annotationen"
     done:
       well_done: "🎉 Well done, you did it all!"
       well_done_text: "(Hier gibt's nichts mehr zu tun)"
+  exports:
+      index:
+        title: "Datenexport"
   # Controller specific (incl. notification flashes)
   flash:
     users:
