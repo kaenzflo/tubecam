@@ -1,3 +1,4 @@
+<% @page_title=t '.title', number: @sequence.sequence_no.to_s %>
 <h1><%= (t 'activerecord.models.sequence') + ' ' + @sequence.sequence_no.to_s %></h1>
 
 <div class="medium-detail">
@@ -24,7 +25,7 @@
   <div class="image-links">
     <%= link_to (t 'link_to.tubecam') + ' ' + @tubecam_device.serialnumber, tubecam_device_path(@sequence.tubecam_device_id), class: 'btn btn-primary' %>
     <%= link_to (t 'link_to.location'), maps_path(:longitude => @medium.longitude, :latitude => @medium.latitude), class: 'btn btn-primary' %>
-    <% if !@annotations.empty? && !@annotations.find_by(user_id: current_user.id) %>
+    <% if user_signed_in? && !@annotations.empty? && !@annotations.find_by(user_id: current_user.id) %>
         <%= link_to (t 'link_to.annotate'), {controller: 'annotations', action: 'specific', :id => @medium.id}, class: 'btn btn-primary' %>
     <% end %>
   </div>
@@ -49,7 +50,7 @@
   <div class="image-links">
     <% if @annotations.empty? %>
         <h4><%= t '.no_annotations' %></h4>
-        <%= link_to (t 'link_to.annotate'), {controller: 'annotations', action: 'specific', :id => @sequence.media.first.id}, class: 'btn btn-primary' %>
+        <%= link_to (t 'link_to.annotate'), {controller: 'annotations', action: 'specific', :id => @media.first.id}, class: 'btn btn-primary' %>
     <% else %>
         <table class="table table-striped table-sm table-responsive table-hover">
           <thead>
@@ -91,18 +92,17 @@
                         <% end %>
                     <% end %>
                 <% else %>
-                    <td>🎖</td>
+                    <td><span class="emoji-icon">🎖</span></td>
                     <% if user_signed_in? && current_user.verified_spotter_role? %>
                         <td><%= link_to (t '.unverify'), unverify_annotation_path(annotation_id: annotation.id) %></td>
                     <% end %>
                 <% end %>
 
-                <% if user_signed_in? && current_user.id == annotation.user_id %>
+                <% if user_signed_in? && (current_user.id == annotation.user_id || current_user.admin_role? )%>
                     <td><%= link_to (t 'action.destroy'), :controller => 'annotations', :action => 'destroy', :id => annotation.id, :sequence_id => annotation.sequence.id %></td>
                 <% else %>
                     <td></td>
                 <% end %>
-
 
               </tr>
           <% end %>

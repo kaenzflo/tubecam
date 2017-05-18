@@ -59,10 +59,15 @@ select#annotations_select {
 }
 
 .g-annotation img {
-  border: 3px solid transparent;
+  border: 10px solid transparent;
 }
 .g-annotation img.active-frame {
-  border: 3px solid orange;
+  border: 10px solid rgba(255, 153, 0, 0.48);;
+}
+
+.g-annotation .sequence .item {
+  margin: 0px !important;
+  position: relative;
 }
 
 @media screen and (max-width: 800px) {

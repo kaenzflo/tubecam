@@ -1,22 +1,24 @@
+<% @page_title=t '.title' %>
 <div class="container-full-width">
 
   <div id="map" class="map"></div>
 
   <div style="display: block;">
-    <div id="popup" title=<%= t '.title' %>></div>
+
+    <div id="popup" title=<%= t '.popover_title' %>></div>
+    </div>
+
+
+    <%= javascript_include_tag 'loadmap' %>
+
+    <script type="text/javascript">
+        var tubecamjson = <%=raw @tubecamjson %>;
+        var tubecamstyle = <%=raw @tubecamstyle %>;
+        var longitude = <%= @longitude %>;
+        var latitude = <%= @latitude %>;
+        var zoom = <%= @zoom %>;
+        loadMap(tubecamjson, tubecamstyle, zoom, longitude, latitude);
+    </script>
+
+
   </div>
-
-
-  <%= javascript_include_tag 'loadmap' %>
-
-  <script type="text/javascript">
-      var tubecamjson = <%=raw @tubecamjson %>;
-      var tubecamstyle = <%=raw @tubecamstyle %>;
-      var longitude = <%= @longitude %>;
-      var latitude = <%= @latitude %>;
-      var zoom = <%= @zoom %>;
-      loadMap(tubecamjson, tubecamstyle, zoom, longitude, latitude);
-  </script>
-
-
-</div>

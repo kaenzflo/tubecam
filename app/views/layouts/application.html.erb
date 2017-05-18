@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>TubeCam</title>
+  <title><%= @page_title %> - TubeCam</title>
+  <%= favicon_link_tag "https://#{ENV['S3_HOST_NAME']}/#{ENV['S3_BUCKET_NAME']}/assets/images/fav_icon.png" %>
   <%= csrf_meta_tags %>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>

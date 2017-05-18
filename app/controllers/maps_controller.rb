@@ -103,7 +103,7 @@ class MapsController < ApplicationController
                       "value" => tubecam.id,
                       "vectorOptions" => {
                           "type" => "circle",
-                          "radius" => 10 * relative_point_factor,
+                          "radius" => 8 * relative_point_factor,
                           "fill" => {
                               "color" => "##{Gradient.randomColor(time_period)}"
                           },

@@ -53,7 +53,8 @@ de:
   # View specific (in Views: Lazy lookup compliant, i.e.: '<% t '.title' %>4
   welcome:
     index:
-      title: "Willkommen auf der TubeCam-Startseite"
+      title: "Willkommen"
+      welcome_title: "Willkommen auf der TubeCam-Startseite"
       citizen_science_heading: "Citizen Science"
       citizen_science_text: "Werde Teil des Projektes und hilf mit den Kleinraubtierbestand zu sichern"
       gallery_heading: "Galerie"
@@ -96,6 +97,7 @@ de:
         password_length: "(%{length} Zeichen Mindestlänge)"
   tubecam_devices:
     show:
+      title: "%{number}"
       no_media: "Keine Medien gefunden"
       owner: "Besitzer"
     new:
@@ -108,6 +110,7 @@ de:
       text_area_placeholder: "Dies ist meine TubeCam-Beschreibung"
   sequences:
     show:
+      title: "Sequenz  %{number}"
       coordinates: "Koordinaten"
       frames: "Frame-Anzahl"
       verify: "Verifizieren"
@@ -133,6 +136,7 @@ de:
     title: "Dashboard"
   media:
     show:
+      title: "Details"
       first_annotation: "Erste Annotation vornehmen"
     new:
       title: "Neues Medium erstellen"
@@ -143,16 +147,23 @@ de:
       title: "Medium bearbeiten"
   maps:
     map:
-      title: "Detailinformationen"
+      title: "Standorte"
+      popover_title: "Detailinformationen"
     mapdefault:
-      title: "Detailinformationen"
+      title: "Ungefähre Standorte"
+      popover_title: "Detailinformationen"
   annotations:
     index:
       preview:  "Vorschau"
       title: "Meine Annotationen"
     done:
+      title: "Done"
       well_done: "🎉 Well done, you did it all!"
       well_done_text: "(Hier gibt's nichts mehr zu tun)"
+    new:
+      title: "Annotieren"
+    specific:
+      title: "Annotieren"
   exports:
       index:
         title: "Datenexport"

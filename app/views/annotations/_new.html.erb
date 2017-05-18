@@ -45,7 +45,7 @@
                if lookup.family.nil? && lookup.genus.nil? && lookup.species.nil?
                  displayed_tag = lookup.name
                  class_tag = "annotations-level-0".html_safe
-                 space = '--'
+                 space = ''
                end
             %>
 
@@ -77,6 +77,6 @@
 
 <div class="annotation-flex">
   <div class="annotation-image">
-    <p>Frame <%= @medium.frame %> von <%= @media_amount %></p>
+    <p>Frame <%= @medium.frame + 1%> von <%= @media_amount %></p>
   </div>
 </div>
