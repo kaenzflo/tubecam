@@ -31,7 +31,7 @@
         <% if annotation.verified_id.nil? %>
           <td>-</td>
         <% else %>
-          <td>🎖</td>
+            <td><span class="emoji-icon">🎖</span></td>
         <% end %>
         <% if current_user.id == annotation.user_id %>
           <td><%= link_to (t 'action.destroy'), :controller => 'annotations', :action => 'destroy', :id => annotation.id, :sequence_id => annotation.sequence.id%></td>
