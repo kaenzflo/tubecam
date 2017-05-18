@@ -83,7 +83,7 @@ namespace :heroku do
           tubecam_device_id = tubecam_device.id
 
           @sequence = Sequence.where(tubecam_device_id: tubecam_device_id,
-                                     sequence_no: sequence_no).first_or_create
+                                     sequence_no: sequence_no, datetime: datetime).first_or_create
           Medium.create(sequence_id: @sequence.id,
                         original_path: original_path, original_filename: original_filename,
                         filename_hash: filename_hash, mediatype: mediatype,
@@ -91,19 +91,19 @@ namespace :heroku do
                         latitude: latitude, frame: frame,
                         exifdata: json_data, deleted: false)
 
-          # # Upload medium
-          # new_object = upload_bucket.objects.build(filename_hash)
-          # new_object.content = new_medium
-          # new_object.acl = :public_read
-          # new_object.save
-          #
-          # # Generate and upload thumbnail
-          # resized_new_medium = MiniMagick::Image.read(new_medium)
-          # resized_new_medium.resize('200x200')
-          # new_object = upload_bucket.objects.build('thumbnails/' + filename_hash)
-          # new_object.content = resized_new_medium.to_blob
-          # new_object.acl = :public_read
-          # new_object.save
+          # Upload medium
+          new_object = upload_bucket.objects.build(filename_hash)
+          new_object.content = new_medium
+          new_object.acl = :public_read
+          new_object.save
+
+          # Generate and upload thumbnail
+          resized_new_medium = MiniMagick::Image.read(new_medium)
+          resized_new_medium.resize('200x200')
+          new_object = upload_bucket.objects.build('thumbnails/' + filename_hash)
+          new_object.content = resized_new_medium.to_blob
+          new_object.acl = :public_read
+          new_object.save
         end
       end
     rescue => e
