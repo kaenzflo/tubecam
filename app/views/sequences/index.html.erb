@@ -25,8 +25,8 @@
               <% end %>
               <%= link_to (t 'activerecord.models.tubecam_device') + ' ' + sequence.tubecam_device.serialnumber, tubecam_device_path(sequence.tubecam_device_id) %>
             | <%= link_to (t 'link_to.sequence') + ' ' + sequence.sequence_no.to_s, sequence_path(sequence.id) %>
-            | <% if user_signed_in? %>
-                <%= link_to (t 'link_to.annotate'), controller: 'annotations', action: 'specific', :id => sequence.media.first.id %>
+              <% if user_signed_in? %>
+                |  <%= link_to (t 'link_to.annotate'), controller: 'annotations', action: 'specific', :id => sequence.media.first.id %>
               <% end %>
             | <%= link_to (t 'link_to.location'), maps_path(:longitude => longitude, :latitude => latitude) %>
             | <%= sequence.media[0].datetime.strftime("%d.%m.%Y %H:%M:%S") %> Uhr

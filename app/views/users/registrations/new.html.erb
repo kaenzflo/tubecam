@@ -10,7 +10,7 @@
 
     <div class="field">
       <%= f.label :username %>
-      <%= f.text_field :username, required: true %><br />
+      <%= f.text_field :username, required: true %><br/>
       <em><%= t '.message' %></em>
     </div>
 
@@ -22,32 +22,33 @@
 
     <div class="field">
       <%= f.label :lastname %>
-      <%= f.text_field :lastname, required: true%>
+      <%= f.text_field :lastname, required: true %>
     </div>
 
     <div class="form-group">
-    <div class="form-inline">
-    <div class="form-group">
-    <div class="field">
-      <%= f.label :password %>
-      <%= f.password_field :password, autocomplete: "off", minlength: @minimum_password_length %><br />
-      <% if @minimum_password_length %>
-          <em><%= t '.password_length', length: @minimum_password_length %></em>
-      <% end %>
-    </div>
+      <div class="form-inline">
+        <div class="form-group">
+          <div class="field">
+            <%= f.label :password %>
+            <%= f.password_field :password, autocomplete: "off", minlength: @minimum_password_length %><br/>
+            <% if @minimum_password_length %>
+                <em><%= t '.password_length', length: @minimum_password_length %></em>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="field">
+            <%= f.label :password_confirmation %>
+            <%= f.password_field :password_confirmation, autocomplete: "off", minlength: @minimum_password_length %>
+            <br/>
+            <em>&nbsp;</em>
+          </div>
+        </div>
+      </div>
     </div>
 
-      <div class="form-group">
-    <div class="field">
-      <%= f.label :password_confirmation %>
-      <%= f.password_field :password_confirmation, autocomplete: "off", minlength: @minimum_password_length  %><br />
-      <em>&nbsp;</em>
-    </div>
-    </div>
-    </div>
-    </div>
-
-    <br />
+    <br/>
 
     <div class="actions">
       <%= f.submit (t 'action.register'), class: 'btn btn-primary' %>

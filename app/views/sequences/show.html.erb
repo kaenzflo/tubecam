@@ -33,6 +33,7 @@
 
 
 <div class="gallery">
+    <%= will_paginate @media %>
   <div class="sequence">
     <% @media.order('frame ASC').each do |medium| %>
         <% medium = Coordinates.wgs_to_ch(medium) %>

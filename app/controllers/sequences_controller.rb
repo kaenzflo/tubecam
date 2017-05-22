@@ -28,6 +28,7 @@ class SequencesController < ApplicationController
     sequence = Sequence.find(params[:id])
     @media = sequence.media.order('frame ASC')
     @medium = Coordinates.wgs_to_ch(@media.last)
+    @media = @media.paginate( per_page: 15, page: params[:page])
     @cloud_resource_thumbnail_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/thumbnails/'
