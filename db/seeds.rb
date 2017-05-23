@@ -128,7 +128,7 @@ annotations_lookup_table = [
     ['712','Europäischer Maulwurf','Maulwürfe','Talpa','europaea',false,124,144,27,38,165,200,true,true,false,true,false,false,true,false,true],
     ['800',nil,'Marderartige',nil,nil,true,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
     ['811','Iltis','Marderartige','Mustela','putorius',true,280,450,100,170,470,700,true,false,true,false,true,true,false,true,true],
-    ['812','Hermelin','Marderartige','Mustela','herminea',true,210,370,70,130,330,500,true,false,false,false,true,true,false,true,true],
+    ['812','Hermelin','Marderartige','Mustela','erminea',true,210,370,70,130,330,500,true,false,false,false,true,true,false,true,true],
     ['813','Mauswiesel','Marderartige','Mustela','nivalis',true,140,190,30,50,200,280,true,false,false,false,true,true,false,true,true],
     ['821','Baummarder','Marderartige','Martes','martes',true,400,480,200,260,780,980,true,false,false,false,true,true,false,true,true],
     ['822','Steinmarder','Marderartige','Martes','foina',true,400,560,200,320,740,830,true,false,false,false,true,true,false,true,true]]
