@@ -6,7 +6,7 @@ class AnnotationsController < ApplicationController
     else
       @annotations = Annotation.where(user_id: current_user.id).order('created_at DESC')
     end
-    @annotations = @annotations.order('id DESC')
+    @annotations = @annotations.order('id DESC').paginate( per_page: 15, page: params[:page])
     @annotations_lookup_table = AnnotationsLookupTable.all.order('id ASC')
     @users = User.all
     @cloud_resource_image_url = 'https://' +
