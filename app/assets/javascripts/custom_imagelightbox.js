@@ -218,7 +218,7 @@ $( function()
             allowedTypes:   'png|jpg|jpeg|gif',     // string;
             animationSpeed: 10,                    // integer;
             preloadNext:    true,                   // bool;
-            onStart:		function() { overlayOn(); closeButtonOn( instanceF ); navigationOn( instanceF, selectorF ); },
+            onStart:		function() { overlayOn(); navigationOn( instanceF, selectorF ); },
             onEnd:			function() { overlayOff(); captionOff(); closeButtonOff(); activityIndicatorOff(); navigationOff(); },
             onLoadStart: 	function() { captionOff(); activityIndicatorOn(); },
             onLoadEnd:	 	function() { captionOn(); activityIndicatorOff(); navigationUpdate( selectorF ); }
