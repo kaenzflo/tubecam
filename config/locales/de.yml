@@ -165,6 +165,7 @@ de:
     index:
       preview:  "Vorschau"
       title: "Meine Annotationen"
+      title_all_annotations: "Alle Annotationen"
     done:
       title: "Done"
       well_done: "🎉 Well done, you did it all!"

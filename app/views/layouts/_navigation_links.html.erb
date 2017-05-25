@@ -20,7 +20,11 @@
         <% if current_user.admin_role? %>
           <li><a href="<%= exports_path(format: :csv) %>"><%= t 'exports.index.title' %></a></li>
         <% end %>
-        <li><a href="<%= annotations_path %>"><%= t 'annotations.index.title' %></a></li>
+        <% if current_user.admin_role? %>
+          <li><a href="<%= annotations_path %>"><%= t 'annotations.index.title_all_annotations' %></a></li>
+        <% else %>
+          <li><a href="<%= annotations_path %>"><%= t 'annotations.index.title' %></a></li>
+        <% end %>
         <li><a href="<%= project_path %>"><%= t 'pages.project.title' %></a></li>
         <li><a href="<%= contact_path %>"><%= t 'pages.contact.title' %></a></li>
       </ul>
