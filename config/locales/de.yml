@@ -87,6 +87,14 @@ de:
     sessions:
       new:
         title: "Anmelden"
+    shared:
+      links:
+        login: "Anmelden"
+        register: "Registrieren"
+        password: "Passwort vergessen?"
+        confirmation: "Keine Bestätigungs-E-Mail erhalten?"
+        reset: "Keine Zurücksetzen-E-Mail erhalten?"
+        logged-in: "Eingeloggt als %{user}"
     passwords:
       new:
         title: "Passwort vergessen?"

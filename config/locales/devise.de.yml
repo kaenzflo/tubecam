@@ -1,6 +1,10 @@
 # Additional translations at https://github.com/plataformatec/devise/wiki/I18n
 
 de:
+  users:
+    confirmations:
+      new:
+        resend_confirmation_instructions: Anleitung zur Bestätigung noch mal schicken
   devise:
     confirmations:
       confirmed: Ihre E-Mail Adresse wurde erfolgreich bestätigt.
@@ -70,7 +74,7 @@ de:
         cancel_my_account: Konto löschen
         currently_waiting_confirmation_for_email: Warte auf Bestätigung von %{email}.
         leave_blank_if_you_don_t_want_to_change_it: freilassen, wenn Sie das nicht ändern wollen
-        title: "%{resource} bearbeiten"
+        title: "%Benutzer bearbeiten"
         unhappy: Unglücklich
         update: Aktualisieren
         we_need_your_current_password_to_confirm_your_changes: wir benötigen Ihr aktuelles Passwort, um die Änderung zu bestätigen
@@ -113,5 +117,5 @@ de:
       not_found: nicht gefunden
       not_locked: ist nicht gesperrt
       not_saved:
-        one: "%{resource} konnte aufgrund eines Fehlers nicht gespeichert werden:"
-        other: "%{count} Fehler verhinderten das Speichern von %{resource}:"
+        one: "Benutzer konnte aufgrund eines Fehlers nicht gespeichert werden:" #"%{resource} konnte aufgrund eines Fehlers nicht gespeichert werden:"
+        other: "%{count} Fehler verhinderten das Speichern von Benutzer:"

@@ -5,7 +5,7 @@
 
     <div class="field">
       <%= f.label :email %>
-      <%= f.email_field :email, autofocus: true %>
+      <%= f.email_field :email, autofocus: true, required: true %>
     </div>
 
     <div class="field">
@@ -54,5 +54,7 @@
       <%= f.submit (t 'action.register'), class: 'btn btn-primary' %>
     </div>
 <% end %>
+
+<br />
 
 <%= render "users/shared/links" %>
