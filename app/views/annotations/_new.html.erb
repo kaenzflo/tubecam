@@ -1,8 +1,8 @@
 <script>
-  if (localStorage.tutorial_done) {
-    localStorage.tutorial_done = Number(localStorage.tutorial_done) + 5;
+  if (localStorage.tutorial_done < 2) {
+    localStorage.tutorial_done = Number(localStorage.tutorial_done) + 1;
   } else {
-    localStorage.tutorial_done = 5;
+    localStorage.tutorial_done = 1;
     introJs().start();
   }
 </script>
