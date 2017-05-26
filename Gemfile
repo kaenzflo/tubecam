@@ -44,6 +44,10 @@ gem 'bootstrap3-datetimepicker-rails', '~> 4.17.37'
 # Use font awesom for icons
 gem "font-awesome-rails"
 
+# Use introJS for tutorial
+gem "introjs-rails"
+
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.2'
 # Use sqlite3 as the database for Active Record

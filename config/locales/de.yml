@@ -51,6 +51,13 @@ de:
     users: "Benutzer verwalten"
     tubecam_devices: "TubeCams verwalten"
     overview: "Übersicht"
+  tutorial:
+    annotation:
+      medium: "Medium betrachten"
+      annotate: "Möglichst genaue Annotation vornehmen"
+      save: "Annotation speichern. (Zufällige nächste Sequenze wird geladen."
+      other: "Weitere Medien anschauen.<br>(2 Bilder weiter = Vorschau ganz rechts<br>1 Bild weiter = zweite Vorschau von rechts)"
+      random: "Zufällige nächste Sequenze"
   # View specific (in Views: Lazy lookup compliant, i.e.: '<% t '.title' %>4
   welcome:
     index:

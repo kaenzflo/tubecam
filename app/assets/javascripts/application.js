@@ -18,4 +18,5 @@
 //= require bootstrap-datetimepicker
 //= require bootstrap-sprockets
 //= require turbolinks
+//= require introjs
 //= require_tree .

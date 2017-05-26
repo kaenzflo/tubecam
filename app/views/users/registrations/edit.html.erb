@@ -40,7 +40,7 @@
       <div class="form-inline">
         <div class="form-group ">
           <div class="field">
-            <%= f.label :password, class: "short-label" %> <i class="text-primary"><%= t '.notice' %></i><br/>
+            <%= f.label :password, class: "short-label" %> <em class="text-primary"><%= t '.notice' %></em><br/>
             <%= f.password_field :password, autocomplete: "off" %>
             <% if @minimum_password_length %>
                 <small id="emailHelp" class="form-text text-muted"><%= t '.password_length', length: @minimum_password_length %>

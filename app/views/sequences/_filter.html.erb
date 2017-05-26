@@ -10,7 +10,7 @@
              end
              tubecam_owner = User.find_by(id: tubecam.user_id)
           %>
-          <option id='tubecam_device_id_id' <%= selected_string %> value='<%= tubecam.id %>'>
+          <option <%= selected_string %> value='<%= tubecam.id %>'>
             <%= tubecam.serialnumber %> (<%= tubecam.user.username %>)
           </option>
       <% end %>
