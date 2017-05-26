@@ -1,12 +1,4 @@
-<script>
-  if (localStorage.tutorial_done < 2) {
-    localStorage.tutorial_done = Number(localStorage.tutorial_done) + 1;
-  } else {
-    localStorage.tutorial_done = 1;
-    introJs().start();
-  }
-</script>
-
+<div class="text-right"><a onClick="introJs().start();">Tutorial</a></div>
 
 <div class="annotation-flex">
 <div class="annotation-image" data-intro="<%= (t 'tutorial.annotation.medium') %>" data-step="1">
