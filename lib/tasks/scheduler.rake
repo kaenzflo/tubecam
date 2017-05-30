@@ -82,6 +82,13 @@ namespace :heroku do
         else
           tubecam_device_id = tubecam_device.id
 
+          if tubecam_device.last_activity.nil?  || tubecam_device.last_activity < datetime
+            tubecam_device.longitude = longitude
+            tubecam_device.latitude = latitude
+            tubecam_device.last_activity = datetime
+            tubecam_device.save
+          end
+
           sequence = Sequence.where(tubecam_device_id: tubecam_device_id,
                                      sequence_no: sequence_no).first_or_create
           sequence.datetime = datetime
