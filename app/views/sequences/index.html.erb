@@ -11,10 +11,8 @@
 
     <div class="gallery">
       <% @sequences.each do |sequence| %>
-          <% wgs_long = sequence.media.first.longitude
-             wgs_lat  = sequence.media.first.latitude
-             longitude = Coordinates.wgs_to_ch_y(wgs_long, wgs_lat)
-             latitude = Coordinates.wgs_to_ch_x(wgs_long, wgs_lat) %>
+          <% longitude = sequence.media.first.longitude
+             latitude  = sequence.media.first.latitude %>
 
 
           <div class="sequence-description">
@@ -34,7 +32,6 @@
           <div class="sequence">
             <% @media = Medium.where(sequence_id: sequence.id).order('frame ASC').limit(5) %>
             <% @media.each do |medium| %>
-                <% medium = Coordinates.wgs_to_ch(medium) %>
                 <div class="item">
                   <%= link_to image_tag(@cloud_resource_thumbnail_url + medium.filename_hash), sequence %>
                   <div class="item-actions">

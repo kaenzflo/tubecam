@@ -34,6 +34,13 @@ class Coordinates
     coordinates
   end
 
+  def self.fake_coordinates(longitude, latitude)
+    fake_coordinates = {'longitude' => 0.0, 'latitude' => 0.0}
+    fake_coordinates['longitude'] = longitude - 25 + Random.rand(50)
+    fake_coordinates['latitude'] = latitude - 25 + Random.rand(50)
+    fake_coordinates
+  end
+
   # Convert WGS lat/long ( dec) to CH y
   def self.wgs_to_ch_y(lng, lat)
 
