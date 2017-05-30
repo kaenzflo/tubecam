@@ -170,10 +170,10 @@ de:
   maps:
     map:
       title: "Standorte"
-      popover_title: "Detailinformationen"
+      popup_title: "Detailinformationen"
     mapdefault:
       title: "Ungefähre Standorte"
-      popover_title: "Detailinformationen"
+      popup_title: "Detailinformationen"
   annotations:
     index:
       preview:  "Vorschau"
@@ -248,6 +248,7 @@ de:
        verify_fail: "Annotation kann nicht verifiziert werden"
        verification_destroy_success: "Verifikation entfernt"
        verification_destroy_fail: "Verifikation kann nicht entfernt werden"
+       deactivated: "Diese Sequenz ist nicht verfügbar"
   # Model specific (ActiveRecord key compliant)
   activerecord:
     models:

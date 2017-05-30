@@ -25,6 +25,9 @@ class SequencesController < ApplicationController
   # GET /sequences/1
   # GET /sequences/1.json
   def show
+    if @sequence.deleted
+      redirect_to sequences_path, alert: t('flash.sequences.deactivated')
+    end
     sequence = Sequence.find(params[:id])
     @media = sequence.media.order('frame ASC')
     @media = @media.paginate( per_page: 15, page: params[:page])
