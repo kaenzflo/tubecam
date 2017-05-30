@@ -1,6 +1,34 @@
 <% @page_title=t '.title' %>
 <h1><%= t '.title' %></h1>
-...
 
-<h2>Website</h2>
-<%= link_to "http://www.wieselundco.ch/ueber-uns", "http://www.wieselundco.ch/ueber-uns", :target => "_blank" %>
+<div class="zhaw-person-person col-xs-12 col-sm-12 col-md-6 col-lg-6" itemscope itemtype="http://schema.org/Person">
+  <div class="person-image">
+    <figure class="img-circle ">
+      <img src="https://pd.zhaw.ch/portraet/images/rata.jpg" alt="Nils Ratnaweera" itemprop="image" />
+    </figure>
+  </div>
+  <h3>
+    <a href="https://www.zhaw.ch/de/ueber-uns/person/rata/">
+      <span class="person-honorific-prefix" itemprop="honorificPrefix"></span> <span class="person-fullname" itemprop="name">Nils Ratnaweera</span>
+    </a>
+  </h3>
+  <p>
+				<span class="person-worksfor" itemprop="worksFor" itemscope itemtype="http://schema.org/Organization">
+					ZHAW
+				</span>
+    <span class="person-affiliation" itemprop="affiliation">
+					Life Sciences und Facility Management
+				</span>
+    <br>
+    <span class="person-address" itemprop="workLocation" itemscope itemtype="http://schema.org/PostalAddress">
+					<span itemprop="streetAddress">Grüental</span>
+					<br>
+					<span itemprop="postalCode">8820</span> <span itemprop="addressLocality">Wädenswil</span>
+				</span>
+  </p>
+  <p>
+    <span class="glyphicon glyphicon-phone" aria-hidden="true"></span> <span class="person-fon" itemprop="telephone"><a href="tel:+41589345563">+41 (0) 58 934 55 63</a></span>
+    <br>
+    <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> <a itemprop="email" class="person-email" href="javascript:linkTo_UnCryptMailto('iwehpk6jeho:nwpjwsaanwWvdws:yd');">nils.ratnaweera<span class="none">&#x40;</span>zhaw<span class="none">&#x2E;</span>ch</a>
+  </p>
+</div>
