@@ -12,7 +12,7 @@
         </li>
     <% end %>
     <li><%= link_to current_user.username, edit_user_registration_path %></li>
-    <li><%= link_to '<em class="fa fa-sign-in fa-lg" aria-hidden="true"></em>'.html_safe, destroy_user_session_path, :method=>'delete' %></li>
+    <li><%= link_to '<em class="fa fa-sign-out fa-lg" aria-hidden="true"></em>'.html_safe, destroy_user_session_path, :method=>'delete' %></li>
 <% else %>
     <li><%= link_to 'Anmelden <em class="fa fa-sign-in fa-lg" aria-hidden="true"></em>'.html_safe, new_user_session_path %></li>
 <% end %>

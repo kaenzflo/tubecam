@@ -67,8 +67,10 @@
     </select>
 
     <div class="filter-search-reset">
-      <%= submit_tag (t 'action.search'), class: 'btn btn-success' %>
-      <%= link_to '❌', sequences_path, class: 'btn btn-warning' %>
+      <%= button_tag(type: "submit", class: "btn btn-success btn-filter") do %>
+          <span class="glyphicon glyphicon-filter"></span> <%= (t 'action.filter') %>
+      <% end %>
+      <%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, sequences_path, class: 'btn btn-warning btn-filter' %>
     </div>
   </form>
 </div>
