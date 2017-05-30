@@ -42,27 +42,26 @@ class MapsController < ApplicationController
     params.permit(:longitude, :latitude)
   end
 
-
   def generate_tubecams_json(exact_position=true)
     @tubecams = TubecamDevice.where(:active => true)
-
 
     tubecamsHash = {}
     tubecamsHash[:type] = "FeatureCollection"
 
     tubecamArray = []
     @tubecams.each do |tubecam|
+
       latest_image = Medium.find_by(sequence_id: Sequence.where(tubecam_device_id: tubecam.id).order(datetime: 'ASC').last)
-      if !latest_image.nil?
-        longitude = Coordinates.wgs_to_ch_y(latest_image.longitude, latest_image.latitude);
-        latitude = Coordinates.wgs_to_ch_x(latest_image.longitude, latest_image.latitude);
-        time_period = days_since_last_image(latest_image)
-        latest_image_text = latest_image_text(latest_image, time_period)
+      if !tubecam.sequences.nil?
+        longitude = tubecam.longitude
+        latitude = tubecam.longitude
         if !exact_position
           longitude = approximate_coordinates longitude
           latitude = approximate_coordinates latitude
         end
-        description = generate_description(tubecam.serialnumber.to_s, latest_image_text, time_period, longitude, latitude, tubecam,tubecam.description, exact_position)
+        time_period = (Time.now.to_date - tubecam.last_activity.to_date)
+        number_of_sequences = TubecamDevice.sequences.count
+        description = generate_description(tubecam, exact_position, time_period, longitude, latitude, number_of_sequences)
 
         tubecamHash = {"type" => "Feature",
                        "geometry" => {
@@ -94,10 +93,9 @@ class MapsController < ApplicationController
 
     styleArray = []
     @tubecams.each do |tubecam|
-      latest_image = Medium.find_by(sequence_id: Sequence.where(tubecam_device_id: tubecam.id).order(datetime: 'ASC').last)
-      if !latest_image.nil?
+      if !tubecam.sequences.nil?
          relative_point_factor = calculate_point_factor(tubecam.id, max_sequences, min_sequences, 1)
-        time_period = days_since_last_image(latest_image)
+         time_period = (Time.now.to_date - tubecam.last_activity.to_date)
 
         styleHash = {"geomType" => "point",
                       "value" => tubecam.id,
@@ -122,17 +120,17 @@ class MapsController < ApplicationController
   end
 
 
-  def generate_description serialnumber, latest_image_text, time_period, longitude, latitude, tubecam, description, exact_position=true
+  def generate_description (tubecam, exact_position, time_period, longitude, latitude, number_of_sequences)
     s = StringIO.new
-    s << "<p>Seriennummer:<b> #{serialnumber}</b></p>"
-    s << "<p>Anzahl Sequenzen:<b> #{Sequence.where(tubecam_device_id: tubecam.id, deleted: false).count.to_s}</b></p>"
-    s << latest_image_text
+    s << "<p>#{I18n.t 'controllers.maps.popup.serialnumber'}:<b> #{tubecam.serialnumber.to_s}</b></p>"
+    s << "<p>#{I18n.t 'controllers.maps.popup.number_of_sequences'}: <b>#{number_of_sequences.to_s}</b></p>"
+    s << "<p>#{I18n.t 'controllers.maps.popup.last_activity'}: #{tubecam.datetime.to_time.strftime('%d.%m.%Y').to_s} (#{I18n.t ('controllers.maps.popup.days', count: time_period)})</p>"
     if exact_position
-      s << "<p>Koordinaten: #{sprintf('%#.2f', longitude)}, #{sprintf('%#.2f', latitude)}</p>"
+      s << "<p>#{I18n.t 'controllers.maps.popup.coordiantes'}:<br>#{tubecam.geodetic_datum} #{sprintf('%#.2f', longitude)}, #{sprintf('%#.2f', latitude)}</p>"
     end
-    s << "<p>Beschreibung:<br>#{description}</p>"
+    s << "<p>#{I18n.t 'controllers.maps.popup.descrition'}:<br>#{description}</p>"
     s << "<hr class='hr-popover'>"
-    s << "<p>#{view_context.link_to 'TubeCam', tubecam_device_path(tubecam)} | #{view_context.link_to 'Fotos', sequences_path(tubecam_device_id: tubecam.id) }</p>".html_safe
+    s << "<p>#{view_context.link_to (I18n.t 'link_to.tubecam'), tubecam_device_path(tubecam)} | #{view_context.link_to (I18n.t 'link_to.media'), sequences_path(tubecam_device_id: tubecam.id) }</p>".html_safe
 
     s.string
   end
@@ -146,17 +144,7 @@ class MapsController < ApplicationController
   end
 
   def approximate_coordinates value
-    #value = (value / 10000).round(1) * 10000 - 100 + Random.rand(200)
     value = value - 25 + Random.rand(50)
-  end
-
-  def days_since_last_image(latest_image)
-    time_period = (Time.now.to_date - latest_image.datetime.to_date).to_i
-  end
-
-  def latest_image_text(latest_image, time_period)
-    day_text = time_period == 1 ? " Tag" : " Tage"
-    text = "<p>Letzte Aufnahme: #{latest_image.datetime.to_time.strftime('%d.%m.%Y').to_s} (#{time_period.to_s + day_text})</p>"
   end
 
   def calculate_point_factor(tubecam_id, max_sequences, min_sequences, scalefactor)

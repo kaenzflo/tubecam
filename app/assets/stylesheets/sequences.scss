@@ -44,4 +44,14 @@ select#tubecam_device_id {
     float: left;
     width: 100%;
   }
+
+  .filter-search-reset {
+    width: 100%;
+  }
+  .btn-filter:first-child {
+    width: calc(100% - 45px);
+  }
+  .btn-filter:last-child {
+    width: 40px;
+  }
 }

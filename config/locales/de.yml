@@ -33,7 +33,7 @@ de:
     save: "Speichern"
     destroy: "Löschen"
     details: "Details"
-    search: "Suchen"
+    filter: "Filtern"
     show: "Anzeigen"
     register: "Registrieren"
     reset_filter: "Filer zurücksetzen"
@@ -185,6 +185,18 @@ de:
       index:
         title: "Datenexport"
   # Controller specific (incl. notification flashes)
+  controllers:
+    maps:
+      popup:
+        serialnumber: "Seriennummer"
+        number_of_sequences: "Anzahl Aufnahmen"
+        last_activity: "Letzte Aufnahme"
+        coordiantes: "Koordinaten"
+        descrition: "Beschreibung"
+        days:
+          zero: "heute"
+          one: "1 Tag"
+          other: %{count} Tage
   flash:
     users:
       user_not_editable: "Der Benutzer \"Administrator\" kann nicht editiert werden"
