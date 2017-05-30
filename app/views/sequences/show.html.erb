@@ -1,30 +1,42 @@
 <% @page_title=t '.title', number: @sequence.sequence_no.to_s %>
 <h1><%= (t 'activerecord.models.sequence') + ' ' + @sequence.sequence_no.to_s %></h1>
 
+<% longitude = @sequence.media.first.longitude
+   latitude  = @sequence.media.first.latitude
+   location_text = (t 'link_to.location')
+       if !user_signed_in?
+     fake_coordinates = Coordinates.fake_coordinates(@sequence.longitude, @sequence.latitude)
+     longitude = fake_coordinates['longitude'].truncate
+     latitude  = fake_coordinates['latitude'].truncate
+     location_text = (t 'link_to.fake_location')
+   end %>
+
 <div class="medium-detail">
   <div class="image-description">
     <table class="table table-striped table-sm table-responsive table-hover" style="max-width: 400px;">
       <tr>
         <td><b><%= t 'activerecord.attributes.medium.datetime' %></b></td>
-        <td><%= @medium.datetime.strftime("%d.%m.%Y %H:%M:%S") %></td>
+        <td><%= @sequence.datetime.strftime("%d.%m.%Y %H:%M:%S") %></td>
       </tr>
+      <% if user_signed_in? %>
       <tr>
         <td><b><%= t '.coordinates' %></b></td>
-        <td><%= @medium.longitude %>, <%= @medium.latitude %></td>
+        <td><%= longitude %>, <%= latitude %></td>
       </tr>
+      <% end %>
       <tr>
         <td><b><%= t 'activerecord.attributes.medium.mediatype' %></b></td>
-        <td> <%= @medium.mediatype %></td>
+        <td> <%= @sequence.media.first.mediatype %></td>
       </tr>
       <tr>
         <td><b><%= t '.frames' %></b></td>
-        <td> <%= @medium.frame %></td>
+        <td> <%= @sequence.media.count %></td>
       </tr>
     </table>
   </div>
   <div class="image-links">
     <%= link_to (t 'link_to.tubecam') + ' ' + @tubecam_device.serialnumber, tubecam_device_path(@sequence.tubecam_device_id), class: 'btn btn-primary' %>
-    <%= link_to (t 'link_to.location'), maps_path(:longitude => @medium.longitude, :latitude => @medium.latitude), class: 'btn btn-primary' %>
+    <%= link_to location_text, maps_path(:longitude => longitude, :latitude => latitude), class: 'btn btn-primary' %>
     <% if user_signed_in? && !@annotations.empty? && !@annotations.find_by(user_id: current_user.id) %>
         <%= link_to (t 'link_to.annotate'), {controller: 'annotations', action: 'specific', :id => @medium.id}, class: 'btn btn-primary' %>
     <% end %>
@@ -36,7 +48,6 @@
     <%= will_paginate @media %>
   <div class="sequence">
     <% @media.order('frame ASC').each do |medium| %>
-        <% medium = Coordinates.wgs_to_ch(medium) %>
         <div class="item">
           <a href="<%= @cloud_resource_image_url + medium.filename_hash %>" data-imagelightbox="f">
             <%= image_tag(@cloud_resource_thumbnail_url + medium.filename_hash) %>

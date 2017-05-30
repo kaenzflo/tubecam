@@ -50,10 +50,10 @@ class AnnotationsController < ApplicationController
       if @annotation.annotations_lookup_table_id != '' &&
           @annotation.user_id == current_user.id &&
           @annotation.save
-        format.html { redirect_to '/annotations/new', notice: t('flash.annotations.annotate_success') }
+        format.html { redirect_to '/annotations/new', notice: t('flash.annotations.create_success') }
         format.json { render :'annotations/new', status: :created, location: @annotation }
       else
-        format.html { redirect_to '/annotations/new', alert: t('flash.annotations.annotate_fail') }
+        format.html { redirect_to '/annotations/new', alert: t('flash.annotations.create_fail') }
         format.json { render json: @annotation.errors, status: :unprocessable_entity }
       end
     end
