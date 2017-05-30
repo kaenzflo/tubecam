@@ -14,6 +14,7 @@ class User < ApplicationRecord
 
   def after_confirmation
     self.active = true
+    self.spotter_role = true
     save
   end
 end
