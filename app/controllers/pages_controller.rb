@@ -7,16 +7,6 @@ class PagesController < ApplicationController
     render template: "pages/project"
   end
 
-  def dataexport
-    @annotations = Annotation.all
-    respond_to do |format|
-      format.csv do
-        headers['Content-Disposition'] = "attachment; filename='tubecam_project.csv'"
-        headers['Content-Type'] ||= 'text/csv'
-      end
-    end
-  end
-
   def contact
     render template: "pages/contact"
   end

@@ -203,6 +203,33 @@ de:
       deactivate_fail: "TubeCam kann nicht deaktiviert werden"
       activate_success: "TubeCam aktiviert"
       activate_fail: "TubeCam kann nicht aktiviert werden"
+    annotations:
+      media_already_annotated: "Medium bereits annotiert: Anderes Medium wird angezeigt"
+      create_success: "Medium erfolgreich annotiert"
+      create_fail: "Annotation fehlgeschlagen"
+      destroy_success: "Annotation gelöscht"
+    maps:
+      position_not_acurate: "Standorte sind nur ungefähr eingetragen. Um die exakten Standorte mit Koordinaten anzeigen zu lassen, müssen Sie sich anmelden."
+    media:
+       create_success: "Medium erstellt"
+       update_success: "Medium aktualisiert"
+       destroy_success: "Medium gelöscht"
+       deactivate_success: "Medium deaktiviert"
+       deactivate_fail: "Medium kann nicht deaktiviert werden"
+       activate_success: "Medium aktiviert"
+       activate_fail: "Medium kann nicht aktiviert werden"
+    sequences:
+       create_success: "Sequenz erstellt"
+       update_success: "Sequenz aktualisiert"
+       destroy_success: "Sequenz gelöscht"
+       deactivate_success: "Sequenz deaktiviert"
+       deactivate_fail: "Sequenz kann nicht deaktiviert werden"
+       activate_success: "Sequenz aktiviert"
+       activate_fail: "Sequenz kann nicht aktiviert werden"
+       verify_success: "Annotation verifiziert"
+       verify_fail: "Annotation kann nicht verifiziert werden"
+       verification_destroy_success: "Verifikation entfernt"
+       verification_destroy_fail: "Verifikation kann nicht entfernt werden"
   # Model specific (ActiveRecord key compliant)
   activerecord:
     models:
