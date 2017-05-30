@@ -46,6 +46,7 @@ de:
     gallery: "Galerie"
     location: "Standort"
     locations: "Standorte"
+    fake_location: "Ungefährer Standort"
     media: "Medien"
     sequence: "Sequenz"
     users: "Benutzer verwalten"
@@ -55,10 +56,15 @@ de:
     annotation:
       medium: "Medium betrachten"
       annotate: "Möglichst genaue Annotation vornehmen"
-      save: "Annotation speichern. (Zufällige nächste Sequenze wird geladen."
+      save: "Annotation speichern. (Zufällige nächste Sequenz wird geladen.)"
       other: "Weitere Medien anschauen.<br>(2 Bilder weiter = Vorschau ganz rechts<br>1 Bild weiter = zweite Vorschau von rechts)"
-      random: "Zufällige nächste Sequenze"
-  # View specific (in Views: Lazy lookup compliant, i.e.: '<% t '.title' %>4
+      random: "Zufällige nächste Sequenz"
+  # View specific (in Views: Lazy lookup compliant, i.e.: '<% t '.title' %>
+  errors:
+    not_found_error:
+      title: "Seite nicht gefunden"
+      h1: "🙈 Upps! Die gewünschte Seite konnte nicht gefunden werden."
+      h4: "Wir kümmern uns darum. In der Zwischenzeit kannst du einfach weiter annotieren. 🐀"
   welcome:
     index:
       title: "Willkommen"

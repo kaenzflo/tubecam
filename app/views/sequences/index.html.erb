@@ -12,7 +12,12 @@
     <div class="gallery">
       <% @sequences.each do |sequence| %>
           <% longitude = sequence.media.first.longitude
-             latitude  = sequence.media.first.latitude %>
+             latitude  = sequence.media.first.latitude
+             if !user_signed_in?
+              fake_coordinates = Coordinates.fake_coordinates(longitude, latitude)
+                longitude = fake_coordinates['longitude']
+                 latitude  = fake_coordinates['latitude']
+             end %>
 
 
           <div class="sequence-description">
