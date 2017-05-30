@@ -81,6 +81,8 @@ end
 
 annotations_lookup_table = [
     ['000','Kein Tier vorhanden',nil,nil,nil,true,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
+    ['001','Keine Ahnung',nil,nil,nil,true,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
+    ['002','Sonstiges',nil,nil,nil,true,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
     ['100',nil,'Bilche',nil,nil,true,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil],
     ['111','Gartenschläfer','Bilche','Eliomys','quercinus',true,100,170,90,125,220,320,true,false,true,true,false,true,false,true,true],
     ['121','Baumschläfer','Bilche','Dryomys','nitedula',true,80,130,80,95,190,240,true,false,true,true,false,true,false,true,true],

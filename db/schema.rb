@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 20170512115953) do
     t.datetime "datetime"
     t.float    "longitude"
     t.float    "latitude"
+    t.string   "geodetic_datum"
     t.integer  "frame"
     t.json     "exifdata"
     t.boolean  "deleted",           default: false
@@ -71,6 +72,9 @@ ActiveRecord::Schema.define(version: 20170512115953) do
   create_table "sequences", force: :cascade do |t|
     t.integer  "tubecam_device_id",                 null: false
     t.integer  "sequence_no"
+    t.float    "longitude"
+    t.float    "latitude"
+    t.string   "geodetic_datum"
     t.datetime "datetime"
     t.boolean  "deleted",           default: false
     t.datetime "created_at",                        null: false
@@ -86,6 +90,7 @@ ActiveRecord::Schema.define(version: 20170512115953) do
     t.datetime "last_activity"
     t.float    "longitude"
     t.float    "latitude"
+    t.string   "geodetic_datum"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.index ["serialnumber"], name: "index_tubecam_devices_on_serialnumber", using: :btree
