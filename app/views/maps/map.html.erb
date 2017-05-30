@@ -12,8 +12,8 @@
     <%= javascript_include_tag 'loadmap' %>
 
     <script type="text/javascript">
-        var tubecamjson = <%=raw @tubecamjson %>;
-        var tubecamstyle = <%=raw @tubecamstyle %>;
+        var tubecamjson = <%=raw @poi_json %>;
+        var tubecamstyle = <%=raw @poi_style_faked %>;
         var longitude = <%= @longitude %>;
         var latitude = <%= @latitude %>;
         var zoom = <%= @zoom %>;

@@ -22,14 +22,11 @@ class MapsController < ApplicationController
       end
     end
 
-    @tubecamjson = generate_tubecams_json()
-    @tubecamjson_approximated = generate_tubecams_json(exact_position=false)
-
-    @tubecamstyle = generate_tubecams_style()
-
     if user_signed_in?
+      @poi_json, @poi_style_faked = set_poi()
       render 'maps/map'
     else
+      @poi_json_faked, @poi_style_faked = set_poi(exact_position=false)
       flash[:notice] = t('flash.maps.position_not_acurate')
       render 'maps/mapdefault'
     end
@@ -42,90 +39,75 @@ class MapsController < ApplicationController
     params.permit(:longitude, :latitude)
   end
 
-  def generate_tubecams_json(exact_position=true)
-    @tubecams = TubecamDevice.where(:active => true)
+  def set_poi(exact_position=true)
+    @tubecams = TubecamDevice.where(active: true)
 
-    tubecamsHash = {}
-    tubecamsHash[:type] = "FeatureCollection"
+    jsonHash = {}
+    jsonHash['type'] = "FeatureCollection"
 
-    tubecamArray = []
-    @tubecams.each do |tubecam|
+    styleHash = {}
+    styleHash['type'] = "unique"
+    styleHash['property'] = "style-class"
 
-      latest_image = Medium.find_by(sequence_id: Sequence.where(tubecam_device_id: tubecam.id).order(datetime: 'ASC').last)
-      if !tubecam.sequences.first.nil?
-        time_period = (Time.now.to_date - tubecam.last_activity.to_date)
+    number_of_grouped_sequences = Sequence.where(deleted: false).group(:tubecam_device_id).count
+    max_sequences = number_of_grouped_sequences.max_by(&:last)[1]
+    min_sequences = number_of_grouped_sequences.min_by(&:last)[1]
+    datetime_now = Time.now.to_date;
 
-        coordinates = {
-            'longitude' => tubecam.longitude,
-            'latitude' => tubecam.latitude
-        }
-        if !exact_position
-          coordinates = Coordinates.fake_coordinates(tubecam.longitude, tubecam.latitude)
-        end
-        number_of_sequences = tubecam.sequences.count
-        description = generate_description(tubecam, exact_position, time_period, coordinates, number_of_sequences)
-
-        tubecamHash = {"type" => "Feature",
-                       "geometry" => {
-                           "type" => "Point",
-                           "coordinates" => [coordinates['longitude'], coordinates['latitude']]
-                       },
-                       "properties" => {
-                           "description" => description,
-                           "style-class" => tubecam.id
-                       }
-        }
-        tubecamArray << tubecamHash
-      end
-    end
-
-    tubecamsHash[:features] = tubecamArray
-    p "==="
-    p tubecamsHash.to_json.inspect
-    p "???"
-    tubecamsHash.to_json
-  end
-
-  def generate_tubecams_style
-    total_images = Medium.all.where(deleted: false).count
-    amount_of_sequences = Sequence.where(deleted: false).group(:tubecam_device_id).count
-    max_sequences = amount_of_sequences.max_by(&:last)[1]
-    min_sequences = amount_of_sequences.min_by(&:last)[1]
-
-    stylesHash = {}
-    stylesHash[:type] = "unique"
-    stylesHash[:property] = "style-class"
-
+    jsonArray = []
     styleArray = []
     @tubecams.each do |tubecam|
       if !tubecam.sequences.first.nil?
-         time_period = (Time.now.to_date - tubecam.last_activity.to_date)
-
-         relative_point_factor = calculate_point_factor(tubecam.id, max_sequences, min_sequences, 1)
-
-        styleHash = {"geomType" => "point",
-                      "value" => tubecam.id,
-                      "vectorOptions" => {
-                          "type" => "circle",
-                          "radius" => 8 * relative_point_factor,
-                          "fill" => {
-                              "color" => "##{Gradient.randomColor(time_period)}"
-                          },
-                          "stroke" => {
-                              "color" => "#FFFFFF",
-                              "width" => 2
-                          }
-                      }
-        }
-        styleArray << styleHash
+        number_of_sequences = tubecam.sequences.where(deleted: false).count
+        time_period = datetime_now - tubecam.last_activity.to_date
+        jsonArray << set_poi_json(tubecam, exact_position, number_of_sequences, time_period)
+        styleArray << set_poi_style(tubecam, number_of_sequences, max_sequences, min_sequences, time_period)
       end
     end
 
-    stylesHash[:values] = styleArray
-    p "==="
-    p stylesHash.to_json.inspect
-    p "???"
-    stylesHash.to_json
+    jsonHash['features'] = jsonArray
+    styleHash['values'] = styleArray
+
+    [jsonHash.to_json, styleHash.to_json]
+  end
+
+  def set_poi_json(tubecam, exact_position, number_of_sequences, time_period )
+
+    coordinates = {'longitude' => tubecam.longitude, 'latitude' => tubecam.latitude}
+    if !exact_position
+      coordinates = Coordinates.fake_coordinates(coordinates['longitude'], coordinates['latitude'])
+    end
+    description = generate_description(tubecam, exact_position, time_period, coordinates, number_of_sequences)
+
+    tubecamHash = {"type" => "Feature",
+                   "geometry" => {
+                       "type" => "Point",
+                       "coordinates" => [coordinates['longitude'], coordinates['latitude']]
+                   },
+                   "properties" => {
+                       "description" => description,
+                       "style-class" => tubecam.id
+                   }
+    }
+  end
+
+  def set_poi_style(tubecam, number_of_sequences, max_sequences, min_sequences, time_period)
+    relative_point_factor = calculate_point_factor(number_of_sequences, max_sequences, min_sequences, 3)
+
+    styleHash = {"geomType" => "point",
+                 "value" => tubecam.id,
+                 "vectorOptions" => {
+                     "type" => "circle",
+                     "radius" => 8 * relative_point_factor,
+                     "fill" => {
+                         "color" => "##{Gradient.randomColor(time_period)}"
+                     },
+                     "stroke" => {
+                         "color" => "#FFFFFF",
+                         "width" => 2
+                     }
+                 }
+    }
   end
 
 
@@ -152,27 +134,26 @@ class MapsController < ApplicationController
     end
   end
 
-  def calculate_point_factor(tubecam_id, max_sequences, min_sequences, scalefactor)
-    amount_of_sequences = Sequence.where(tubecam_device_id: tubecam_id, deleted: false).count
-    relative = 1.0 * min_sequences / max_sequences * (amount_of_sequences * scalefactor) + 1
-    p relative
+  def calculate_point_factor(number_of_sequences, max_sequences, min_sequences, scalefactor)
+    relative = 1.0 * min_sequences / max_sequences * (number_of_sequences * scalefactor) + 1
     relative
   end
 
   # Calculates geometrical center of all tubecams
   def calculate_best_default_view_options
+    sequences = Sequence.where(deleted: false)
     long_sum = 0
-    Medium.pluck(:longitude).each do |long|
+    sequences.pluck(:longitude).each do |long|
       long_sum += long
     end
-    long_cent = long_sum / Medium.all.size
+    long_cent = long_sum / sequences.size
 
     lat_sum = 0
-    Medium.pluck(:latitude).each do |lat|
+    sequences.pluck(:latitude).each do |lat|
       lat_sum += lat
     end
-    lat_cent = lat_sum / Medium.all.size
-    
+    lat_cent = lat_sum / sequences.size
+
     [long_cent, lat_cent]
   end
 
