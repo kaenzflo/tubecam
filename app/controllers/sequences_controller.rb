@@ -56,7 +56,7 @@ class SequencesController < ApplicationController
 
     respond_to do |format|
       if @sequence.save
-        format.html { redirect_to @sequence, notice: 'Sequence was successfully created.' }
+        format.html { redirect_to @sequence, notice: t('flash.sequences.create_success') }
         format.json { render :show, status: :created, location: @sequence }
       else
         format.html { render :new }
@@ -70,7 +70,7 @@ class SequencesController < ApplicationController
   def update
     respond_to do |format|
       if @sequence.update(sequence_params)
-        format.html { redirect_to @sequence, notice: 'Sequence was successfully updated.' }
+        format.html { redirect_to @sequence, notice: t('flash.sequences.update_success') }
         format.json { render :show, status: :ok, location: @sequence }
       else
         format.html { render :edit }
@@ -84,7 +84,7 @@ class SequencesController < ApplicationController
   def destroy
     @sequence.destroy
     respond_to do |format|
-      format.html { redirect_to sequences_url, notice: 'Sequence was successfully destroyed.' }
+      format.html { redirect_to sequences_url, notice: t('flash.sequences.destroy_success') }
       format.json { head :no_content }
     end
   end
@@ -93,9 +93,9 @@ class SequencesController < ApplicationController
     @sequence = set_sequence
     tubecam_device_id = @sequence.tubecam_device_id
     if (current_user.admin_role? || current_user.trapper_role?) && @sequence.update( :deleted => true )
-      redirect_to tubecam_device_url(tubecam_device_id), notice: 'Das Sequence wurde erfolgreich deaktiviert'
+      redirect_to tubecam_device_url(tubecam_device_id), notice: t('flash.sequences.deactivate_success')
     else
-      redirect_to tubecam_device_url(tubecam_device_id), alert: 'Das Sequence kann nicht deaktiviert werden'
+      redirect_to tubecam_device_url(tubecam_device_id), alert: t('flash.sequences.deactivate_fail')
     end
   end
 
@@ -104,9 +104,9 @@ class SequencesController < ApplicationController
     @sequence = set_sequence
     tubecam_device_id = @sequence.tubecam_device_id
     if (current_user.admin_role? || current_user.trapper_role?) && @sequence.update( :deleted => false )
-      redirect_to tubecam_device_url(tubecam_device_id), notice: 'Das Sequenz wurde erfolgreich reaktiviert'
+      redirect_to tubecam_device_url(tubecam_device_id), notice: t('flash.sequences.activate_success')
     else
-      redirect_to tubecam_device_url(tubecam_device_id), alert: 'Das Sequenz kann nicht reaktivert werden'
+      redirect_to tubecam_device_url(tubecam_device_id), alert: t('flash.sequences.activate_fail')
     end
   end
 
@@ -114,18 +114,18 @@ class SequencesController < ApplicationController
     annotation = Annotation.find(params[:annotation_id])
     annotated = Annotation.where(sequence_id: annotation.sequence.id).where.not(verified_id: nil)
     if user_signed_in? && current_user.verified_spotter_role? && annotation.update(verified_id: current_user.id)
-      redirect_to sequence_path(annotation.sequence.id), notice: 'Annotation verifiziert'
+      redirect_to sequence_path(annotation.sequence.id), notice: t('flash.sequences.verify_success')
     else
-      redirect_to sequence_path(annotation.sequence.id), alert: 'Annotation kann nicht verifiziert werden'
+      redirect_to sequence_path(annotation.sequence.id), alert: t('flash.sequences.verify_fail')
     end
   end
 
   def unverify
     annotation = Annotation.find(params[:annotation_id])
     if user_signed_in? && current_user.verified_spotter_role? && annotation.update(verified_id: nil)
-      redirect_to sequence_path(annotation.sequence.id), notice: 'Verifikation entfernt'
+      redirect_to sequence_path(annotation.sequence.id), notice: t('flash.sequences.verification_destroy_success')
     else
-      redirect_to sequence_path(annotation.sequence.id), alert: 'Verifikation kann nicht entfernt werden'
+      redirect_to sequence_path(annotation.sequence.id), alert: t('flash.sequences.verification_destroy_fail')
     end
   end
 

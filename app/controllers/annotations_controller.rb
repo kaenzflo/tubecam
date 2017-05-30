@@ -33,7 +33,7 @@ class AnnotationsController < ApplicationController
     @user = current_user
     medium = Medium.find(specific_param[:id])
     if !Annotation.where(sequence_id: medium.sequence_id, user_id: @user.id).empty?
-      redirect_to '/annotations/new', alert: 'Medium bereits annotiert: Anderes Medium wird angezeigt'
+      redirect_to '/annotations/new', alert: t('flash.annotations.media_already_annotated')
     else
       @medium = medium
       sequence_media = Medium.where(deleted: false, sequence_id: medium.sequence_id).order('frame ASC')
@@ -50,10 +50,10 @@ class AnnotationsController < ApplicationController
       if @annotation.annotations_lookup_table_id != '' &&
           @annotation.user_id == current_user.id &&
           @annotation.save
-        format.html { redirect_to '/annotations/new', notice: 'Medium erfolgreich annotiert' }
+        format.html { redirect_to '/annotations/new', notice: t('flash.annotations.annotate_success') }
         format.json { render :'annotations/new', status: :created, location: @annotation }
       else
-        format.html { redirect_to '/annotations/new', alert: 'Annotation fehlgeschlagen' }
+        format.html { redirect_to '/annotations/new', alert: t('flash.annotations.annotate_fail') }
         format.json { render json: @annotation.errors, status: :unprocessable_entity }
       end
     end
@@ -64,7 +64,7 @@ class AnnotationsController < ApplicationController
     @annotation = Annotation.find(destroy_param[:id])
     @annotation.destroy
     respond_to do |format|
-      format.html { redirect_to sequence_path(destroy_param[:sequence_id]), notice: 'Annotation gelöscht' }
+      format.html { redirect_to sequence_path(destroy_param[:sequence_id]), notice: t('flash.annotations.destroy_success') }
       format.json { head :no_content }
     end
   end

@@ -45,7 +45,7 @@ class MediaController < ApplicationController
 
     respond_to do |format|
       if @medium.save
-        format.html { redirect_to @medium, notice: 'Medium was successfully created.' }
+        format.html { redirect_to @medium, notice: t('flash.media.create_success') }
         format.json { render :show, status: :created, location: @medium }
       else
         format.html { render :new }
@@ -59,7 +59,7 @@ class MediaController < ApplicationController
   def update
     respond_to do |format|
       if @medium.update(medium_params)
-        format.html { redirect_to @medium, notice: 'Medium was successfully updated.' }
+        format.html { redirect_to @medium, notice: t('flash.media.update_success') }
         format.json { render :show, status: :ok, location: @medium }
       else
         format.html { render :edit }
@@ -73,7 +73,7 @@ class MediaController < ApplicationController
   def destroy
     @medium.destroy
     respond_to do |format|
-      format.html { redirect_to media_url, notice: 'Medium was successfully destroyed.' }
+      format.html { redirect_to media_url, notice: t('flash.media.destroy_success') }
       format.json { head :no_content }
     end
   end
@@ -82,9 +82,9 @@ class MediaController < ApplicationController
     @medium = set_medium
     sequence_id = @medium.sequence_id
     if (current_user.admin_role? || current_user.trapper_role?) && @medium.update( :deleted => true )
-      redirect_to tubecam_device_url(sequence_id), notice: 'Das Medium wurde erfolgreich entfernt.'
+      redirect_to tubecam_device_url(sequence_id), notice: t('flash.media.deactivate_success')
     else
-      redirect_to tubecam_device_url(sequence_id), alert: 'Das Medium kann nicht entfernt werden.'
+      redirect_to tubecam_device_url(sequence_id), alert: t('flash.media.deactivate_fail')
     end
   end
 
@@ -93,9 +93,9 @@ class MediaController < ApplicationController
     @medium = set_medium
     sequence_id = @medium.sequence_id
     if (current_user.admin_role? || current_user.trapper_role?) && @medium.update( :deleted => false )
-      redirect_to tubecam_device_url(sequence_id), notice: 'Das Medium wurde erfolgreich reaktiviert.'
+      redirect_to tubecam_device_url(sequence_id), notice: t('flash.media.activate_success')
     else
-      redirect_to tubecam_device_url(sequence_id), alert: 'Das Medium kann nicht reaktivert werden.'
+      redirect_to tubecam_device_url(sequence_id), alert: t('flash.media.activate_fail')
     end
   end
 
