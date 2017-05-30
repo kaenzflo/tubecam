@@ -82,9 +82,13 @@ namespace :heroku do
         else
           tubecam_device_id = tubecam_device.id
 
+          ch1903Coordinates = Coordinates.wgs_to_ch(longitude, latitude)
+          geodetic_datum = 'CH1903'
+
           if tubecam_device.last_activity.nil?  || tubecam_device.last_activity < datetime
-            tubecam_device.longitude = longitude
-            tubecam_device.latitude = latitude
+            tubecam_device.geodetic_datum = geodetic_datum
+            tubecam_device.longitude = ch1903Coordinates['longitude']
+            tubecam_device.latitude = ch1903Coordinates['latitude']
             tubecam_device.last_activity = datetime
             tubecam_device.save
           end
@@ -92,13 +96,17 @@ namespace :heroku do
           sequence = Sequence.where(tubecam_device_id: tubecam_device_id,
                                      sequence_no: sequence_no).first_or_create
           sequence.datetime = datetime
+          sequence.longitude = ch1903Coordinates['longitude']
+          sequence.latitude = ch1903Coordinates['latitude']
+          sequence.geodetic_datum = geodetic_datum
           sequence.save
+
           Medium.create(sequence_id: sequence.id,
                         original_path: original_path, original_filename: original_filename,
                         filename_hash: filename_hash, mediatype: mediatype,
-                        datetime: datetime, longitude: longitude,
-                        latitude: latitude, frame: frame,
-                        exifdata: json_data, deleted: false)
+                        datetime: datetime, longitude: ch1903Coordinates['longitude'],
+                        latitude: ch1903Coordinates['latitude'], geodetic_datum: geodetic_datum,
+                        frame: frame, exifdata: json_data, deleted: false)
 
           # Upload medium
           new_object = upload_bucket.objects.build(filename_hash)
