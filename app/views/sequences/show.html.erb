@@ -1,8 +1,8 @@
 <% @page_title=t '.title', number: @sequence.sequence_no.to_s %>
 <h1><%= (t 'activerecord.models.sequence') + ' ' + @sequence.sequence_no.to_s %></h1>
 
-<% longitude = @sequence.media.first.longitude
-   latitude  = @sequence.media.first.latitude
+<% longitude = @sequence.longitude
+   latitude  = @sequence.latitude
    location_text = (t 'link_to.location')
        if !user_signed_in?
      fake_coordinates = Coordinates.fake_coordinates(@sequence.longitude, @sequence.latitude)

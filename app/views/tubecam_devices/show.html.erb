@@ -6,9 +6,19 @@
   <%= t '.owner' %> <strong><%= User.find_by(id: @tubecam_device.user_id).username %></strong>
 </h4>
 
+<% longitude = @tubecam_device.longitude
+   latitude  = @tubecam_device.latitude
+   location_text = (t 'link_to.location')
+   if !user_signed_in?
+     fake_coordinates = Coordinates.fake_coordinates(@tubecam_device.longitude, @tubecam_device.latitude)
+     longitude = fake_coordinates['longitude'].truncate
+     latitude  = fake_coordinates['latitude'].truncate
+     location_text = (t 'link_to.fake_location')
+   end %>
+
 <div class='text-right'>
   <%= link_to (t 'link_to.gallery'), sequences_path(tubecam_device_id: @tubecam_device.id), class: 'btn btn-primary' %>
-  <%= link_to (t 'link_to.location'), maps_path(longitude: @tubecam_device.longitude, latitude: @tubecam_device.latitude), class: 'btn btn-primary' %>
+  <%= link_to location_text, maps_path(longitude: longitude, latitude: latitude), class: 'btn btn-primary' %>
 </div>
 
 
