@@ -55,19 +55,20 @@ class MapsController < ApplicationController
       if !tubecam.sequences.first.nil?
         time_period = (Time.now.to_date - tubecam.last_activity.to_date)
 
-        longitude = tubecam.longitude
-        latitude = tubecam.latitude
+        coordinates = {
+            'longitude' => tubecam.longitude,
+            'latitude' => tubecam.latitude
+        }
         if !exact_position
-          longitude = approximate_coordinates longitude
-          latitude = approximate_coordinates latitude
+          coordinates = Coordinates.fake_coordinates(tubecam.longitude, tubecam.latitude)
         end
         number_of_sequences = tubecam.sequences.count
-        description = generate_description(tubecam, exact_position, time_period, longitude, latitude, number_of_sequences)
+        description = generate_description(tubecam, exact_position, time_period, coordinates, number_of_sequences)
 
         tubecamHash = {"type" => "Feature",
                        "geometry" => {
                            "type" => "Point",
-                           "coordinates" => [longitude, latitude]
+                           "coordinates" => [coordinates['longitude'], coordinates['latitude']]
                        },
                        "properties" => {
                            "description" => description,
@@ -128,13 +129,13 @@ class MapsController < ApplicationController
   end
 
 
-  def generate_description (tubecam, exact_position, time_period, longitude, latitude, number_of_sequences)
+  def generate_description (tubecam, exact_position, time_period, coordinates, number_of_sequences)
     s = StringIO.new
     s << "<p>#{I18n.t 'controllers.maps.popup.serialnumber'}:<b> #{tubecam.serialnumber.to_s}</b></p>"
     s << "<p>#{I18n.t 'controllers.maps.popup.number_of_sequences'}: <b>#{number_of_sequences.to_s}</b></p>"
     s << "<p>#{I18n.t 'controllers.maps.popup.last_activity'}: #{tubecam.last_activity.to_time.strftime('%d.%m.%Y').to_s} (#{(I18n.t 'controllers.maps.popup.days', count: time_period)})</p>"
     if exact_position
-      s << "<p>#{I18n.t 'controllers.maps.popup.coordiantes'}:<br>#{tubecam.geodetic_datum} #{sprintf('%#.2f', longitude)}, #{sprintf('%#.2f', latitude)}</p>"
+      s << "<p>#{I18n.t 'controllers.maps.popup.coordiantes'}:<br>#{tubecam.geodetic_datum} #{sprintf('%#.2f', coordinates['longitude'])}, #{sprintf('%#.2f', coordinates['latitude'])}</p>"
     end
     s << "<p>#{I18n.t 'controllers.maps.popup.description'}:<br>#{tubecam.description}</p>"
     s << "<hr class='hr-popover'>"
@@ -149,10 +150,6 @@ class MapsController < ApplicationController
     else
       s
     end
-  end
-
-  def approximate_coordinates value
-    value = value - 25 + Random.rand(50)
   end
 
   def calculate_point_factor(tubecam_id, max_sequences, min_sequences, scalefactor)

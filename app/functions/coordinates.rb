@@ -28,16 +28,18 @@ class Coordinates
   @round_value = 2
 
   def self.wgs_to_ch(longitude, latitude)
-    coordinates = {'longitude' => 0.0, 'latitude' => 0.0}
-    coordinates['longitude'] = Coordinates.wgs_to_ch_y(longitude, latitude)
-    coordinates['latitude'] = Coordinates.wgs_to_ch_x(longitude, latitude)
+    coordinates = {
+        'longitude' => Coordinates.wgs_to_ch_y(longitude, latitude),
+        'latitude' => Coordinates.wgs_to_ch_x(longitude, latitude)
+    }
     coordinates
   end
 
   def self.fake_coordinates(longitude, latitude)
-    fake_coordinates = {'longitude' => 0.0, 'latitude' => 0.0}
-    fake_coordinates['longitude'] = longitude - 25 + Random.rand(50)
-    fake_coordinates['latitude'] = latitude - 25 + Random.rand(50)
+    fake_coordinates = {
+        'longitude' => longitude - 25 + Random.rand(50),
+        'latitude' => latitude - 25 + Random.rand(50)
+    }
     fake_coordinates
   end
 
