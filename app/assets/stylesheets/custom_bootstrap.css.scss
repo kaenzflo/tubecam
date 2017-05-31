@@ -1,8 +1,7 @@
 
 $navbar-inverse-bg: #1a2c2f;
 
-
-// make all images responsive by default
+/* Custom changes */
 img {
   @extend .img-responsive;
   margin: 0 auto;
@@ -20,6 +19,60 @@ img {
   max-height: 40px;
   margin: 5px;
 }
+
+
+
+body.container {
+  margin-bottom: 60px;
+}
+
+.mainpage {
+  margin-top: 80px;
+}
+
+.row-padding {
+  padding: 20px 0;
+}
+
+.row-margin {
+  margin: 10px 0;
+}
+
+
+// Flash messages postion
+
+.toast {
+  position: absolute!important;
+  right: 10px;
+  top: 50px!important;
+}
+
+
+// Styles for every page
+
+.pagination a {
+  padding: 5px 10px;
+}
+
+.pagination a:hover {
+  background: rgba(90,192,222,0.3);
+  padding: 5px 10px;
+  border-radius: 7px;
+}
+
+.pagination .current {
+  font-weight: bold;
+  font-style: normal;
+  margin: 0 10px;
+  background: rgba(90,192,222,0.3);
+  padding: 5px 10px;
+  border-radius: 7px;
+}
+
+.emoji-icon {
+  font-size: 1.5em;
+}
+
 
 /* Custom container */
 .popover {
