@@ -11,7 +11,6 @@ class SequencesController < ApplicationController
   skip_authorize_resource :only => [:index, :show, :verify, :unverify]
 
   # GET /sequences
-  # GET /sequences.json
   def index
     scope_params = scope_params()
     @filter_params = scope_params
@@ -26,7 +25,6 @@ class SequencesController < ApplicationController
   end
 
   # GET /sequences/1
-  # GET /sequences/1.json
   def show
     if @sequence.deleted
       redirect_to sequences_path, alert: t('flash.sequences.deactivated')
@@ -51,10 +49,8 @@ class SequencesController < ApplicationController
   end
 
   # POST /sequences
-  # POST /sequences.json
   def create
     @sequence = Sequence.new(sequence_params)
-
     if @sequence.save
       redirect_to @sequence, notice: t('flash.sequences.create_success')
     else
@@ -63,7 +59,6 @@ class SequencesController < ApplicationController
   end
 
   # PATCH/PUT /sequences/1
-  # PATCH/PUT /sequences/1.json
   def update
     if @sequence.update(sequence_params)
       redirect_to @sequence, notice: t('flash.sequences.update_success')
@@ -73,7 +68,6 @@ class SequencesController < ApplicationController
   end
 
   # DELETE /sequences/1
-  # DELETE /sequences/1.json
   def destroy
     @sequence.destroy
     redirect_to sequences_url, notice: t('flash.sequences.destroy_success')
@@ -118,7 +112,6 @@ class SequencesController < ApplicationController
       redirect_to sequence_path(annotation.sequence.id), alert: t('flash.sequences.verification_destroy_fail')
     end
   end
-
 
   private
 

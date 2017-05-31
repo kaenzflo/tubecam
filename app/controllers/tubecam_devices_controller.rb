@@ -21,7 +21,7 @@ class TubecamDevicesController < ApplicationController
   end
 
   # Shows a specific tubecam_device (as admin a tubecam_device is
-  # also shown even if deleted attribute is set)
+  # also shown even if the deleted attribute is set)
   def show
     @sequences = Sequence.where(tubecam_device_id: @tubecam_device.id)
                      .order(datetime: 'DESC').page(params[:page])
@@ -86,6 +86,7 @@ class TubecamDevicesController < ApplicationController
   end
 
   private
+
   # Use callbacks to share common setup or constraints between actions.
   def set_tubecam_device
     @tubecam_device = TubecamDevice.find(params[:id])
