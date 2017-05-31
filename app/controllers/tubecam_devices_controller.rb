@@ -1,5 +1,6 @@
 ##
-# Holds tubecams 
+# Holds tubecams and provides CRUD functions. A specific tubecam can also be activated
+# / deactivated.
 ##
 class TubecamDevicesController < ApplicationController
   before_action :set_tubecam_device, only: [:show, :edit, :update, :destroy]
@@ -10,7 +11,7 @@ class TubecamDevicesController < ApplicationController
 
   # Lists all tubecam_devices
   def index
-    @tubecam_devices = TubecamDevice.all.order("id")
+    @tubecam_devices = TubecamDevice.all.order(:id)
     if user_signed_in? && !current_user.admin_role? && current_user.trapper_role?
       @tubecam_devices = @tubecam_devices.where(user_id: current_user.id)
     end
@@ -19,7 +20,7 @@ class TubecamDevicesController < ApplicationController
 
   # Shows a specific tubecam_device
   def show
-    @sequences = Sequence.where(tubecam_device_id: @tubecam_device.id).order("datetime DESC").page(params[:page])
+    @sequences = Sequence.where(tubecam_device_id: @tubecam_device.id).order(datetime: 'DESC').page(params[:page])
     if user_signed_in? && !current_user.admin_role?
       @sequences = @sequences.where(deleted: false)
     end

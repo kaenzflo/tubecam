@@ -56,28 +56,20 @@ class SequencesController < ApplicationController
   def create
     @sequence = Sequence.new(sequence_params)
 
-    respond_to do |format|
-      if @sequence.save
-        format.html { redirect_to @sequence, notice: t('flash.sequences.create_success') }
-        format.json { render :show, status: :created, location: @sequence }
-      else
-        format.html { render :new }
-        format.json { render json: @sequence.errors, status: :unprocessable_entity }
-      end
+    if @sequence.save
+      redirect_to @sequence, notice: t('flash.sequences.create_success')
+    else
+      render :new
     end
   end
 
   # PATCH/PUT /sequences/1
   # PATCH/PUT /sequences/1.json
   def update
-    respond_to do |format|
-      if @sequence.update(sequence_params)
-        format.html { redirect_to @sequence, notice: t('flash.sequences.update_success') }
-        format.json { render :show, status: :ok, location: @sequence }
-      else
-        format.html { render :edit }
-        format.json { render json: @sequence.errors, status: :unprocessable_entity }
-      end
+    if @sequence.update(sequence_params)
+      redirect_to @sequence, notice: t('flash.sequences.update_success')
+    else
+      render :edit
     end
   end
 
@@ -85,16 +77,13 @@ class SequencesController < ApplicationController
   # DELETE /sequences/1.json
   def destroy
     @sequence.destroy
-    respond_to do |format|
-      format.html { redirect_to sequences_url, notice: t('flash.sequences.destroy_success') }
-      format.json { head :no_content }
-    end
+    redirect_to sequences_url, notice: t('flash.sequences.destroy_success')
   end
 
   def deactivate
     @sequence = set_sequence
     tubecam_device_id = @sequence.tubecam_device_id
-    if (current_user.admin_role? || current_user.trapper_role?) && @sequence.update( :deleted => true )
+    if (current_user.admin_role? || current_user.trapper_role?) && @sequence.update(:deleted => true)
       redirect_to tubecam_device_url(tubecam_device_id), notice: t('flash.sequences.deactivate_success')
     else
       redirect_to tubecam_device_url(tubecam_device_id), alert: t('flash.sequences.deactivate_fail')
@@ -105,7 +94,7 @@ class SequencesController < ApplicationController
   def activate
     @sequence = set_sequence
     tubecam_device_id = @sequence.tubecam_device_id
-    if (current_user.admin_role? || current_user.trapper_role?) && @sequence.update( :deleted => false )
+    if (current_user.admin_role? || current_user.trapper_role?) && @sequence.update(:deleted => false)
       redirect_to tubecam_device_url(tubecam_device_id), notice: t('flash.sequences.activate_success')
     else
       redirect_to tubecam_device_url(tubecam_device_id), alert: t('flash.sequences.activate_fail')
