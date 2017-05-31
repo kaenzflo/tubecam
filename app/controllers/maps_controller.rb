@@ -1,6 +1,6 @@
 require_relative '../functions/coordinates'
 ##
-# Handles map requests and adds points of interest (POI) to the map
+# Handles map requests, generates and adds points of interest (POI)
 ##
 class MapsController < ApplicationController
 
@@ -26,10 +26,10 @@ class MapsController < ApplicationController
     end
 
     if user_signed_in?
-      @poi_json, @poi_style_faked = set_poi()
+      @poi_json, @poi_style_faked = create_poi()
       render 'maps/map'
     else
-      @poi_json_faked, @poi_style_faked = set_poi(exact_position = false)
+      @poi_json_faked, @poi_style_faked = create_poi(exact_position = false)
       flash[:notice] = t('flash.maps.position_not_acurate')
       render 'maps/mapdefault'
     end
@@ -42,7 +42,8 @@ class MapsController < ApplicationController
     params.permit(:longitude, :latitude)
   end
 
-  def set_poi(exact_position = true)
+  # Creates a Point of Interest (POI)
+  def create_poi(exact_position = true)
     @tubecams = TubecamDevice.where(active: true)
 
     json_hash = {}
@@ -64,10 +65,10 @@ class MapsController < ApplicationController
       next unless tubecam.sequences.first
       number_of_sequences = tubecam.sequences.where(deleted: false).count
       time_period = (datetime_now - tubecam.last_activity.to_date).to_i
-      json_array << create_poi_json(tubecam, exact_position,
-                                    number_of_sequences, time_period)
-      style_array << create_poi_style(tubecam, number_of_sequences,
-                                      max_sequences, min_sequences, time_period)
+      json_array << generates_poi_json(tubecam, exact_position,
+                                       number_of_sequences, time_period)
+      style_array << generate_poi_style(tubecam, number_of_sequences,
+                                        max_sequences, min_sequences, time_period)
     end
 
     json_hash['features'] = json_array
@@ -76,7 +77,8 @@ class MapsController < ApplicationController
     [json_hash.to_json, style_hash.to_json]
   end
 
-  def create_poi_json(tubecam, exact_position, number_of_sequences, time_period)
+  # Generates JSON formatted POI information for GeoAdmin API map layer
+  def generates_poi_json(tubecam, exact_position, number_of_sequences, time_period)
     coordinates = { 'longitude' => tubecam.longitude,
                     'latitude' => tubecam.latitude }
     unless exact_position
@@ -87,43 +89,44 @@ class MapsController < ApplicationController
                                        time_period, coordinates,
                                        number_of_sequences)
 
-    tubecam_hash = { 'type' => 'Feature',
-                     'geometry' => {
-                       'type' => 'Point',
-                       'coordinates' => [coordinates['longitude'],
+    tubecam_hash = { type: 'Feature',
+                     geometry: {
+                       type: 'Point',
+                       coordinates: [coordinates['longitude'],
                                          coordinates['latitude']]
                      },
-                     'properties' => {
-                       'description' => description,
+                     properties: {
+                       description: description,
                        'style-class' => tubecam.id
                      }
                    }
   end
 
-  def create_poi_style(tubecam, number_of_sequences, max_sequences,
-                       min_sequences, time_period)
+  # Generates JSON formatted POI style information for GeoAdmin API map layer
+  def generate_poi_style(tubecam, number_of_sequences, max_sequences,
+                         min_sequences, time_period)
     relative_point_factor = calculate_point_factor(number_of_sequences,
                                                    max_sequences,
                                                    min_sequences,
                                                    3)
 
-    style_hash = { 'geomType' => 'point',
-                   'value' => tubecam.id,
-                   'vectorOptions' => {
-                     'type' => 'circle',
-                     'radius' => 8 * relative_point_factor,
-                     'fill' => {
-                       'color' => "##{Gradient.green_to_red_by_value(time_period)}"
+    style_hash = { geomType: 'point',
+                   value: tubecam.id,
+                   vectorOptions: {
+                     type: 'circle',
+                     radius: 8 * relative_point_factor,
+                     fill: {
+                       color: "##{Gradient.green_to_red_by_value(time_period)}"
                      },
-                     'stroke' => {
-                       'color' => '#FFFFFF',
-                       'width' => 2
+                     stroke: {
+                       color: '#FFFFFF',
+                       width: 2
                      }
                    }
                  }
   end
 
-
+  # Generates HTML formatted POI description for GeoAdmin API map layer
   def generate_description(tubecam, exact_position, time_period,
                            coordinates, number_of_sequences)
     s = StringIO.new
@@ -131,7 +134,7 @@ class MapsController < ApplicationController
     s << "<p>#{I18n.t 'controllers.maps.popup.number_of_sequences'}: <b>#{number_of_sequences.to_s}</b></p>"
     s << "<p>#{I18n.t 'controllers.maps.popup.last_activity'}: #{tubecam.last_activity.to_time.strftime('%d.%m.%Y').to_s} (#{(I18n.t 'controllers.maps.popup.days', count: time_period)})</p>"
     if exact_position
-      s << "<p>#{I18n.t 'controllers.maps.popup.coordiantes'} (#{tubecam.geodetic_datum}):<br>#{sprintf('%#.2f', coordinates['longitude'])}, #{sprintf('%#.2f', coordinates['latitude'])}</p>"
+      s << "<p>#{I18n.t 'controllers.maps.popup.coordiantes'} (#{tubecam.geodetic_datum}):<br>#{sprintf('%#.2f', coordinates['latitude'])}, #{sprintf('%#.2f', coordinates['latitude'])}</p>"
     end
     s << "<p>#{I18n.t 'controllers.maps.popup.description'}:<br>#{tubecam.description}</p>"
     s << "<hr class='hr-popover'>"
