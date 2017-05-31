@@ -1,6 +1,6 @@
 ##
 # Handles tubecam_devices requests, provides CRUD functions. Provides possibility
-# to activated or deactivated a tubecam_device.
+# to activate or deactivate a tubecam_device.
 ##
 class TubecamDevicesController < ApplicationController
   before_action :set_tubecam_device, only: %i[show edit update destroy activate deactivate]
@@ -13,8 +13,8 @@ class TubecamDevicesController < ApplicationController
   def index
     @tubecam_devices = TubecamDevice.all.order(:id)
     if user_signed_in? &&
-        !current_user.admin_role? &&
-        current_user.trapper_role?
+       !current_user.admin_role? &&
+       current_user.trapper_role?
       @tubecam_devices = @tubecam_devices.where(user_id: current_user.id)
     end
 
@@ -67,7 +67,7 @@ class TubecamDevicesController < ApplicationController
     redirect_to tubecam_devices_url, notice: t('flash.tubecam_devices.destroy_success')
   end
 
-  # Sets tubecam inactive
+  # Sets tubecam_device inactive
   def deactivate
     if current_user.admin_role? && @tubecam_device.update(active: false)
       redirect_to tubecam_devices_path, notice: t('flash.tubecam_devices.deactivate_success')
@@ -76,7 +76,7 @@ class TubecamDevicesController < ApplicationController
     end
   end
 
-  # Sets tubecam active
+  # Sets tubecam_device active
   def activate
     if current_user.admin_role? && @tubecam_device.update(active: true)
       redirect_to tubecam_devices_path, notice: t('flash.tubecam_devices.activate_success')
@@ -87,14 +87,15 @@ class TubecamDevicesController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
+  # Common setup or constraints between actions.
   def set_tubecam_device
     @tubecam_device = TubecamDevice.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
+  # White listing parameters for 'create'
   def tubecam_device_params
-    params.require(:tubecam_device).permit(:serialnumber, :user_id, :description, :active)
+    params.require(:tubecam_device).permit(:serialnumber, :user_id,
+                                           :description, :active)
   end
 
 end

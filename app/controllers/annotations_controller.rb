@@ -3,6 +3,7 @@
 # specific sequences can be annotated
 ##
 class AnnotationsController < ApplicationController
+  before_action :set_user, only: %i[new specific]
 
   # Lists all own annotations
   def index
@@ -21,7 +22,6 @@ class AnnotationsController < ApplicationController
 
   # New annotation
   def new
-    @user = current_user
     available_sequences = Sequence.where(deleted: false)
     sequences = available_sequences.where.not(id: Annotation.where(user_id: @user.id)
                                                             .select('sequence_id'))
@@ -38,7 +38,6 @@ class AnnotationsController < ApplicationController
 
   # Annotates a specific sequence
   def specific
-    @user = current_user
     medium = Medium.find(specific_params[:id])
     if !Annotation.where(sequence_id: medium.sequence_id, user_id: @user.id).empty?
       redirect_to new_annotation_path, alert: t('flash.annotations.media_already_annotated')
@@ -83,6 +82,11 @@ class AnnotationsController < ApplicationController
     @number_of_media = @medium.sequence.media.count
   end
 
+  # Common setup or constraints between actions.
+  def set_user
+    @user = current_user
+  end
+
   # Sets verified attribute if spotter is a verified spotter
   def set_verified_id
     annotations = Annotation.where(sequence_id: annotations_params[:sequence_id])
@@ -94,16 +98,18 @@ class AnnotationsController < ApplicationController
     @annotation.verified_id = current_user.id
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
+  # White listing parameters for 'create' and 'set_verified_id'
   def annotations_params
     params.require(:annotation).permit(:user_id, :sequence_id,
                                        :annotations_lookup_table_id)
   end
 
+  # White listing parameters for 'specific'
   def specific_params
     params.permit(:id)
   end
 
+  # White listing parameters for 'destroy'
   def destroy_params
     params.permit(:sequence_id, :id)
   end
