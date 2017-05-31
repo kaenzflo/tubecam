@@ -10,9 +10,9 @@ class AnnotationsController < ApplicationController
     if current_user.admin_role
       @annotations = Annotation.all
     else
-      @annotations = Annotation.where(user_id: current_user.id).order('created_at DESC')
+      @annotations = Annotation.where(user_id: current_user.id).order(created_at: :desc)
     end
-    @annotations = @annotations.order('id DESC')
+    @annotations = @annotations.order(id: :desc)
                                .paginate(per_page: 15, page: params[:page])
     @annotations_lookup_table = AnnotationsLookupTable.all.order(id: :asc)
     @users = User.all

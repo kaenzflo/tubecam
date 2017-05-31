@@ -16,7 +16,7 @@ class SequencesController < ApplicationController
     @filter_params = scope_params
     sequences = Sequence.filter(scope_params)
     sequences = filter_sequences(sequences)
-    sequences = sequences.where(deleted: false).order('datetime DESC')
+    sequences = sequences.where(deleted: false).order(datetime: :desc)
     @sequences = sequences.page(params[:page])
     @thumbnail_url = "https://#{ENV['S3_HOST_NAME']}/#{ENV['S3_BUCKET_NAME']}/thumbnails/"
     @annotations_lookup_table = AnnotationsLookupTable.all
@@ -37,7 +37,7 @@ class SequencesController < ApplicationController
     @thumbnail_url = "#{@image_url}thumbnails/"
     @tubecam_device = TubecamDevice.find(sequence.tubecam_device_id)
     @annotations = Annotation.where(sequence_id: sequence.id)
-                             .order('verified_id ASC, created_at DESC')
+                             .order(verified_id: :asc, created_at: :desc)
     @annotations_lookup_table = AnnotationsLookupTable.all
   end
 
