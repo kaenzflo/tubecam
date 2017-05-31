@@ -2,7 +2,7 @@
 
 <div class="annotation-flex">
 <div class="annotation-image" data-intro="<%= (t 'tutorial.annotation.medium') %>" data-step="1">
-  <%= image_tag(@cloud_resource_image_url + @medium.filename_hash) %>
+  <%= image_tag(@image_url + @medium.filename_hash) %>
   <div class="annotation-refresh" data-intro="<%= (t 'tutorial.annotation.random') %>" data-step="5">
     <a href="<%= new_annotation_path %>">
       <button type="button" class="btn btn-default btn-lg">
@@ -67,10 +67,10 @@
     <% for i in 0..4 %>
         <div class="item">
           <% if @thumbnails[i].nil? %>
-              <%= image_tag(@cloud_resource_thumbnail_url + 'no_media.png') %>
+              <%= image_tag(@thumbnail_url + 'no_media.png') %>
           <% else %>
               <% @medium.id == @thumbnails[i].id ? active_frame = 'active-frame' : active_frame = '' %>
-              <%= link_to image_tag(@cloud_resource_thumbnail_url + @thumbnails[i].filename_hash, class: active_frame), specific_annotation_path(id: @thumbnails[i].id) %>
+              <%= link_to image_tag(@thumbnail_url + @thumbnails[i].filename_hash, class: active_frame), specific_annotation_path(id: @thumbnails[i].id) %>
           <% end %>
         </div>
     <% end %>

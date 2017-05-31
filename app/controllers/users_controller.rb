@@ -68,7 +68,7 @@ class UsersController < ApplicationController
   # Set user inactive
   def deactivate
     @user = set_user
-    if current_user.admin_role? && @user.update( :active => false )
+    if current_user.admin_role? && @user.update(:active => false )
       redirect_to users_path, notice: t('flash.users.deactivate_success')
     else
       redirect_to users_path, alert: t('flash.users.deactivate_fail')

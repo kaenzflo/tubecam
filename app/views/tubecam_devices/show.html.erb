@@ -43,7 +43,7 @@
           <td><%= sequence.sequence_no %></td>
           <td>
             <% sequence.media.limit(5).each do |medium| %>
-              <%= link_to image_tag(@cloud_resource_thumbnail_url + medium.filename_hash, size: '150x150'), sequence %>
+              <%= link_to image_tag(@thumbnail_url + medium.filename_hash, size: '150x150'), sequence %>
             <% end %>
           </td>
           <td><%= link_to (t 'action.details'), sequence_path(sequence) %></td>
