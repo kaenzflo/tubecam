@@ -21,7 +21,7 @@ class SequencesController < ApplicationController
     @annotations_lookup_table = AnnotationsLookupTable.all
     @annotations = Annotation.all
     @tubecam_devices = TubecamDevice.where(active: true)
-                                    .order(serialnumber: 'ASC')
+                                    .order(serialnumber: :asc)
   end
 
   # Shows a specific sequence

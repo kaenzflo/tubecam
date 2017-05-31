@@ -24,7 +24,7 @@ class TubecamDevicesController < ApplicationController
   # even if the deleted attribute is set)
   def show
     @sequences = Sequence.where(tubecam_device_id: @tubecam_device.id)
-                     .order(datetime: 'DESC').page(params[:page])
+                     .order(datetime: :desc).page(params[:page])
     if user_signed_in? && !current_user.admin_role?
       @sequences = @sequences.where(deleted: false)
     end
@@ -34,12 +34,12 @@ class TubecamDevicesController < ApplicationController
   # New tubecam_device
   def new
     @tubecam_device = TubecamDevice.new
-    @users = User.all.order(username: 'ASC')
+    @users = User.all.order(username: :asc)
   end
 
   # Edits tubecam_device
   def edit
-    @users = User.all.order(username: 'ASC')
+    @users = User.all.order(username: :asc)
   end
 
   # Saves tubecam_device to database
