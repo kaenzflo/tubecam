@@ -4,7 +4,7 @@ require 'csv'
 ##
 class ExportsController < ApplicationController
 
-  # Sends data as comma separated values (CSV) in an attachment
+  # Sends data as comma separated values (CSV) to requester
   def index
     @annotations_lookup_table = AnnotationsLookupTable.all.order('id ASC')
     @users = User.all
