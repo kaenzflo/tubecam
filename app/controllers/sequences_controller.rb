@@ -1,7 +1,6 @@
 ##
-# Handles sequence requests, provides CRUD functions.
-# Provides possibility to verify an annotation as verified
-# spotter
+# Handles sequence requests, provides CRUD functions. Provides possibility
+# to verify an annotation as verified spotter
 ##
 class SequencesController < ApplicationController
   before_action :set_sequence, only: [:show, :edit, :update, :destroy]

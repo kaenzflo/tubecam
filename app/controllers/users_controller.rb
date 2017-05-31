@@ -1,3 +1,7 @@
+##
+# Handles users requests, provides CRUD functions. Provides possibility
+# to activated or deactivated a user.
+##
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy activate deactivate]
 
@@ -6,6 +10,11 @@ class UsersController < ApplicationController
   # Lists all useers
   def index
     @users = User.all.order(:id)
+  end
+
+  # Shows a specific user
+  def show
+
   end
 
   # Edits user
@@ -34,7 +43,7 @@ class UsersController < ApplicationController
     end
   end
 
-  # Destroys tubecam_device
+  # Destroys user
   def destroy
     @user.destroy
     redirect_to users_url, notice: t('flash.users.destroy_success')

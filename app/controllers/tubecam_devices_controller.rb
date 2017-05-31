@@ -1,6 +1,6 @@
 ##
-# Holds tubecams and provides CRUD functions. A specific
-# tubecam can also be activated or deactivated.
+# Handles tubecam_devices requests, provides CRUD functions. Provides possibility
+# to activated or deactivated a tubecam_device.
 ##
 class TubecamDevicesController < ApplicationController
   before_action :set_tubecam_device, only: %i[show edit update destroy activate deactivate]
@@ -20,8 +20,8 @@ class TubecamDevicesController < ApplicationController
 
   end
 
-  # Shows a specific tubecam_device (as admin a tubecam_device is
-  # also shown even if the deleted attribute is set)
+  # Shows a specific tubecam_device (as admin a tubecam_device is also shown
+  # even if the deleted attribute is set)
   def show
     @sequences = Sequence.where(tubecam_device_id: @tubecam_device.id)
                      .order(datetime: 'DESC').page(params[:page])
