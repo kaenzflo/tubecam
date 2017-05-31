@@ -1,4 +1,6 @@
-
+##
+# Holds tubecams 
+##
 class TubecamDevicesController < ApplicationController
   before_action :set_tubecam_device, only: [:show, :edit, :update, :destroy]
 
@@ -6,8 +8,7 @@ class TubecamDevicesController < ApplicationController
   skip_before_filter :authenticate_user!
   skip_authorize_resource :only => :show
 
-  # GET /tubecam_devices
-  # GET /tubecam_devices.json
+  # Lists all tubecam_devices
   def index
     @tubecam_devices = TubecamDevice.all.order("id")
     if user_signed_in? && !current_user.admin_role? && current_user.trapper_role?
@@ -16,8 +17,7 @@ class TubecamDevicesController < ApplicationController
 
   end
 
-  # GET /tubecam_devices/1
-  # GET /tubecam_devices/1.json
+  # Shows a specific tubecam_device
   def show
     @sequences = Sequence.where(tubecam_device_id: @tubecam_device.id).order("datetime DESC").page(params[:page])
     if user_signed_in? && !current_user.admin_role?
@@ -28,70 +28,56 @@ class TubecamDevicesController < ApplicationController
         ENV['S3_BUCKET_NAME'] + '/thumbnails/'
   end
 
-  # GET /tubecam_devices/new
+  # New tubecam_device
   def new
     @tubecam_device = TubecamDevice.new
     @users = User.all.order(username: 'ASC')
   end
 
-  # GET /tubecam_devices/1/edit
+  # Edits tubecam_device
   def edit
     @users = User.all.order(username: 'ASC')
   end
 
-  # POST /tubecam_devices
-  # POST /tubecam_devices.json
+  # Saves tubecam_device to database
   def create
     @tubecam_device = TubecamDevice.new(tubecam_device_params)
-    respond_to do |format|
-      if @tubecam_device.save
-        format.html { redirect_to action: "index", notice: t('flash.tubecam_devices.create_success') }
-        format.json { render :show, status: :created, location: @tubecam_device }
-      else
-        format.html { render :new }
-        format.json { render json: @tubecam_device.errors, status: :unprocessable_entity }
-      end
+    if @tubecam_device.save
+      redirect_to action: "index", notice: t('flash.tubecam_devices.create_success')
+    else
+      render :new
     end
   end
 
-  # PATCH/PUT /tubecam_devices/1
-  # PATCH/PUT /tubecam_devices/1.json
+  # Updates tubecam_device in database
   def update
-    respond_to do |format|
       if @tubecam_device.update(tubecam_device_params)
-        format.html { redirect_to action: "index", notice: t('flash.tubecam_devices.update_success') }
-        format.json { render :show, status: :ok, location: @tubecam_device }
+        redirect_to action: "index", notice: t('flash.tubecam_devices.update_success')
       else
-        format.html { render :edit }
-        format.json { render json: @tubecam_device.errors, status: :unprocessable_entity }
+        render :edit
       end
-    end
   end
 
-  # DELETE /tubecam_devices/1
-  # DELETE /tubecam_devices/1.json
+  # Destroys tubecam_device
   def destroy
     @tubecam_device.destroy
-    respond_to do |format|
-      format.html { redirect_to tubecam_devices_url, notice: t('flash.tubecam_devices.destroy_success') }
-      format.json { head :no_content }
-    end
+    redirect_to tubecam_devices_url, notice: t('flash.tubecam_devices.destroy_success')
   end
 
-  # Set tubecam inactive
+  # Sets tubecam inactive
   def deactivate
     @tubecam_device = set_tubecam_device
-    if current_user.admin_role? && @tubecam_device.update( :active => false )
+    if current_user.admin_role? && @tubecam_device.update(:active => false)
       redirect_to tubecam_devices_path, notice: t('flash.tubecam_devices.deactivate_success')
     else
       redirect_to tubecam_devices_path, alert: t('flash.tubecam_devices.deactivate_fail')
     end
   end
 
-  # Set tubecam active
+  # Sets tubecam active
   def activate
     @tubecam_device = set_tubecam_device
-    if current_user.admin_role? && @tubecam_device.update( :active => true )
+    if current_user.admin_role? && @tubecam_device.update(:active => true)
       redirect_to tubecam_devices_path, notice: t('flash.tubecam_devices.activate_success')
     else
       redirect_to tubecam_devices_path, alert: t('flash.tubecam_devices.activate_fail')
@@ -99,13 +85,14 @@ class TubecamDevicesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_tubecam_device
-      @tubecam_device = TubecamDevice.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_tubecam_device
+    @tubecam_device = TubecamDevice.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def tubecam_device_params
-      params.require(:tubecam_device).permit(:serialnumber, :user_id, :description, :active)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def tubecam_device_params
+    params.require(:tubecam_device).permit(:serialnumber, :user_id, :description, :active)
+  end
+
 end

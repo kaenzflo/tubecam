@@ -7,6 +7,7 @@ assets:environment
 assets:precompile
 cache_digests:dependencies
 cache_digests:nested_dependencies
+clobber_rdoc
 db:create
 db:drop
 db:environment:set
@@ -30,6 +31,8 @@ log:clear
 middleware
 notes
 notes:custom
+rdoc
+rerdoc
 restart
 routes
 secret
