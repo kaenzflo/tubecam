@@ -14,7 +14,7 @@ class SequencesController < ApplicationController
     sequences = filter_sequences(sequences)
     sequences = sequences.where(deleted: false).order('datetime DESC')
     @sequences = sequences.page(params[:page])
-    @cloud_resource_thumbnail_url = 'https://' +
+    @thumbnail_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/thumbnails/'
     @annotations_lookup_table = AnnotationsLookupTable.all
@@ -27,11 +27,11 @@ class SequencesController < ApplicationController
   def show
     sequence = Sequence.find(params[:id])
     @media = sequence.media.order('frame ASC')
-    @media = @media.paginate( per_page: 15, page: params[:page])
-    @cloud_resource_thumbnail_url = 'https://' +
+    @media = @media.paginate(per_page: 15, page: params[:page])
+    @thumbnail_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/thumbnails/'
-    @cloud_resource_image_url = 'https://' +
+    @image_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/'
     @tubecam_device = TubecamDevice.find(sequence.tubecam_device_id)

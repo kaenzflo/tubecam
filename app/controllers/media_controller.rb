@@ -11,7 +11,7 @@ class MediaController < ApplicationController
     @filter_params = filter_params()
     media = Medium.filter(@filter_params)
     @media = media.where(deleted: false).page(params[:page])
-    @cloud_resource_thumbnail_url = 'https://' +
+    @thumbnail_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/thumbnails/'
   end
@@ -21,7 +21,7 @@ class MediaController < ApplicationController
   def show
     medium = Medium.find(params[:id])
     @medium = Coordinates.wgs_to_ch(medium)
-    @cloud_resource_image_url = 'https://' +
+    @image_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/'
     @tubecam_device = TubecamDevice.find(id: Sequence.find(sequence_id: medium.sequence_id).select('tubecam_device_id'))

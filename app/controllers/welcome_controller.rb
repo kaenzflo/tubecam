@@ -11,10 +11,10 @@ class WelcomeController < ApplicationController
       end
     end
 
-    @cloud_resource_image_url = 'https://' +
+    @image_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/'
-    @cloud_resource_thumbnail_url = @cloud_resource_image_url + ''
+    @thumbnail_url = @image_url + ''
 
   end
 

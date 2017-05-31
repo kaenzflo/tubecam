@@ -22,7 +22,7 @@ class TubecamDevicesController < ApplicationController
     if user_signed_in? && !current_user.admin_role?
       @sequences = @sequences.where(deleted: false)
     end
-    @cloud_resource_thumbnail_url = 'https://' +
+    @thumbnail_url = 'https://' +
         ENV['S3_HOST_NAME'] + '/' +
         ENV['S3_BUCKET_NAME'] + '/thumbnails/'
   end
