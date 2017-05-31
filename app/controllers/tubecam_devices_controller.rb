@@ -1,3 +1,4 @@
+
 class TubecamDevicesController < ApplicationController
   before_action :set_tubecam_device, only: [:show, :edit, :update, :destroy]
 

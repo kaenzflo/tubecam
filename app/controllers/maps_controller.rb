@@ -100,7 +100,7 @@ class MapsController < ApplicationController
                      "type" => "circle",
                      "radius" => 8 * relative_point_factor,
                      "fill" => {
-                         "color" => "##{Gradient.randomColor(time_period)}"
+                         "color" => "##{Gradient.green_to_red_by_value(time_period)}"
                      },
                      "stroke" => {
                          "color" => "#FFFFFF",
