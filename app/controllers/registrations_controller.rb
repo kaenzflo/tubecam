@@ -1,3 +1,6 @@
+##
+# Overrieds RegistrationsController default options
+##
 class RegistrationsController < Devise::RegistrationsController
 
   private

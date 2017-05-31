@@ -1,9 +1,9 @@
 ##
-# Holds tubecams and provides CRUD functions. A specific
-# tubecam can also be activated or deactivated.
+# Handles tubecam_devices requests, provides CRUD functions. Provides possibility
+# to activated or deactivated a tubecam_device.
 ##
 class TubecamDevicesController < ApplicationController
-  before_action :set_tubecam_device, only: %i[show edit update destroy]
+  before_action :set_tubecam_device, only: %i[show edit update destroy activate deactivate]
 
   load_and_authorize_resource
   skip_before_filter :authenticate_user!
@@ -13,18 +13,18 @@ class TubecamDevicesController < ApplicationController
   def index
     @tubecam_devices = TubecamDevice.all.order(:id)
     if user_signed_in? &&
-       !current_user.admin_role? &&
-       current_user.trapper_role?
+        !current_user.admin_role? &&
+        current_user.trapper_role?
       @tubecam_devices = @tubecam_devices.where(user_id: current_user.id)
     end
 
   end
 
-  # Shows a specific tubecam_device (as admin a tubecam_device is
-  # also shown even if the deleted attribute is set)
+  # Shows a specific tubecam_device (as admin a tubecam_device is also shown
+  # even if the deleted attribute is set)
   def show
     @sequences = Sequence.where(tubecam_device_id: @tubecam_device.id)
-                         .order(datetime: 'DESC').page(params[:page])
+                     .order(datetime: 'DESC').page(params[:page])
     if user_signed_in? && !current_user.admin_role?
       @sequences = @sequences.where(deleted: false)
     end
@@ -69,8 +69,7 @@ class TubecamDevicesController < ApplicationController
 
   # Sets tubecam inactive
   def deactivate
-    @tubecam_device = set_tubecam_device
-    if current_user.admin_role? && @tubecam_device.update(:active => false)
+    if current_user.admin_role? && @tubecam_device.update(active: false)
       redirect_to tubecam_devices_path, notice: t('flash.tubecam_devices.deactivate_success')
     else
       redirect_to tubecam_devices_path, alert: t('flash.tubecam_devices.deactivate_fail')
@@ -79,8 +78,7 @@ class TubecamDevicesController < ApplicationController
 
   # Sets tubecam active
   def activate
-    @tubecam_device = set_tubecam_device
-    if current_user.admin_role? && @tubecam_device.update(:active => true)
+    if current_user.admin_role? && @tubecam_device.update(active: true)
       redirect_to tubecam_devices_path, notice: t('flash.tubecam_devices.activate_success')
     else
       redirect_to tubecam_devices_path, alert: t('flash.tubecam_devices.activate_fail')
