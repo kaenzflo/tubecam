@@ -14,7 +14,7 @@ class AnnotationsController < ApplicationController
     end
     @annotations = @annotations.order('id DESC')
                                .paginate(per_page: 15, page: params[:page])
-    @annotations_lookup_table = AnnotationsLookupTable.all.order('id ASC')
+    @annotations_lookup_table = AnnotationsLookupTable.all.order(id: :asc)
     @users = User.all
     @image_url = "https://#{ENV['S3_HOST_NAME']}/#{ENV['S3_BUCKET_NAME']}/"
     @thumbnail_url = "#{@image_url}thumbnails/"
@@ -30,7 +30,7 @@ class AnnotationsController < ApplicationController
     else
       sequence = sequences[rand(0...sequences.size)]
       sequence_media = Medium.where(sequence_id: sequence.id, deleted: false)
-                             .order('frame ASC')
+                             .order(frame: :asc)
       @medium = sequence_media.first
       instantiate_vars(sequence_media)
     end
@@ -44,7 +44,7 @@ class AnnotationsController < ApplicationController
     else
       @medium = medium
       sequence_media = Medium.where(deleted: false,
-                                    sequence_id: medium.sequence_id).order('frame ASC')
+                                    sequence_id: medium.sequence_id).order(frame: :asc)
       instantiate_vars(sequence_media)
     end
   end
@@ -74,7 +74,7 @@ class AnnotationsController < ApplicationController
   # Instantiate variables for the methods 'specific' and 'new'
   def instantiate_vars(sequence_media)
     @thumbnails = sequence_media.where(frame: (@medium.frame - 2)..(@medium.frame + 5))
-                                .order('frame ASC')
+                                .order(frame: :asc)
     @image_url = "https://#{ENV['S3_HOST_NAME']}/#{ENV['S3_BUCKET_NAME']}/"
     @thumbnail_url = "#{@image_url}thumbnails/"
     @annotations_lookup_table = AnnotationsLookupTable.all.order('annotation_id')

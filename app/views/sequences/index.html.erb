@@ -35,7 +35,7 @@
             | <%= sequence.datetime.strftime("%d.%m.%Y %H:%M:%S") %> Uhr
           </div>
           <div class="sequence">
-            <% @media = Medium.where(sequence_id: sequence.id).order('frame ASC').limit(5) %>
+            <% @media = Medium.where(sequence_id: sequence.id).order(frame: :asc).limit(5) %>
             <% @media.each do |medium| %>
                 <div class="item">
                   <%= link_to image_tag(@thumbnail_url + medium.filename_hash), sequence %>
