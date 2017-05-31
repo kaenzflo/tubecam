@@ -14,6 +14,13 @@ select#annotations-select {
   float: left;
 }
 
+.filter-select option.annotations-level-0:nth-child(-n+4) {
+  margin-top: 0;
+  margin-bottom: 5px;
+  color: #5e919c;
+  font-size: 14px;
+}
+
 .filter-search-reset {
   float: left;
 }

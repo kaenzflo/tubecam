@@ -6,7 +6,7 @@ class ExportsController < ApplicationController
 
   # Sends data as comma separated values (CSV) in an attachment
   def index
-    @annotations_lookup_table = AnnotationsLookupTable.all.order('id ASC')
+    @annotations_lookup_table = AnnotationsLookupTable.all.order(id: 'ASC')
     @users = User.all
     @media = Medium.all
     @annotations = Annotation.all

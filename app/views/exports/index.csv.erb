@@ -6,7 +6,7 @@
                'Object-Storage-Dateiname', 'Original-Pfad', 'Original-Dateiname'] -%>
 <%= CSV.generate_line headers %>
 <%- @annotations.each do |annotation| -%>
-    <% medium = @media.where(sequence_id: annotation.sequence_id).order('frame ASC').first %>
+    <% medium = @media.where(sequence_id: annotation.sequence_id).order(frame: 'ASC').first %>
     <% verified_user = @users.find_by_id(annotation.verified_id) %>
     <%= CSV.generate_line([annotation.created_at,
                            annotation.sequence.tubecam_device.serialnumber,

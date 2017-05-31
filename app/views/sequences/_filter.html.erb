@@ -26,7 +26,7 @@
       <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span>
     </div>
 
-    <select id='annotations-select' class="form-control" name='lookup_table_id' size='1'>
+    <select id='annotations-select' class="form-control filter-select" name='lookup_table_id' size='1'>
       <option></option>
       <% @annotations_lookup_table.each do |lookup| %>
           <% selected_string = ''
@@ -52,13 +52,13 @@
              end
              if !lookup.family.nil? && lookup.name.nil?
                displayed_tag = lookup.family
-               class_tag = "annotations-level-0".html_safe
-               space = ''
+               class_tag = "annotations-level-0"
+               space = ''.html_safe
              end
              if lookup.family.nil? && lookup.genus.nil? && lookup.species.nil?
                displayed_tag = lookup.name
-               class_tag = "annotations-level-0".html_safe
-               space = ''
+               class_tag = "annotations-level-0"
+               space = ''.html_safe
              end
           %>
           <option <%= selected_string %> <%= disabled_string %> class=<%= class_tag %> value='<%= lookup.id %>'><%= space %>
