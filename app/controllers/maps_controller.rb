@@ -1,18 +1,21 @@
 require_relative '../functions/coordinates'
-
+##
+# Handles map requests and adds points of interest (POI) to the map
+##
 class MapsController < ApplicationController
 
-  skip_before_action :authenticate_user!, :only => [:index]
+  skip_before_action :authenticate_user!, only: [:index]
 
+  # Shows a map with the tubecam_devices as POI
   def index
     long = map_params[:longitude]
     lat = map_params[:latitude]
 
     if Sequence.first.nil?
-      long = 659000.00
-      lat = 185548.39
+      long = 659_000.00
+      lat = 185_548.39
     else
-      if (long.nil? || lat.nil?)
+      if long.nil? || lat.nil?
         @longitude, @latitude = calculate_best_default_view_options
         @zoom = 250
       else
@@ -26,7 +29,7 @@ class MapsController < ApplicationController
       @poi_json, @poi_style_faked = set_poi()
       render 'maps/map'
     else
-      @poi_json_faked, @poi_style_faked = set_poi(exact_position=false)
+      @poi_json_faked, @poi_style_faked = set_poi(exact_position = false)
       flash[:notice] = t('flash.maps.position_not_acurate')
       render 'maps/mapdefault'
     end
@@ -34,84 +37,95 @@ class MapsController < ApplicationController
 
   private
 
-  # Permitte parameters
+  # Permitted parameters
   def map_params
     params.permit(:longitude, :latitude)
   end
 
-  def set_poi(exact_position=true)
+  def set_poi(exact_position = true)
     @tubecams = TubecamDevice.where(active: true)
 
-    jsonHash = {}
-    jsonHash['type'] = "FeatureCollection"
+    json_hash = {}
+    json_hash['type'] = 'FeatureCollection'
 
-    styleHash = {}
-    styleHash['type'] = "unique"
-    styleHash['property'] = "style-class"
+    style_hash = {}
+    style_hash['type'] = 'unique'
+    style_hash['property'] = 'style-class'
 
-    number_of_grouped_sequences = Sequence.where(deleted: false).group(:tubecam_device_id).count
+    number_of_grouped_sequences = Sequence.where(deleted: false)
+                                          .group(:tubecam_device_id).count
     max_sequences = number_of_grouped_sequences.max_by(&:last)[1]
     min_sequences = number_of_grouped_sequences.min_by(&:last)[1]
-    datetime_now = Time.now.to_date;
+    datetime_now = Time.now.to_date
 
-    jsonArray = []
-    styleArray = []
+    json_array = []
+    style_array = []
     @tubecams.each do |tubecam|
-      if !tubecam.sequences.first.nil?
-        number_of_sequences = tubecam.sequences.where(deleted: false).count
-        time_period = (datetime_now - tubecam.last_activity.to_date).to_i
-        jsonArray << set_poi_json(tubecam, exact_position, number_of_sequences, time_period)
-        styleArray << set_poi_style(tubecam, number_of_sequences, max_sequences, min_sequences, time_period)
-      end
+      next unless tubecam.sequences.first
+      number_of_sequences = tubecam.sequences.where(deleted: false).count
+      time_period = (datetime_now - tubecam.last_activity.to_date).to_i
+      json_array << create_poi_json(tubecam, exact_position,
+                                    number_of_sequences, time_period)
+      style_array << create_poi_style(tubecam, number_of_sequences,
+                                      max_sequences, min_sequences, time_period)
     end
 
-    jsonHash['features'] = jsonArray
-    styleHash['values'] = styleArray
+    json_hash['features'] = json_array
+    style_hash['values'] = style_array
 
-    [jsonHash.to_json, styleHash.to_json]
+    [json_hash.to_json, style_hash.to_json]
   end
 
-  def set_poi_json(tubecam, exact_position, number_of_sequences, time_period )
-
-    coordinates = {'longitude' => tubecam.longitude, 'latitude' => tubecam.latitude}
-    if !exact_position
-      coordinates = Coordinates.fake_coordinates(coordinates['longitude'], coordinates['latitude'])
+  def create_poi_json(tubecam, exact_position, number_of_sequences, time_period)
+    coordinates = { 'longitude' => tubecam.longitude,
+                    'latitude' => tubecam.latitude }
+    unless exact_position
+      coordinates = Coordinates.fake_coordinates(coordinates['longitude'],
+                                                 coordinates['latitude'])
     end
-    description = generate_description(tubecam, exact_position, time_period, coordinates, number_of_sequences)
+    description = generate_description(tubecam, exact_position,
+                                       time_period, coordinates,
+                                       number_of_sequences)
 
-    tubecamHash = {"type" => "Feature",
-                   "geometry" => {
-                       "type" => "Point",
-                       "coordinates" => [coordinates['longitude'], coordinates['latitude']]
-                   },
-                   "properties" => {
-                       "description" => description,
-                       "style-class" => tubecam.id
-                   }
-    }
-  end
-
-  def set_poi_style(tubecam, number_of_sequences, max_sequences, min_sequences, time_period)
-    relative_point_factor = calculate_point_factor(number_of_sequences, max_sequences, min_sequences, 3)
-
-    styleHash = {"geomType" => "point",
-                 "value" => tubecam.id,
-                 "vectorOptions" => {
-                     "type" => "circle",
-                     "radius" => 8 * relative_point_factor,
-                     "fill" => {
-                         "color" => "##{Gradient.green_to_red_by_value(time_period)}"
+    tubecam_hash = { 'type' => 'Feature',
+                     'geometry' => {
+                       'type' => 'Point',
+                       'coordinates' => [coordinates['longitude'],
+                                         coordinates['latitude']]
                      },
-                     "stroke" => {
-                         "color" => "#FFFFFF",
-                         "width" => 2
+                     'properties' => {
+                       'description' => description,
+                       'style-class' => tubecam.id
                      }
+                   }
+  end
+
+  def create_poi_style(tubecam, number_of_sequences, max_sequences,
+                       min_sequences, time_period)
+    relative_point_factor = calculate_point_factor(number_of_sequences,
+                                                   max_sequences,
+                                                   min_sequences,
+                                                   3)
+
+    style_hash = { 'geomType' => 'point',
+                   'value' => tubecam.id,
+                   'vectorOptions' => {
+                     'type' => 'circle',
+                     'radius' => 8 * relative_point_factor,
+                     'fill' => {
+                       'color' => "##{Gradient.green_to_red_by_value(time_period)}"
+                     },
+                     'stroke' => {
+                       'color' => '#FFFFFF',
+                       'width' => 2
+                     }
+                   }
                  }
-    }
   end
 
 
-  def generate_description (tubecam, exact_position, time_period, coordinates, number_of_sequences)
+  def generate_description(tubecam, exact_position, time_period,
+                           coordinates, number_of_sequences)
     s = StringIO.new
     s << "<p>#{I18n.t 'controllers.maps.popup.serialnumber'}:<b> #{tubecam.serialnumber.to_s}</b></p>"
     s << "<p>#{I18n.t 'controllers.maps.popup.number_of_sequences'}: <b>#{number_of_sequences.to_s}</b></p>"
@@ -126,7 +140,7 @@ class MapsController < ApplicationController
     s.string
   end
 
-  def truncate s, length = 30, ellipsis = '...'
+  def truncate(s, length = 30, ellipsis = '...')
     if s.length > length
       s.to_s[0..length].gsub(/[^\w]\w+\s*$/, ellipsis)
     else

@@ -1,3 +1,8 @@
+##
+# Handles sequence requests, provides CRUD functions.
+# Provides possibility to verify an annotation as verified
+# spotter
+##
 class SequencesController < ApplicationController
   before_action :set_sequence, only: [:show, :edit, :update, :destroy]
 
@@ -14,9 +19,7 @@ class SequencesController < ApplicationController
     sequences = filter_sequences(sequences)
     sequences = sequences.where(deleted: false).order('datetime DESC')
     @sequences = sequences.page(params[:page])
-    @thumbnail_url = 'https://' +
-        ENV['S3_HOST_NAME'] + '/' +
-        ENV['S3_BUCKET_NAME'] + '/thumbnails/'
+    @thumbnail_url = "https://#{ENV['S3_HOST_NAME']}/#{ENV['S3_BUCKET_NAME']}/thumbnails/"
     @annotations_lookup_table = AnnotationsLookupTable.all
     @annotations = Annotation.all
     @tubecam_devices = TubecamDevice.where(active: true).order(serialnumber: 'ASC')
@@ -31,12 +34,8 @@ class SequencesController < ApplicationController
     sequence = Sequence.find(params[:id])
     @media = sequence.media.order('frame ASC')
     @media = @media.paginate(per_page: 15, page: params[:page])
-    @thumbnail_url = 'https://' +
-        ENV['S3_HOST_NAME'] + '/' +
-        ENV['S3_BUCKET_NAME'] + '/thumbnails/'
-    @image_url = 'https://' +
-        ENV['S3_HOST_NAME'] + '/' +
-        ENV['S3_BUCKET_NAME'] + '/'
+    @image_url = "https://#{ENV['S3_HOST_NAME']}/#{ENV['S3_BUCKET_NAME']}/"
+    @thumbnail_url = "#{@image_url}thumbnails/"
     @tubecam_device = TubecamDevice.find(sequence.tubecam_device_id)
     @annotations = Annotation.where(sequence_id: sequence.id).order('verified_id ASC, created_at DESC')
     @annotations_lookup_table = AnnotationsLookupTable.all
