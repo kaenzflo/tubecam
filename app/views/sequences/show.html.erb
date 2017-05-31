@@ -38,7 +38,7 @@
     <%= link_to (t 'link_to.tubecam') + ' ' + @tubecam_device.serialnumber, tubecam_device_path(@sequence.tubecam_device_id), class: 'btn btn-primary' %>
     <%= link_to location_text, maps_path(:longitude => longitude, :latitude => latitude), class: 'btn btn-primary' %>
     <% if user_signed_in? && !@annotations.empty? && !@annotations.find_by(user_id: current_user.id) %>
-        <%= link_to (t 'link_to.annotate'), {controller: 'annotations', action: 'specific', :id => @medium.id}, class: 'btn btn-primary' %>
+        <%= link_to (t 'link_to.annotate'), {controller: 'annotations', action: 'specific', :id => @sequence.id}, class: 'btn btn-primary' %>
     <% end %>
   </div>
 </div>

@@ -1,6 +1,7 @@
 ##
-# Handles sequence requests, provides CRUD functions. Provides possibility to
-# verify an annotation as verified spotter
+# Handles sequence requests, provides CRUD functions, possibility to
+# verify an annotation as verified spotter and applies a filter to
+# the sequence gallery
 ##
 class SequencesController < ApplicationController
   before_action :set_sequence, only: %i[show edit update destroy]
@@ -123,7 +124,7 @@ class SequencesController < ApplicationController
     @sequence = Sequence.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
+  # White listing parameters for 'create' and 'update'
   def sequence_params
     params.require(:sequence).permit(:path, :filename, :sequencestype, :datetime,
                                      :longitude, :latitude, :sequence, :frame,
@@ -132,69 +133,87 @@ class SequencesController < ApplicationController
     params.require(:sequence).permit(:date_start, :date_end, :lookup_table_id)
   end
 
+  # White listing parameters for 'index'
   def scope_params
     scope_params = params.slice(:tubecam_device_id, :sequence)
   end
 
-  def filter_sequences sequences
-    filter_by_date = ''
-    if !params[:date_start].nil? && !params[:date_start].empty?
-      @filter_params[:date_start] = string_to_date(params[:date_start], '00:00:00')
-      filter_date_start = Medium.select(:sequence_id).where(['datetime >=  ?', @filter_params[:date_start]]).distinct.pluck(:sequence_id)
-      sequences = sequences.where(id: filter_date_start) if !filter_date_start.nil?
-    end
-
-    if !params[:date_end].nil? && !params[:date_end].empty?
-      @filter_params[:date_end] = string_to_date(params[:date_end], '22:59:59')
-      filter_date_end = Medium.select(:sequence_id).where(['datetime <=  ?', @filter_params[:date_end]]).distinct.pluck(:sequence_id)
-      sequences = sequences.where(id: filter_date_end) if !filter_date_end.nil?
-    end
-
-    if !params[:lookup_table_id].nil? && !params[:lookup_table_id].empty?
-      @filter_params[:lookup_table_id] = params[:lookup_table_id]
-      lookup_table_id = params[:lookup_table_id]
-      annotation_id = AnnotationsLookupTable.find(lookup_table_id).annotation_id
-      first, second, third = annotation_id.to_s.split('')
-      if /000/.match(annotation_id)
-        # Matchs ids with empty picture annotation
-        annotations = AnnotationsLookupTable.where(annotation_id: annotation_id).select(:id).pluck(:id)
-        sequence_ids = Annotation.where(annotations_lookup_table_id: annotations).select(:sequence_id)
-        sequences = sequences.where(id: sequence_ids) if !annotations.nil?
-      elsif /[1-9]00/.match(annotation_id)
-        # Matchs all ids of a family
-        search = '' + first + '[0-9]' + '[0-9]'
-        annotations = AnnotationsLookupTable.where("annotation_id ~* ?", search).select(:id).pluck(:id)
-        sequence_ids = Annotation.where(annotations_lookup_table_id: annotations).select(:sequence_id)
-        sequences = sequences.where(id: sequence_ids) if !annotations.nil?
-      elsif /[1-9][1-9]0/.match(annotation_id)
-        # Matchs all ids of a subclass
-        search = '' + first + second + '[0-9]'
-        annotations = AnnotationsLookupTable.where("annotation_id ~* ?", search).select(:id).pluck(:id)
-        sequence_ids = Annotation.where(annotations_lookup_table_id: annotations).select(:sequence_id)
-        sequences = sequences.where(id: sequence_ids) if !annotations.nil?
-      else
-        # Matchs one specific id
-        annotations = AnnotationsLookupTable.where(annotation_id: annotation_id).select(:id).pluck(:id)
-        sequence_ids = Annotation.where(annotations_lookup_table_id: annotations).select(:sequence_id)
-        sequences = sequences.where(id: sequence_ids) if !annotations.nil?
-      end
-
-    end
-
+  # Applies a filter by time period and by 'lookup_table_id' (annotation)
+  # to the sequences list
+  def filter_sequences(sequences)
+    sequences = filter_by_start_date(sequences)
+    sequences = filter_by_end_date(sequences)
+    sequences = filter_by_lookup_table_id(sequences)
     sequences
   end
 
-  # scope :date_start, -> (date_start) { where("datetime > ?", date_start) } if !:date_start.empty?
+  # Filters sequences by start date
+  def filter_by_start_date(sequences)
+    if !params[:date_start].nil? && !params[:date_start].empty?
+      @filter_params[:date_start] = string_to_date(params[:date_start],
+                                                   '00:00:00')
+      filter_date_start = Medium.select(:sequence_id)
+                                .where(['datetime >=  ?', @filter_params[:date_start]])
+                                .distinct.pluck(:sequence_id)
+      !filter_date_start.nil? ? sequences = sequences.where(id: filter_date_start) : nil
+    end
+    sequences
+  end
 
-  def string_to_date date_string, time
-    if !date_string.empty?
-      date_start_string = date_string.split(".")
-      date_start_string = date_start_string[2] + ":" + date_start_string[1] + ":" + date_start_string[0] + " " + time
+  # Filters sequences by end date
+  def filter_by_end_date(sequences)
+    if !params[:date_end].nil? && !params[:date_end].empty?
+      @filter_params[:date_end] = string_to_date(params[:date_end], '22:59:59')
+      filter_date_end = Medium.select(:sequence_id)
+                              .where(['datetime <=  ?', @filter_params[:date_end]])
+                              .distinct.pluck(:sequence_id)
+      !filter_date_end.nil? ? sequences = sequences.where(id: filter_date_end) : nil
+    end
+    sequences
+  end
+
+  # Filter sequences by lookup_table_id
+  def filter_by_lookup_table_id(sequences)
+    if !params[:lookup_table_id].nil? && !params[:lookup_table_id].empty?
+      @filter_params[:lookup_table_id] = params[:lookup_table_id]
+      annotations = filter_by_hierarchy
+      sequence_ids = Annotation.where(annotations_lookup_table_id: annotations).select(:sequence_id)
+      !annotations.nil? ? sequences = sequences.where(id: sequence_ids) : nil
+    end
+    sequences
+  end
+
+  # Filter sequences by taxonomical hierarchical level (family, genus, species)
+  def filter_by_hierarchy
+    lookup_table_id = params[:lookup_table_id]
+    annotation_id = AnnotationsLookupTable.find(lookup_table_id).annotation_id
+    first_digit, second_digit = annotation_id.to_s.split('')
+    family_level = /[1-9]00/
+    genus_level = /[1-9][1-9]0/
+    if family_level.match(annotation_id)
+      search = "#{first_digit}[0-9][0-9]"
+      annotations = AnnotationsLookupTable.where('annotation_id ~* ?', search)
+                                          .select(:id).pluck(:id)
+    elsif genus_level.match(annotation_id)
+      search = "#{first_digit}#{second_digit}[0-9]"
+      annotations = AnnotationsLookupTable.where('annotation_id ~* ?', search)
+                                          .select(:id).pluck(:id)
+    else
+      annotations = AnnotationsLookupTable.where(annotation_id: annotation_id)
+                                          .select(:id).pluck(:id)
+    end
+    annotations
+  end
+
+  # Reformats date string
+  def string_to_date(date_string, time)
+    unless date_string.empty?
+      date_start_string = date_string.split('.')
+      date_start_string = "#{date_start_string[2]}:#{date_start_string[1]}:#{date_start_string[0]} #{time}"
       date_start = Time.strptime(date_start_string, '%Y:%m:%d %H:%M:%S')
       date_string = date_start
     end
     date_string
   end
-
 
 end
