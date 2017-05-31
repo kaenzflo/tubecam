@@ -30,7 +30,7 @@ class SequencesController < ApplicationController
       redirect_to sequences_path, alert: t('flash.sequences.deactivated')
     end
     sequence = Sequence.find(params[:id])
-    @media = sequence.media.order('frame ASC')
+    @media = sequence.media.order(frame: :asc)
     @media = @media.paginate(per_page: 15, page: params[:page])
     @image_url = "https://#{ENV['S3_HOST_NAME']}/#{ENV['S3_BUCKET_NAME']}/"
     @thumbnail_url = "#{@image_url}thumbnails/"
