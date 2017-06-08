@@ -1,7 +1,9 @@
 <% @page_title=t '.title' %>
 
 <h1><%= t '.title' %></h1>
-<p><%= t '.instructions1' %></p>
+<ul>
+  <li><%= t '.instructions1' %>
+    <%= link_to (t '.instructions4'), 'https://github.com/kaenzflo/tubecam/blob/master/README.md' %></li>
 <ul>
   <li><%= t '.env_s3_host' %></li>
   <li><%= t '.env_s3_bucket' %></li>
@@ -13,8 +15,7 @@
   <li><%= t '.env_mail_user' %></li>
   <li><%= t '.env_mail_pass' %></li>
 </ul>
-<p><%= t '.instructions2'%></p>
-<p><%= t '.instructions3'%></p>
-<p><%= t '.instructions4'%></p>
-<p><%= t '.instructions5'%></p>
-<p><%= t '.instructions6'%></p>
+<li><%= t '.instructions2'%><%= link_to (t '.instructions5'), 'https://github.com/kaenzflo/tubecam/blob/master/README.md#cronjob'%></li>
+<li><%= t '.instructions3'%></li>
+</ul>
+<p><%= link_to (t 'tubecam_devices.index.title'), '/users/sign_in', class: 'btn btn-primary' %></p>
