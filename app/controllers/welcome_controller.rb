@@ -10,7 +10,7 @@ class WelcomeController < ApplicationController
   # Shows the welcome page or starts the setup process
   def index
 
-    if User.all.empty?
+    if User.find_by(username: 'admin').nil?
       setup_init
     else
       @media = []
