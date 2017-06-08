@@ -60,8 +60,7 @@ gem install rails
 
 ### Add environment variables
 * `vim ~/.bashrc`
-* Add all environment variables (see [below](#environment-variables))
-* Add `export [NAME_OF_ENV_VAR]=[value]`, f.e. `export S3_HOST_NAME=os.zhdk.cloud.switch.ch`
+* Add all environment variables (see [below](#environment-variables)) using the following syntax: `export [NAME_OF_ENV_VAR]=[value]`, f.e. `export S3_HOST_NAME=os.zhdk.cloud.switch.ch`
 * `. ~/.bashrc`
 
 ### Cronjob
