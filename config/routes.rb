@@ -28,6 +28,9 @@ Rails.application.routes.draw do
   get '/users/deactivate/:id' => 'users#deactivate', as: 'deactivate_user'
   get '/users/activate/:id' => 'users#activate', as: 'activate_user'
 
+  post '/welcome/setup' => 'welcome#setup', as: 'welcome_setup'
+  get '/welcome/config' => 'welcome#config', as: 'welcome_config'
+
   root 'welcome#index'
 
   get '*path', :to => 'application#page_not_found'

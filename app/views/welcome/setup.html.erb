@@ -1,0 +1,18 @@
+<% @page_title=t '.title' %>
+
+<h1><%= t '.title' %></h1>
+<p><%= t '.instructions' %></p>
+
+<%= form_tag '/welcome/setup' do %>
+    <div class='field'>
+      <%= label_tag t '.email' %>
+      <%= email_field_tag 'email'%>
+      <%= label_tag t '.password' %>
+      <%= password_field_tag 'password' %>
+      <%= label_tag t '.token' %>
+      <%= text_field_tag 'token' %>
+    </div>
+    <div class='actions'>
+      <%= submit_tag (t 'action.save'), class: 'btn btn-primary' %>
+    </div>
+ <% end %>

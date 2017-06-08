@@ -75,6 +75,30 @@ de:
       gallery_text: "Betrachte die aktuellsten Bilder aus der Wildnis"
       map_heading: "Karte"
       map_text: "Lass dir auf der Swisstopo-Karte die Standorte der TubeCams anzeigen"
+    setup:
+      title: "Setup (1/2)"
+      email: "E-Mail"
+      password: "Passwort"
+      token: "Token"
+      instructions: "Bitte geben Sie Ihre E-Mail-Adresse ein, setzten Sie ein Passwort und kopieren Sie das Token, das in der Datei 'setup_secret.txt' abgespeichert ist, in das Feld 'Token'. (Die E-Mail-Adresse und das Passwort lassen sich nicht mehr ändern!)"
+    config:
+      title: "Setup (2/2)"
+      instructions1: "Bitte auf Heroku folgende Umgebungsvariablen setzen:"
+      env_s3_host: "'S3_HOST_NAME' (S3-Hostname)"
+      env_s3_bucket: "'S3_BUCKET_NAME' (S3-Bucket-Name)"
+      env_s3_access: "'S3_ACCESS_KEY' (S3-Access-Key)"
+      env_s3_secret: "'S3_SECRET_KEY' (S3-Secret-Key)"
+      env_ftp_host: "'FTP_HOST_NAME' (FTP-Hostname)"
+      env_ftp_user: "'FTP_USER_NAME' (FTP-Benutzername)"
+      env_ftp_pass: "'FTP_PASSWORD' (FTP-Benutzerpasswort)"
+      env_db_pass: "'TUBECAM_DATABASE_PASSWORD' ()"
+      env_mail_user: "'MAIL_USERNAME' (E-Mail-Benutzernamen)"
+      env_mail_pass: "'MAIL_PWD' (E-Mail-Passwort)"
+      instructions2: "Kopieren Sie folgenden Befehl in den Heroku-Scheduler 'rake heroku:crawlftp'"
+      instructions3: ""
+      instructions4: ""
+      instructions5: ""
+      instructions6: ""
   layouts:
     application: "TubeCam"
     navigations:
@@ -182,7 +206,7 @@ de:
     done:
       title: "Done"
       well_done: "🎉 Well done, you did it all!"
-      well_done_text: "(Hier gibt's nichts mehr zu tun)"
+      well_done_text: "(Hier gibt's nichts mehr zu tun. Es sind keine weiteren Medien zum Annotieren verfügbar.)"
     new:
       title: "Annotieren"
     specific:
@@ -229,26 +253,29 @@ de:
     maps:
       position_not_acurate: "Standorte sind nur ungefähr eingetragen. Um die exakten Standorte mit Koordinaten anzeigen zu lassen, müssen Sie sich anmelden."
     media:
-       create_success: "Medium erstellt"
-       update_success: "Medium aktualisiert"
-       destroy_success: "Medium gelöscht"
-       deactivate_success: "Medium deaktiviert"
-       deactivate_fail: "Medium kann nicht deaktiviert werden"
-       activate_success: "Medium aktiviert"
-       activate_fail: "Medium kann nicht aktiviert werden"
+      create_success: "Medium erstellt"
+      update_success: "Medium aktualisiert"
+      destroy_success: "Medium gelöscht"
+      deactivate_success: "Medium deaktiviert"
+      deactivate_fail: "Medium kann nicht deaktiviert werden"
+      activate_success: "Medium aktiviert"
+      activate_fail: "Medium kann nicht aktiviert werden"
     sequences:
-       create_success: "Sequenz erstellt"
-       update_success: "Sequenz aktualisiert"
-       destroy_success: "Sequenz gelöscht"
-       deactivate_success: "Sequenz deaktiviert"
-       deactivate_fail: "Sequenz kann nicht deaktiviert werden"
-       activate_success: "Sequenz aktiviert"
-       activate_fail: "Sequenz kann nicht aktiviert werden"
-       verify_success: "Annotation verifiziert"
-       verify_fail: "Annotation kann nicht verifiziert werden"
-       verification_destroy_success: "Verifikation entfernt"
-       verification_destroy_fail: "Verifikation kann nicht entfernt werden"
-       deactivated: "Diese Sequenz ist nicht verfügbar"
+      create_success: "Sequenz erstellt"
+      update_success: "Sequenz aktualisiert"
+      destroy_success: "Sequenz gelöscht"
+      deactivate_success: "Sequenz deaktiviert"
+      deactivate_fail: "Sequenz kann nicht deaktiviert werden"
+      activate_success: "Sequenz aktiviert"
+      activate_fail: "Sequenz kann nicht aktiviert werden"
+      verify_success: "Annotation verifiziert"
+      verify_fail: "Annotation kann nicht verifiziert werden"
+      verification_destroy_success: "Verifikation entfernt"
+      verification_destroy_fail: "Verifikation kann nicht entfernt werden"
+      deactivated: "Diese Sequenz ist nicht verfügbar"
+    setup:
+      token_fail: 'Das Token stimmt nicht überein. Bitte versuchen Sie es nochmals.'
+      token_success: 'Der Administrator wurde erfolgreich erstellt.'
   # Model specific (ActiveRecord key compliant)
   activerecord:
     models:

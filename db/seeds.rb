@@ -8,11 +8,6 @@
 
 
 users = [
-    ['user1','Peter','Spotter',true,false,false,false,true,'user1@example.com', ENV['DATABASE_SEED_USER_PWD']],
-    ['user2','Peter','Verified',true,true,false,false,true,'user2@example.com',ENV['DATABASE_SEED_USER_PWD']],
-    ['user3','Peter','Trapper',true,false,true,false,true,'user3@example.com',ENV['DATABASE_SEED_USER_PWD']],
-    ['user4','Hans','Trapper',true,true,true,false,true,'user4@example.com',ENV['DATABASE_SEED_USER_PWD']],
-    ['admin','Peter','Admin',true,true,true,true,true,'admin@example.com',ENV['DATABASE_SEED_USER_PWD']]
 ]
 
 users.each do |value|
@@ -29,22 +24,6 @@ users.each do |value|
 end
 
 tubecam_devices = [
-    ['SN:00028',3,'ZHAW Winterthur',true],
-    ['SN:00010',4,'Bürgestock-Tubecam',true],
-    ['SN:00001',4,'ZHAW-Test-TubeCam "Burgruine"',true],
-    ['SN:00002',5,'ZHAW-Test-TubeCam "Rötibode"',true],
-    ['SN:00003',5,'TubeCam auf dem Vorderen Hörndli',true],
-    ['SN:00004',5,'Neftenbach Waldrand',true],
-    ['SN:00005',5,'Eschenberg bei Winterthur',true],
-    ['SN:00006',5,'TubeCam Fehraltorf/Russikon',true],
-    ['SN:00007',5,'Auf dem Züriberg beim UZH-Standort Milchbuck',true],
-    ['SN:00008',5,'TubeCam-Standort: Waldrand Neuechilerwald',true],
-    ['SN:00009',5,'Magglingematte',true],
-    ['SN:00011',5,'Im Tobel oberhalb Zuzwil SG',true],
-    ['SN:00012',5,'Naturschutzgebiet',true],
-    ['SN:00013',5,'TubeCam Chrebsbach im Sihltal',true],
-    ['SN:00014',5,'Meine TubeCam steht im Eigental',true],
-    ['SN:01001',5,'Tubecam@Klostergarten',true]
 ]
 
 tubecam_devices.each do |value|
