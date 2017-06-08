@@ -9,7 +9,8 @@ Requirements:
 * Ruby version: 2.2.6
 * PostgreSQL version: 9.5
 * S3 Object Storage: Amazon AWS or compatible
-* FTP server
+* FTP server  
+
 [Tested on Ubuntu 16.04] 
 
 # Installation
@@ -78,13 +79,13 @@ Instead of the *Heroku Scheduler* you can set up a cronjob to crawl f.e. every 1
 ## Environment variables
 Variable name | Description | Example
 --- | --- | ---
-**S3_HOST_NAME'** | S3 hostname | *os.zhdk.cloud.switch.ch*
+**S3_HOST_NAME** | S3 hostname | *os.zhdk.cloud.switch.ch*
 **S3_BUCKET_NAME** | S3 bucket name | *tubecam*
 **S3_ACCESS_KEY** | S3 access key | *1111111111111111111*
 **S3_SECRET_KEY** | S3 secret key | *2222222222222222222*
 **FTP_HOST_NAME** | FTP hostname | *ftp.example.com*
 **FTP_USER_NAME** | FTP username | *example01*
-**FTP_PASSWORD** | FTP password | *exmamplesecret*
+**FTP_PASSWORD** | FTP password | *examplesecret*
 **MAIL_USERNAME** | Email username | *tubecam@example.com*
 **MAIL_PWD** | Email password | *examplesecret*
 
