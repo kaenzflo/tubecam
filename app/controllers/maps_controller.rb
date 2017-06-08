@@ -12,8 +12,9 @@ class MapsController < ApplicationController
     lat = map_params[:latitude]
 
     if Sequence.first.nil?
-      long = 659_000.00
-      lat = 185_548.39
+      @longitude = 659_000.00
+      @latitude = 185_548.39
+      @zoom = 250
     else
       if long.nil? || lat.nil?
         @longitude, @latitude = calculate_best_default_view_options
@@ -55,8 +56,12 @@ class MapsController < ApplicationController
 
     number_of_grouped_sequences = Sequence.where(deleted: false)
                                           .group(:tubecam_device_id).count
-    max_sequences = number_of_grouped_sequences.max_by(&:last)[1]
-    min_sequences = number_of_grouped_sequences.min_by(&:last)[1]
+    if !number_of_grouped_sequences.empty?
+      max_sequences = number_of_grouped_sequences.max_by(&:last)[1]
+      min_sequences = number_of_grouped_sequences.min_by(&:last)[1]
+    else
+      max_sequences, min_sequences = 1
+    end
     datetime_now = Time.now.to_date
 
     json_array = []
