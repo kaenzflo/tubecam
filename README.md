@@ -39,6 +39,7 @@ You can install TubeCam on *Heroku* or locally an any Linux machine.
 rvm use ruby-2.2 --create
 rvm use ruby-2.2.6@rails5.0 --create
 gem install rails
+bundle install
 ```
 ### Setting up PostgreSQL 9.5
 #### Install Postgres server binaries and sources (for version 9.5)
