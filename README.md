@@ -36,7 +36,7 @@ rvm use ruby-2.2.6@rails5.0 --create
 gem install rails
 ```
 ### Clone or download Github repository
-`git clone https://github.com/kaenzflo/tubecam.git`
+`git clone https://github.com/kaenzflo/tubecam.git`  
 `cd tubecam`
 
 ### Setting up PostgreSQL 9.5
