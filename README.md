@@ -60,7 +60,7 @@ gem install rails
 `exit`  
 
 #### Create database and schema
-`rvm use ruby-2.2.6@rails5.0 --create`
+`rvm use ruby-2.2.6@rails5.0 --create`  
 `rails db:reset`
 
 ### Add environment variables
