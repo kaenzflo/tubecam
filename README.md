@@ -10,6 +10,7 @@ Requirements:
 * PostgreSQL version: 9.5
 * S3 Object Storage: Amazon AWS or compatible
 * FTP server  
+* Javascript Runtime (`sudo aptitude install npm && `)
 
 [Tested on Ubuntu 16.04] 
 
@@ -57,16 +58,19 @@ gem install rails
 `create user <USERNAME>;`  
 `alter user <USERNAME> WITH SUPERUSER;`  
 `\q`  
-`exit`  
-
-#### Create database and schema
-`rvm use ruby-2.2.6@rails5.0 --create`  
-`rails db:reset`
+`exit`
 
 ### Add environment variables
+* `echo "export SECRET_KEY_BASE="`rake secret` >> ~/.bashrc`
+* `echo "export SECRET_KEY_DEV="`rake secret` >> ~/.bashrc`
+* `echo "export SECRET_KEY_TEST="`rake secret` >> ~/.bashrc`
 * `vim ~/.bashrc`
-* Add all environment variables (see [below](#environment-variables)) using the following syntax: `export [NAME_OF_ENV_VAR]=[value]`, f.e. `export S3_HOST_NAME=os.zhdk.cloud.switch.ch`
+* Add all other environment variables manually (see [below](#environment-variables)) using the following syntax: `export [NAME_OF_ENV_VAR]=[value]`, f.e. `export S3_HOST_NAME=os.zhdk.cloud.switch.ch`
 * `. ~/.bashrc`
+
+### Create database and schema
+`rvm use ruby-2.2.6@rails5.0 --create`  
+`rails db:reset`
 
 ### Cronjob
 Instead of the *Heroku Scheduler* you can set up a cronjob to crawl f.e. every 10 minutes the FTP directory and import new media. Open terminal and type:
