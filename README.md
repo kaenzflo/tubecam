@@ -62,9 +62,9 @@ bundle install
 `exit`
 
 ### Add environment variables
-* `echo "export SECRET_KEY_BASE="`rake secret` >> ~/.bashrc`
-* `echo "export SECRET_KEY_DEV="`rake secret` >> ~/.bashrc`
-* `echo "export SECRET_KEY_TEST="`rake secret` >> ~/.bashrc`
+* echo "export SECRET_KEY_BASE="\`rake secret\` >> ~/.bashrc
+* echo "export SECRET_KEY_DEV="\`rake secret\` >> ~/.bashrc
+* echo "export SECRET_KEY_TEST="\`rake secret\` >> ~/.bashrc
 * `vim ~/.bashrc`
 * Add all other environment variables manually (see [below](#environment-variables)) using the following syntax: `export [NAME_OF_ENV_VAR]=[value]`, f.e. `export S3_HOST_NAME=os.zhdk.cloud.switch.ch`
 * `. ~/.bashrc`
