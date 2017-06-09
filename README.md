@@ -54,12 +54,13 @@ gem install rails
 `psql`  
 
 #### Create user a.k.a Postgres "role" (in bash: `/usr/bin/whoami` is the \<USERNAME\>)
-`create user '<USERNAME>';`  
+`create user <USERNAME>;`  
 `alter user <USERNAME> WITH SUPERUSER;`  
 `\q`  
 `exit`  
 
 #### Create database and schema
+`rvm use ruby-2.2.6@rails5.0 --create`
 `rails db:reset`
 
 ### Add environment variables
