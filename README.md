@@ -10,7 +10,7 @@ Requirements:
 * PostgreSQL version: 9.5
 * S3 Object Storage: Amazon AWS or compatible
 * FTP server  
-* Javascript Runtime (`sudo aptitude install npm && `)
+* Javascript Runtime (f.e. node.js: `sudo aptitude install npm`)
 
 [Tested on Ubuntu 16.04] 
 
