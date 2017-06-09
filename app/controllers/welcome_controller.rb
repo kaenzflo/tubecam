@@ -10,7 +10,7 @@ class WelcomeController < ApplicationController
   # Shows the welcome page or starts the setup process
   def index
 
-    if User.all.empty?
+    if User.find_by(username: 'admin').nil?
       setup_init
     else
       @media = []
@@ -43,8 +43,11 @@ class WelcomeController < ApplicationController
 
   # Initializes the setup process
   def setup_init
+    secret = SecureRandom.hex
+    p '#################SETUP-SECRET################'
+    p secret.to_s
     File.open(File.join('.', 'setup_secret.txt'), 'w') do |f|
-      f.write(SecureRandom.hex)
+      f.write(secret)
     end
     @user = User.new
     render 'welcome/setup'

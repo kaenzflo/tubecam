@@ -14,7 +14,6 @@ class UsersController < ApplicationController
 
   # Shows a specific user
   def show
-
   end
 
   # Edits user
@@ -28,7 +27,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      redirect_to action: "index", notice: t('flash.users.create_success')
+      redirect_to action: 'index', notice: t('flash.users.create_success')
     else
       render :new
     end
@@ -37,7 +36,7 @@ class UsersController < ApplicationController
   # Updates user in database
   def update
     if @user.update(user_params)
-      redirect_to action: "index", notice: t('flash.users.update_success')
+      redirect_to action: 'index', notice: t('flash.users.update_success')
     else
       render :edit
     end
