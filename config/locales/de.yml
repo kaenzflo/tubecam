@@ -22,7 +22,7 @@
 de:
   # Generic
   general:
-    alt_text_verified_icon: "Annotation ist Verifiziert"
+    alt_text_verified_icon: "Annotation ist verifiziert"
     alt_text_annotation_icon: "Es existieren Annotationen"
   action:
     create: "Hinzufügen"
@@ -36,7 +36,7 @@ de:
     filter: "Filtern"
     show: "Anzeigen"
     register: "Registrieren"
-    reset_filter: "Filer zurücksetzen"
+    reset_filter: "Filter zurücksetzen"
     login: "Anmelden"
   link_to:
     project: "Projekt"
@@ -213,6 +213,14 @@ de:
   exports:
       index:
         title: "Datenexport"
+        spotter_id: "Spotter-ID"
+        spotter_mail: "Spotter-E-Mail"
+        verifier_id: "Verifier-ID"
+        verifier_mail: "Verifier-E-Mail"
+        trapper_id: "Trapper-ID"
+        trapper_mail: "Trapper-E-Mail"
+        object_storage_path: "Object-Storage-Pfad"
+        object_storage_filename: "Object-Storage-Dateiname"
   # Controller specific (incl. notification flashes)
   controllers:
     maps:

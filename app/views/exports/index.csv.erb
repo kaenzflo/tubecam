@@ -1,9 +1,11 @@
 <%- headers = [(t 'activerecord.attributes.annotation.created_at'), (t 'activerecord.attributes.tubecam_device.serialnumber'),
                (t 'activerecord.attributes.medium.longitude'), (t 'activerecord.attributes.medium.latitude'),
-               (t 'activerecord.attributes.sequence.sequence_no'), (t 'activerecord.attributes.medium.datetime'), (t 'activerecord.attributes.sequence.sequence_no'),
-               'Spotter-ID', 'Spotter-E-Mail', 'Verifier-ID', 'Verifier-Email',
-               'Trapper-ID', 'Trapper-E-Mail', 'Object-Storage-Pfad',
-               'Object-Storage-Dateiname', 'Original-Pfad', 'Original-Dateiname'] -%>
+               (t 'activerecord.attributes.sequence.sequence_no'), (t 'activerecord.attributes.medium.datetime'),
+               (t 'activerecord.attributes.annotations_lookup_table.annotation_id'),
+               (t '.spotter_id'), (t '.spotter_mail'), (t '.verifier_id'), (t '.verifier_mail'),
+               (t '.trapper_id'), (t '.trapper_mail'), (t '.object_storage_path'),
+               (t '.object_storage_filename'), (t 'activerecord.attributes.medium.original_path'),
+               (t 'activerecord.attributes.medium.original_filename')] -%>
 <%= CSV.generate_line headers %>
 <%- @annotations.each do |annotation| -%>
     <% medium = @media.where(sequence_id: annotation.sequence_id).order(frame: :asc).first %>
@@ -14,7 +16,7 @@
                            medium.latitude,
                            annotation.sequence.sequence_no,
                            medium.datetime,
-                           annotation.annotations_lookup_table_id,
+                           annotation.annotations_lookup_table.annotation_id,
                            annotation.user_id,
                            annotation.user.email,
                            annotation.verified_id,
