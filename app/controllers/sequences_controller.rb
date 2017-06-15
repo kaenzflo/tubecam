@@ -90,6 +90,10 @@ class SequencesController < ApplicationController
   def activate
     @sequence = set_sequence
     tubecam_device_id = @sequence.tubecam_device_id
+    media = Medium.where(sequence_id: @sequence)
+    media.each do |m|
+      m.update(deleted: false)
+    end
     if (current_user.admin_role? || current_user.trapper_role?) && @sequence.update(deleted: false)
       redirect_to tubecam_device_url(tubecam_device_id), notice: t('flash.sequences.activate_success')
     else
