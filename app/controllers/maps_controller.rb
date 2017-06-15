@@ -11,7 +11,7 @@ class MapsController < ApplicationController
     long = map_params[:longitude]
     lat = map_params[:latitude]
 
-    if Sequence.first.nil?
+    if Sequence.where(deleted: false).empty?
       @longitude = 659_000.00
       @latitude = 185_548.39
       @zoom = 250
@@ -157,7 +157,11 @@ class MapsController < ApplicationController
   end
 
   def calculate_point_factor(number_of_sequences, max_sequences, min_sequences, scalefactor)
-    relative = 1.0 * min_sequences / max_sequences * (number_of_sequences * scalefactor) + 1
+    if min_sequences.nil?
+      relative = 1.0
+    else
+      relative = 1.0 * min_sequences / max_sequences * (number_of_sequences * scalefactor) + 1
+    end
     relative
   end
 
