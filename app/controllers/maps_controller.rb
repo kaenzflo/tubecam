@@ -139,7 +139,7 @@ class MapsController < ApplicationController
     s << "<p>#{I18n.t 'controllers.maps.popup.number_of_sequences'}: <b>#{number_of_sequences.to_s}</b></p>"
     s << "<p>#{I18n.t 'controllers.maps.popup.last_activity'}: #{tubecam.last_activity.to_time.strftime('%d.%m.%Y').to_s} (#{(I18n.t 'controllers.maps.popup.days', count: time_period)})</p>"
     if exact_position
-      s << "<p>#{I18n.t 'controllers.maps.popup.coordiantes'} (#{tubecam.geodetic_datum}):<br>#{sprintf('%#.2f', coordinates['latitude'])}, #{sprintf('%#.2f', coordinates['latitude'])}</p>"
+      s << "<p>#{I18n.t 'controllers.maps.popup.coordiantes'} (#{tubecam.geodetic_datum}):<br>#{sprintf('%#.2f', coordinates['longitude'])}, #{sprintf('%#.2f', coordinates['latitude'])}</p>"
     end
     s << "<p>#{I18n.t 'controllers.maps.popup.description'}:<br>#{tubecam.description}</p>"
     s << "<hr class='hr-popover'>"
