@@ -14,7 +14,7 @@ class WelcomeController < ApplicationController
       setup_init
     else
       @media = []
-      media = Medium.where(deleted: false)
+      media = Medium.where(deleted: false, sequence_id: Sequence.where(deleted: false))
       unless media.empty?
         for i in 1..6
           @media << media[rand(0...media.size)]
