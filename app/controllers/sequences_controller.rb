@@ -22,7 +22,7 @@ class SequencesController < ApplicationController
     @annotations_lookup_table = AnnotationsLookupTable.all
     @annotations = Annotation.all
     @tubecam_devices = TubecamDevice.where(active: true)
-                                    .order(serialnumber: :asc)
+                           .order(serialnumber: :asc)
   end
 
   # Shows a specific sequence
@@ -37,7 +37,7 @@ class SequencesController < ApplicationController
     @thumbnail_url = "#{@image_url}thumbnails/"
     @tubecam_device = TubecamDevice.find(sequence.tubecam_device_id)
     @annotations = Annotation.where(sequence_id: sequence.id)
-                             .order(verified_id: :asc, created_at: :desc)
+                       .order(verified_id: :asc, created_at: :desc)
     @annotations_lookup_table = AnnotationsLookupTable.all
   end
 
@@ -75,6 +75,10 @@ class SequencesController < ApplicationController
   def deactivate
     @sequence = set_sequence
     tubecam_device_id = @sequence.tubecam_device_id
+    media = Medium.where(sequence_id: @sequence)
+    media.each do |m|
+      m.update(deleted: true)
+    end
     if (current_user.admin_role? || current_user.trapper_role?) && @sequence.update(deleted: true)
       redirect_to tubecam_device_url(tubecam_device_id), notice: t('flash.sequences.deactivate_success')
     else
@@ -86,6 +90,10 @@ class SequencesController < ApplicationController
   def activate
     @sequence = set_sequence
     tubecam_device_id = @sequence.tubecam_device_id
+    media = Medium.where(sequence_id: @sequence)
+    media.each do |m|
+      m.update(deleted: false)
+    end
     if (current_user.admin_role? || current_user.trapper_role?) && @sequence.update(deleted: false)
       redirect_to tubecam_device_url(tubecam_device_id), notice: t('flash.sequences.activate_success')
     else
@@ -97,8 +105,8 @@ class SequencesController < ApplicationController
   def verify
     annotation = Annotation.find(params[:annotation_id])
     if user_signed_in? &&
-       current_user.verified_spotter_role? &&
-       annotation.update(verified_id: current_user.id)
+        current_user.verified_spotter_role? &&
+        annotation.update(verified_id: current_user.id)
       redirect_to sequence_path(annotation.sequence.id), notice: t('flash.sequences.verify_success')
     else
       redirect_to sequence_path(annotation.sequence.id), alert: t('flash.sequences.verify_fail')
@@ -109,8 +117,8 @@ class SequencesController < ApplicationController
   def unverify
     annotation = Annotation.find(params[:annotation_id])
     if user_signed_in? &&
-       current_user.verified_spotter_role? &&
-       annotation.update(verified_id: nil)
+        current_user.verified_spotter_role? &&
+        annotation.update(verified_id: nil)
       redirect_to sequence_path(annotation.sequence.id), notice: t('flash.sequences.verification_destroy_success')
     else
       redirect_to sequence_path(annotation.sequence.id), alert: t('flash.sequences.verification_destroy_fail')
@@ -153,8 +161,8 @@ class SequencesController < ApplicationController
       @filter_params[:date_start] = string_to_date(params[:date_start],
                                                    '00:00:00')
       filter_date_start = Medium.select(:sequence_id)
-                                .where(['datetime >=  ?', @filter_params[:date_start]])
-                                .distinct.pluck(:sequence_id)
+                              .where(['datetime >=  ?', @filter_params[:date_start]])
+                              .distinct.pluck(:sequence_id)
       !filter_date_start.nil? ? sequences = sequences.where(id: filter_date_start) : nil
     end
     sequences
@@ -165,8 +173,8 @@ class SequencesController < ApplicationController
     if !params[:date_end].nil? && !params[:date_end].empty?
       @filter_params[:date_end] = string_to_date(params[:date_end], '22:59:59')
       filter_date_end = Medium.select(:sequence_id)
-                              .where(['datetime <=  ?', @filter_params[:date_end]])
-                              .distinct.pluck(:sequence_id)
+                            .where(['datetime <=  ?', @filter_params[:date_end]])
+                            .distinct.pluck(:sequence_id)
       !filter_date_end.nil? ? sequences = sequences.where(id: filter_date_end) : nil
     end
     sequences
@@ -193,14 +201,14 @@ class SequencesController < ApplicationController
     if family_level.match(annotation_id)
       search = "#{first_digit}[0-9][0-9]"
       annotations = AnnotationsLookupTable.where('annotation_id ~* ?', search)
-                                          .select(:id).pluck(:id)
+                        .select(:id).pluck(:id)
     elsif genus_level.match(annotation_id)
       search = "#{first_digit}#{second_digit}[0-9]"
       annotations = AnnotationsLookupTable.where('annotation_id ~* ?', search)
-                                          .select(:id).pluck(:id)
+                        .select(:id).pluck(:id)
     else
       annotations = AnnotationsLookupTable.where(annotation_id: annotation_id)
-                                          .select(:id).pluck(:id)
+                        .select(:id).pluck(:id)
     end
     annotations
   end

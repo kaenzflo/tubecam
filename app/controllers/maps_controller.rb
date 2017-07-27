@@ -11,7 +11,7 @@ class MapsController < ApplicationController
     long = map_params[:longitude]
     lat = map_params[:latitude]
 
-    if Sequence.first.nil?
+    if Sequence.where(deleted: false).empty?
       @longitude = 659_000.00
       @latitude = 185_548.39
       @zoom = 250
@@ -55,7 +55,7 @@ class MapsController < ApplicationController
     style_hash['property'] = 'style-class'
 
     number_of_grouped_sequences = Sequence.where(deleted: false)
-                                          .group(:tubecam_device_id).count
+                                      .group(:tubecam_device_id).count
     if !number_of_grouped_sequences.empty?
       max_sequences = number_of_grouped_sequences.max_by(&:last)[1]
       min_sequences = number_of_grouped_sequences.min_by(&:last)[1]
@@ -96,15 +96,15 @@ class MapsController < ApplicationController
 
     tubecam_hash = { type: 'Feature',
                      geometry: {
-                       type: 'Point',
-                       coordinates: [coordinates['longitude'],
-                                         coordinates['latitude']]
+                         type: 'Point',
+                         coordinates: [coordinates['longitude'],
+                                       coordinates['latitude']]
                      },
                      properties: {
-                       description: description,
-                       'style-class' => tubecam.id
+                         description: description,
+                         'style-class' => tubecam.id
                      }
-                   }
+    }
   end
 
   # Generates JSON formatted POI style information for GeoAdmin API map layer
@@ -118,17 +118,17 @@ class MapsController < ApplicationController
     style_hash = { geomType: 'point',
                    value: tubecam.id,
                    vectorOptions: {
-                     type: 'circle',
-                     radius: 8 * relative_point_factor,
-                     fill: {
-                       color: "##{Gradient.green_to_red_by_value(time_period)}"
-                     },
-                     stroke: {
-                       color: '#FFFFFF',
-                       width: 2
-                     }
+                       type: 'circle',
+                       radius: 8 * relative_point_factor,
+                       fill: {
+                           color: "##{Gradient.green_to_red_by_value(time_period)}"
+                       },
+                       stroke: {
+                           color: '#FFFFFF',
+                           width: 2
+                       }
                    }
-                 }
+    }
   end
 
   # Generates HTML formatted POI description for GeoAdmin API map layer
@@ -139,7 +139,7 @@ class MapsController < ApplicationController
     s << "<p>#{I18n.t 'controllers.maps.popup.number_of_sequences'}: <b>#{number_of_sequences.to_s}</b></p>"
     s << "<p>#{I18n.t 'controllers.maps.popup.last_activity'}: #{tubecam.last_activity.to_time.strftime('%d.%m.%Y').to_s} (#{(I18n.t 'controllers.maps.popup.days', count: time_period)})</p>"
     if exact_position
-      s << "<p>#{I18n.t 'controllers.maps.popup.coordiantes'} (#{tubecam.geodetic_datum}):<br>#{sprintf('%#.2f', coordinates['latitude'])}, #{sprintf('%#.2f', coordinates['latitude'])}</p>"
+      s << "<p>#{I18n.t 'controllers.maps.popup.coordiantes'} (#{tubecam.geodetic_datum}):<br>#{sprintf('%#.2f', coordinates['longitude'])}, #{sprintf('%#.2f', coordinates['latitude'])}</p>"
     end
     s << "<p>#{I18n.t 'controllers.maps.popup.description'}:<br>#{tubecam.description}</p>"
     s << "<hr class='hr-popover'>"
@@ -157,7 +157,11 @@ class MapsController < ApplicationController
   end
 
   def calculate_point_factor(number_of_sequences, max_sequences, min_sequences, scalefactor)
-    relative = 1.0 * min_sequences / max_sequences * (number_of_sequences * scalefactor) + 1
+    if min_sequences.nil?
+      relative = 1.0
+    else
+      relative = 1.0 * min_sequences / max_sequences * (number_of_sequences * scalefactor) + 1
+    end
     relative
   end
 
