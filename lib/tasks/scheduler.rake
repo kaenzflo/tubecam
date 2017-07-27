@@ -3,8 +3,12 @@ require 'mini_magick'
 require 'mini_exiftool_vendored'
 require 'digest'
 
-# Test prefix
-TEST_PREFIX = 'TEST_'
+# Folder name prefix; Leave blank if not testing FTP server
+TEST_PREFIX = ''
+
+# Regular expression to validate media elements on FTP server
+regex_string = '(?=^/Tubecam_SN[\d]{5}.*I[\d]{2}\.[a-zA-Z]{3}$)'
+VALIDATION_REGEX = regex_string.insert(5, TEST_PREFIX)
 
 # Initializes FTP service
 def init_ftp_service
@@ -50,7 +54,7 @@ end
 def validate_remote_media(remote_files)
   validated_remote_files = []
   remote_files.each do |line|
-    if line =~ %r{(?=^/TEST_Tubecam_SN[\d]{5}.*I[\d]{2}\.[a-zA-Z]{3}$)}
+    if line =~ /#{VALIDATION_REGEX}/
       validated_remote_files.append(line)
     end
   end
@@ -150,7 +154,7 @@ def fetch_and_upload_new_medium(file_url, ftp, upload_bucket)
 
   tubecam_device = TubecamDevice.find_by(serialnumber: tubecam_sn)
   if tubecam_device.nil?
-    puts "Überspringe Import von #{file_url}: Tubecam #{tubecam_sn} existiert nicht"
+    puts "Skip import of #{file_url}: Tubecam #{tubecam_sn} doesn't exist"
   else
     puts "Processing #{file_url}..."
     tubecam_device_id = tubecam_device.id
