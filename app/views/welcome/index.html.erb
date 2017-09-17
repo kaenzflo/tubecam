@@ -58,11 +58,12 @@
         <h4 class="modal-title" id="myModalLabel">Schön, dass Sie uns besuchen!</h4>
       </div>
       <div class="modal-body">
-        <p>Dies ist die Webapplikation zum <a href="https://www.zhaw.ch/iunr/tubecam">Projekt «TubeCam».</a>
-          <b>Diese Webapplikation befindet sich aktuell in einer Testphase, die
+        <p><b>Unsere Webapplikation zum <a target="_blank" href="https://www.zhaw.ch/iunr/tubecam">Projekt «TubeCam»</a>
+           befindet sich aktuell in einer Testphase: Die
           zugewiesenen Standorte der TubeCams sind fiktiv.</b></p>
-        <p>Sie können sich gerne <%= link_to((t 'action.register'), new_user_registration_path, class: 'btn btn-warning') %>
-          und dürfen beliebig Bilder annotieren!</p>
+        <p>Sie dürfen sich sehr gerne <%= link_to((t 'action.register'), new_user_registration_path, class: 'btn btn-warning') %>
+          und können beliebig Bilder annotieren.</p>
+        <p><b>Herzlichen Dank und viel Spass!</b></p>
       </div>
       <div class="modal-footer remove-top">
         <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
