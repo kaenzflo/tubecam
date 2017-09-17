@@ -48,3 +48,36 @@
     <%= link_to((t 'link_to.locations'), maps_path, class: 'btn btn-primary') %>
   </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="infoDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Schön, dass Sie uns besuchen!</h4>
+      </div>
+      <div class="modal-body">
+        <p>Dies ist die Webapplikation zum <a href="https://www.zhaw.ch/iunr/tubecam">Projekt «TubeCam».</a>
+          <b>Diese Webapplikation befindet sich aktuell in einer Testphase, die
+          zugewiesenen Standorte der TubeCams sind fiktiv.</b></p>
+        <p>Sie können sich gerne <%= link_to((t 'action.register'), new_user_registration_path, class: 'btn btn-warning') %>
+          und dürfen beliebig Bilder annotieren!</p>
+      </div>
+      <div class="modal-footer remove-top">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= javascript_include_tag 'jquery.cookie.min' %>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        if ($.cookie('info_dialog') == null) {
+            $('#infoDialog').modal('show')
+            $.cookie('info_dialog', 'visited', { expires: 7 });
+        }
+    });
+</script>
