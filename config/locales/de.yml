@@ -308,6 +308,7 @@ de:
         unlock_token: "Entsperrungs-Token"
         created_at: "Erzeugt am "
         updated_at: "Bearbeitet am "
+        confirmed_at: "Bestätigt am"
       annotation:
         user_id: "Benutzer-ID"
         sequence_ud: "Sequenz-ID"

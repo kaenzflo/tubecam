@@ -49,36 +49,42 @@
   </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="infoDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Schön, dass Sie uns besuchen!</h4>
-      </div>
-      <div class="modal-body">
-        <p>Unsere Webapplikation zum <a target="_blank" href="https://www.zhaw.ch/iunr/tubecam">Projekt «TubeCam»</a>
-           befindet sich aktuell in einer Testphase: <b>Die
-          zugewiesenen Standorte der TubeCams sind fiktiv.</b></p>
-        <p>Sie dürfen sich sehr gerne <%= link_to((t 'action.register'), new_user_registration_path, class: 'btn btn-warning') %>
-          und können beliebig Bilder annotieren.</p>
-        <p><b>Herzlichen Dank und viel Spass!</b></p>
-      </div>
-      <div class="modal-footer remove-top">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+<% if !user_signed_in? %>
+
+    <!-- Modal -->
+    <div class="modal fade" id="infoDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Schön, dass Sie uns besuchen!</h4>
+          </div>
+          <div class="modal-body">
+            <p>Unsere Webapplikation zum
+              <a target="_blank" href="https://www.zhaw.ch/iunr/tubecam">Projekt «TubeCam»</a>
+              befindet sich aktuell in einer Testphase: <b>Die
+              zugewiesenen Standorte der TubeCams sind fiktiv.</b></p>
+            <p>Sie dürfen sich sehr
+              gerne <%= link_to((t 'action.register'), new_user_registration_path, class: 'btn btn-warning') %>
+              und können beliebig Bilder annotieren.</p>
+            <p><b>Herzlichen Dank und viel Spass!</b></p>
+          </div>
+          <div class="modal-footer remove-top">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<%= javascript_include_tag 'jquery.cookie.min' %>
+    <%= javascript_include_tag 'jquery.cookie.min' %>
 
-<script type="text/javascript">
-    $(document).ready(function() {
-        if ($.cookie('info_dialog') == null) {
-            $('#infoDialog').modal('show')
-            $.cookie('info_dialog', 'visited', { expires: 7 });
-        }
-    });
-</script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ($.cookie('info_dialog') == null) {
+                $('#infoDialog').modal('show')
+                $.cookie('info_dialog', 'visited', {expires: 1825});
+            }
+        });
+    </script>
+
+<% end %>
