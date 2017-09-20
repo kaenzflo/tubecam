@@ -13,6 +13,6 @@ module Tubecam
     # -- all .rb files in that directory are automatically loaded.
     config.time_zone = 'Zurich'
     config.exceptions_app = self.routes
-    config.tubecam_mail = 'tubecamproject@gmail.com'
+    config.tubecam_mail = ENV['MAIL_USERNAME']
   end
 end
