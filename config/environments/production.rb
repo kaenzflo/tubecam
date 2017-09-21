@@ -80,6 +80,7 @@ Rails.application.configure do
   }
 
   ActionMailer::Base.default :from => 'tubecamproject@gmail.com'
+  ActionMailer::Base.default :reply_to => 'tubecamproject@gmail.com'
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
