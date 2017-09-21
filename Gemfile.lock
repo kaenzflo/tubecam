@@ -165,6 +165,8 @@ GEM
     sdoc (0.4.2)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    sendgrid (1.2.4)
+      json
     spring (2.0.1)
       activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
@@ -232,6 +234,7 @@ DEPENDENCIES
   s3
   sass-rails (~> 5.0)
   sdoc
+  sendgrid
   spring
   spring-watcher-listen (~> 2.0.0)
   toastr-rails

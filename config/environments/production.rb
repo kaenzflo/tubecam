@@ -67,20 +67,17 @@ Rails.application.configure do
 
   config.action_mailer.perform_deliveries = true
 
-  config.action_mailer.delivery_method = :ses
+  config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.smtp_settings = {
-      user_name:      ENV['MAIL_USERNAME'],
-      password:       ENV['MAIL_PWD'],
-      domain:         ENV['MAIL_DOMAIN'],
-      address:        ENV['MAIL_ADDRESS'],
-      port:           ENV['MAIL_PORT'],
+      user_name:      ENV['SENDGRID_USERNAME'],
+      password:       ENV['SENDGRID_PASSWORD'],
+      address:        ENV['SMTP_ADDRESS'],
+      port:           ENV['SMTP_PORT'],
       authentication: :plain,
-      enable_starttls_auto: true
+      enable_starttls_auto: true,
+      domain:         "tubecam.ch"
   }
-
-  ActionMailer::Base.default :from => 'tubecamproject@gmail.com'
-  ActionMailer::Base.default :reply_to => 'tubecamproject@gmail.com'
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

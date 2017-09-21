@@ -22,6 +22,9 @@ gem 's3'
 # Use devise for registration and login
 gem 'devise'
 
+# Use SendGrid for mailer services
+gem 'sendgrid'
+
 # Use toastr for handle flashmessages
 gem 'toastr-rails'
 
